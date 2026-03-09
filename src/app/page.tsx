@@ -1,65 +1,1161 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import { useEffect, useRef, useState, useCallback } from "react";
+import Image from "next/image";
+import { motion, useInView, AnimatePresence, useReducedMotion } from "framer-motion";
+import { BackgroundPaths } from "@/components/ui/background-paths";
+import { GradientDots } from "@/components/ui/gradient-dots";
+import { FeatureCard } from "@/components/ui/grid-feature-cards";
+import { Meteors } from "@/components/ui/meteors";
+import {
+  ExternalLink,
+  Mail,
+  Linkedin,
+  ArrowRight,
+  ChevronDown,
+  Zap,
+  BarChart3,
+  Brain,
+  Clock,
+  TrendingUp,
+  DollarSign,
+  FileText,
+} from "lucide-react";
+
+// ─── Type declarations for Vanta ────────────────────────────────
+declare global {
+  interface Window {
+    VANTA: {
+      NET: (config: Record<string, unknown>) => { destroy: () => void };
+    };
+    THREE: unknown;
+  }
+}
+
+// ─── Animated Counter ───────────────────────────────────────────
+function AnimatedCounter({
+  target,
+  suffix = "",
+  prefix = "",
+  duration = 2000,
+}: {
+  target: number;
+  suffix?: string;
+  prefix?: string;
+  duration?: number;
+}) {
+  const [count, setCount] = useState(0);
+  const ref = useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-50px" });
+
+  useEffect(() => {
+    if (!inView) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setCount(target);
+      return;
+    }
+    let startTime: number | null = null;
+    const startValue = 0;
+
+    const step = (timestamp: number) => {
+      if (!startTime) startTime = timestamp;
+      const progress = Math.min((timestamp - startTime) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setCount(Math.floor(eased * (target - startValue) + startValue));
+      if (progress < 1) requestAnimationFrame(step);
+      else setCount(target);
+    };
+
+    requestAnimationFrame(step);
+  }, [inView, target, duration]);
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <span ref={ref}>
+      {prefix}
+      {count}
+      {suffix}
+    </span>
+  );
+}
+
+// ─── Fade-up wrapper ────────────────────────────────────────────
+function FadeUp({
+  children,
+  delay = 0,
+  className = "",
+}: {
+  children: React.ReactNode;
+  delay?: number;
+  className?: string;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-60px" });
+  const shouldReduceMotion = useReducedMotion();
+
+  if (shouldReduceMotion) {
+    return <div className={className}>{children}</div>;
+  }
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 40 }}
+      animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
+      transition={{ duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+// ─── Main Page ──────────────────────────────────────────────────
+export default function Home() {
+  const heroRef = useRef<HTMLDivElement>(null);
+  const vantaRef = useRef<{ destroy: () => void } | null>(null);
+  const [navScrolled, setNavScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  // Vanta.NET hero background
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const loadScript = (src: string) =>
+      new Promise<void>((resolve) => {
+        const existing = document.querySelector(`script[src="${src}"]`);
+        if (existing) {
+          resolve();
+          return;
+        }
+        const script = document.createElement("script");
+        script.src = src;
+        script.onload = () => resolve();
+        document.head.appendChild(script);
+      });
+
+    loadScript(
+      "https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"
+    )
+      .then(() =>
+        loadScript(
+          "https://cdn.jsdelivr.net/npm/vanta@0.5.24/dist/vanta.net.min.js"
+        )
+      )
+      .then(() => {
+        if (window.VANTA && heroRef.current) {
+          vantaRef.current = window.VANTA.NET({
+            el: heroRef.current,
+            color: 0xc0392b,
+            backgroundColor: 0x080808,
+            points: 8,
+            maxDistance: 20,
+            spacing: 18,
+          });
+        }
+      });
+
+    return () => {
+      if (vantaRef.current) vantaRef.current.destroy();
+    };
+  }, []);
+
+  // Nav scroll state
+  useEffect(() => {
+    const handleScroll = () => setNavScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Custom cursor
+  useEffect(() => {
+    if (window.matchMedia('(pointer: coarse)').matches) return;
+    document.body.classList.add('has-custom-cursor');
+    const dot = document.createElement("div");
+    dot.className = "cursor-dot";
+    const ring = document.createElement("div");
+    ring.className = "cursor-ring";
+    document.body.appendChild(dot);
+    document.body.appendChild(ring);
+
+    let mouseX = 0;
+    let mouseY = 0;
+    let ringX = 0;
+    let ringY = 0;
+    let rafId: number;
+
+    const onMove = (e: MouseEvent) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      dot.style.left = `${mouseX}px`;
+      dot.style.top = `${mouseY}px`;
+    };
+
+    const animateRing = () => {
+      ringX += (mouseX - ringX) * 0.12;
+      ringY += (mouseY - ringY) * 0.12;
+      ring.style.left = `${ringX}px`;
+      ring.style.top = `${ringY}px`;
+      rafId = requestAnimationFrame(animateRing);
+    };
+
+    window.addEventListener("mousemove", onMove, { passive: true });
+    rafId = requestAnimationFrame(animateRing);
+
+    return () => {
+      window.removeEventListener("mousemove", onMove);
+      cancelAnimationFrame(rafId);
+      dot.remove();
+      ring.remove();
+      document.body.classList.remove('has-custom-cursor');
+    };
+  }, []);
+
+  const scrollToSection = useCallback((id: string) => {
+    const el = document.getElementById(id);
+    if (el) {
+      const behavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? "instant" as ScrollBehavior : "smooth" as ScrollBehavior;
+      el.scrollIntoView({ behavior });
+      setMobileMenuOpen(false);
+    }
+  }, []);
+
+  // Hero headline characters
+  const headline = "FROM RAW DATA TO REAL BUSINESS IMPACT";
+  const headlineChars = headline.split("");
+
+  const containerVariants = {
+    hidden: {},
+    visible: {
+      transition: {
+        staggerChildren: 0.015,
+        delayChildren: 0.3,
+      },
+    },
+  };
+
+  const charVariants = {
+    hidden: { opacity: 0, y: 60, rotateX: -90 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      rotateX: 0,
+      transition: { duration: 0.5, ease: "easeOut" as const },
+    },
+  };
+
+  const subWords =
+    "9+ years partnering with executives to turn data into business results. From identifying $500K in issues at Embrace Home Loans to shipping production apps — we build systems that actually deliver.".split(
+      " "
+    );
+
+  const services = [
+    {
+      icon: Zap,
+      title: "AI Automation & Integration",
+      description:
+        "Eliminate repetitive workflows and unlock operational efficiency with intelligent automation tailored to your business.",
+      features: [
+        "n8n workflow automation",
+        "AI agent development",
+        "API integration & orchestration",
+        "Process optimization & RPA",
+        "Custom AI tool pipelines",
+      ],
+    },
+    {
+      icon: BarChart3,
+      title: "Business Intelligence & Analytics",
+      description:
+        "Transform raw data into actionable intelligence. We've managed 500+ BI reports and built executive dashboards that drive real decisions at the C-suite level.",
+      features: [
+        "Executive dashboards (Sigma, Tableau, Qlik)",
+        "Advanced SQL reporting & SSRS",
+        "ETL pipeline design (Informatica, CDC)",
+        "Snowflake & data warehouse architecture",
+        "Workforce analytics & QA/QC reporting",
+      ],
+    },
+    {
+      icon: Brain,
+      title: "AI Strategy & Transformation",
+      description:
+        "Navigate the AI landscape with confidence. We design comprehensive strategies that align AI investments with business goals.",
+      features: [
+        "GenAI readiness & strategy",
+        "Technology modernization roadmaps",
+        "Legacy system AI integration",
+        "Change management & training",
+        "ROI framework consulting",
+      ],
+    },
+  ];
+
+  const products = [
+    {
+      name: "Yuga Odysseys",
+      tagline: "Challenge. Decide. Grow.",
+      description:
+        "A scenario-based platform where users learn and grow through real-world challenges across 24 life domains — from Ethics and Digital Literacy to Philosophy and Spirituality. Users face realistic dilemmas, decide, receive reflective guidance from AI mentor Guruji, and develop clarity over time. Not a course with an endpoint — an ongoing daily practice for life skills.",
+      features: [
+        "24 life domains with 588 scenario-based challenges",
+        "AI mentor (Guruji) for personalized reflective guidance",
+        "Core loop: Challenge → Decide → Reflect → Grow",
+        "Adaptive difficulty from beginner (age 14+) to advanced",
+        "Trilingual: English, Hindi, Marathi",
+      ],
+      link: "https://yuga-odysseys.imaginator.in/",
+      label: "PRODUCT 01",
+      hasImage: true,
+      image: "/yuga-preview.jpg",
+      imageAlt: "Screenshot of Yuga Odysseys scenario challenge interface",
+    },
+    {
+      name: "Research Assistant",
+      tagline: "Automated Market Intelligence at Scale",
+      description:
+        "Stop spending hours on manual research. Our AI-powered research assistant autonomously gathers, synthesizes, and structures competitive intelligence, market trends, and industry data into actionable reports.",
+      features: [
+        "Multi-source web research",
+        "Automated report generation",
+        "Competitive landscape analysis",
+        "Market trend synthesis",
+        "Exportable structured outputs",
+      ],
+      link: "https://research.imaginator.in/",
+      label: "PRODUCT 02",
+      hasImage: true,
+      image: "/research-preview.jpg",
+      imageAlt: "Screenshot of Research Assistant automated intelligence dashboard",
+    },
+  ];
+
+  const stats = [
+    { value: 9, suffix: "+", label: "Years Enterprise Experience", icon: <Clock size={20} /> },
+    { value: 500, suffix: "+", label: "BI Reports Managed", icon: <FileText size={20} /> },
+    { value: 500, suffix: "K", label: "Issues Identified via Dashboards", icon: <TrendingUp size={20} />, prefix: "$" },
+    { value: 200, suffix: "K+", label: "Annual Cost Savings Driven", icon: <DollarSign size={20} />, prefix: "$" },
+  ];
+
+  const whyUs = [
+    {
+      num: "01",
+      title: "9+ Years Across US & India Enterprise",
+      description:
+        "From building 111 ETL pipelines at Accenture Mumbai to managing 500+ BI reports at Embrace Home Loans in Rhode Island — we've worked across the full data lifecycle in enterprise environments spanning mortgage, financial services, and Fortune 500 organizations.",
+    },
+    {
+      num: "02",
+      title: "Executive-Level Impact",
+      description:
+        "We don't just build reports — we partner with VPs, EVPs, and department heads to drive real business outcomes. Our dashboards have identified $500K in tolerance issues, contributed to 25% faster loan processing, and 40% lower labor costs.",
+    },
+    {
+      num: "03",
+      title: "Builder Mentality — Not Just Strategy",
+      description:
+        "We ship working products. From Yuga Odysseys (concept to production in 30 days — a scenario-based platform with 588 challenges across 24 life domains) to enterprise dashboards displayed on 6 live TV screens — proof of execution, not just PowerPoint.",
+    },
+    {
+      num: "04",
+      title: "Modern Stack, Deep Data Roots",
+      description:
+        "Snowflake (3+ years production), Sigma Computing, Informatica, React Native, TypeScript, OpenAI API — we combine deep enterprise data engineering expertise with cutting-edge AI and modern development tools.",
+    },
+  ];
+
+  const techStack = [
+    {
+      category: "AI & Automation",
+      items: ["OpenAI API / GPT-4", "Claude Code", "n8n Workflows", "LangChain", "AI-Assisted Dev", "ChatGPT"],
+    },
+    {
+      category: "Data & Analytics",
+      items: ["Snowflake (3+ yrs)", "SQL Server", "PostgreSQL", "Sigma Computing", "Informatica", "ETL / CDC"],
+    },
+    {
+      category: "BI & Visualization",
+      items: ["SSRS", "Tableau", "Qlik Sense", "Executive Dashboards", "Data Warehousing", "Workforce Analytics"],
+    },
+    {
+      category: "Development",
+      items: ["React Native", "TypeScript", "Python", "SQL (Advanced)", "Supabase", "Next.js"],
+    },
+  ];
+
+  const navLinks = ["About", "Services", "Products", "Results", "Contact"];
+
+  return (
+    <div className="min-h-screen bg-[#080808] text-[#f5f5f5] overflow-x-hidden">
+      <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-[#c0392b] focus:text-white">
+        Skip to main content
+      </a>
+      {/* ── Navigation ─────────────────────────────────────────── */}
+      <nav
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          navScrolled ? "glass-nav py-3" : "py-5 bg-transparent"
+        }`}
+      >
+        <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
+          {/* Logo */}
+          <button
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            className="font-mono-custom text-sm font-bold tracking-widest text-[#f5f5f5] hover:text-[#c0392b] transition-colors duration-200"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+            <span className="text-[#c0392b]" aria-hidden="true">//</span> INFINI IMAGINATOR
+          </button>
+
+          {/* Desktop Nav */}
+          <div className="hidden md:flex items-center gap-8">
+            {navLinks.map((link) => (
+              <button
+                key={link}
+                onClick={() => scrollToSection(link.toLowerCase())}
+                className="animated-underline text-sm font-medium text-[#999999] hover:text-[#f5f5f5] transition-colors duration-200 tracking-wider"
+              >
+                {link.toUpperCase()}
+              </button>
+            ))}
+          </div>
+
+          {/* CTA */}
+          <div className="hidden md:block">
+            <a
+              href="mailto:mkulkarni.work@gmail.com?subject=Consultation Request"
+              className="inline-flex items-center gap-2 px-5 py-2.5 border border-[#c0392b] text-[#c0392b] text-sm font-semibold tracking-wider hover:bg-[#c0392b] hover:text-white transition-all duration-300 font-mono-custom"
+            >
+              SCHEDULE CONSULTATION
+              <ArrowRight size={14} />
+            </a>
+          </div>
+
+          {/* Mobile menu toggle */}
+          <button
+            className="md:hidden flex flex-col gap-1.5 p-3"
+            onClick={() => setMobileMenuOpen((v) => !v)}
+            aria-label="Toggle navigation menu"
+            aria-expanded={mobileMenuOpen}
+            aria-controls="mobile-menu"
+          >
+            <span
+              className={`block h-px w-6 bg-[#f5f5f5] transition-all duration-200 ${mobileMenuOpen ? "rotate-45 translate-y-2" : ""}`}
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+            <span
+              className={`block h-px w-6 bg-[#f5f5f5] transition-all duration-200 ${mobileMenuOpen ? "opacity-0" : ""}`}
+            />
+            <span
+              className={`block h-px w-6 bg-[#f5f5f5] transition-all duration-200 ${mobileMenuOpen ? "-rotate-45 -translate-y-2" : ""}`}
+            />
+          </button>
         </div>
+
+        {/* Mobile menu */}
+        <AnimatePresence>
+          {mobileMenuOpen && (
+            <motion.div
+              id="mobile-menu"
+              role="navigation"
+              aria-label="Mobile navigation"
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="md:hidden overflow-hidden glass-nav border-t border-[#c0392b]/20"
+            >
+              <div className="px-6 py-6 flex flex-col gap-4">
+                {navLinks.map((link) => (
+                  <button
+                    key={link}
+                    onClick={() => scrollToSection(link.toLowerCase())}
+                    className="text-left text-sm font-medium text-[#999999] hover:text-[#f5f5f5] tracking-widest transition-colors"
+                  >
+                    {link.toUpperCase()}
+                  </button>
+                ))}
+                <a
+                  href="mailto:mkulkarni.work@gmail.com?subject=Consultation Request"
+                  className="mt-2 inline-flex items-center gap-2 px-5 py-3 border border-[#c0392b] text-[#c0392b] text-sm font-semibold tracking-wider hover:bg-[#c0392b] hover:text-white transition-all duration-300 font-mono-custom w-fit"
+                >
+                  SCHEDULE CONSULTATION
+                </a>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </nav>
+
+      <main id="main-content">
+      {/* ── Hero ───────────────────────────────────────────────── */}
+      <section
+        id="hero"
+        ref={heroRef}
+        className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 overflow-hidden"
+        style={{ background: "#080808" }}
+      >
+        {/* Vanta renders into this element's background */}
+        <div className="absolute inset-0 z-0" />
+
+        {/* Gradient overlay */}
+        <div className="absolute inset-0 z-[1] bg-gradient-to-b from-[#080808]/30 via-transparent to-[#080808]" />
+
+        <div className="relative z-[2] max-w-6xl mx-auto">
+          {/* Label */}
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="section-label mb-8 inline-block"
+          >
+            AI Automation · Business Intelligence · Strategy
+          </motion.div>
+
+          {/* Headline — staggered character reveal */}
+          <motion.h1
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="font-display text-[clamp(2.5rem,6vw,5.5rem)] leading-[0.95] tracking-wide text-[#f5f5f5] mb-8"
+            style={{ perspective: "800px" }}
+            aria-label={headline}
+          >
+            {headlineChars.map((char, i) => (
+              <motion.span
+                key={i}
+                variants={charVariants}
+                className="inline-block"
+                style={{ display: char === " " ? "inline" : "inline-block" }}
+              >
+                {char === " " ? "\u00A0" : char}
+              </motion.span>
+            ))}
+          </motion.h1>
+
+          {/* Sub-headline — word by word */}
+          <motion.p
+            className="max-w-2xl mx-auto text-lg md:text-xl text-[#999999] leading-relaxed mb-12"
+            initial="hidden"
+            animate="visible"
+            variants={{
+              hidden: {},
+              visible: {
+                transition: { staggerChildren: 0.03, delayChildren: 0.8 },
+              },
+            }}
+          >
+            {subWords.map((word, i) => (
+              <motion.span
+                key={i}
+                className="inline-block mr-[0.3em]"
+                variants={{
+                  hidden: { opacity: 0, y: 20 },
+                  visible: {
+                    opacity: 1,
+                    y: 0,
+                    transition: { duration: 0.4, ease: "easeOut" },
+                  },
+                }}
+              >
+                {word}
+              </motion.span>
+            ))}
+          </motion.p>
+
+          {/* CTAs */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.8 }}
+            className="flex flex-col sm:flex-row gap-4 justify-center"
+          >
+            <a
+              href="mailto:mkulkarni.work@gmail.com?subject=Consultation Request"
+              className="group inline-flex items-center gap-3 px-8 py-4 bg-[#c0392b] text-white font-semibold tracking-wider hover:bg-[#e74c3c] transition-all duration-300 text-sm font-mono-custom"
+            >
+              START YOUR TRANSFORMATION
+              <ArrowRight
+                size={16}
+                className="group-hover:translate-x-1 transition-transform"
+              />
+            </a>
+            <button
+              onClick={() => scrollToSection("services")}
+              className="inline-flex items-center gap-3 px-8 py-4 border border-[#f5f5f5]/20 text-[#f5f5f5] font-semibold tracking-wider hover:border-[#c0392b] hover:text-[#c0392b] transition-all duration-300 text-sm font-mono-custom"
+            >
+              EXPLORE SERVICES
+            </button>
+          </motion.div>
+        </div>
+
+        {/* Scroll indicator */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 3, duration: 0.6 }}
+          className="absolute bottom-10 left-1/2 -translate-x-1/2 z-[2] flex flex-col items-center gap-2"
+        >
+          <span className="section-label text-[10px]">SCROLL</span>
+          <motion.div
+            animate={{ y: [0, 6, 0] }}
+            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+          >
+            <ChevronDown size={16} className="text-[#c0392b]" />
+          </motion.div>
+        </motion.div>
+      </section>
+
+      {/* ── About ──────────────────────────────────────────────── */}
+      <section
+        id="about"
+        className="relative py-16 md:py-16 md:py-20 px-6 bg-[#0f0f0f] clip-diagonal-top overflow-hidden"
+      >
+        {/* GradientDots background effect */}
+        <GradientDots
+          backgroundColor="#0f0f0f"
+          className="opacity-25 pointer-events-none"
+        />
+        <div className="max-w-6xl mx-auto">
+          {/* Header row */}
+          <FadeUp>
+            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-10">
+              <div>
+                <p className="section-label mb-3">About the Company</p>
+                <h2 className="font-display text-4xl md:text-5xl leading-none text-[#f5f5f5]">
+                  BUILT BY AN <span className="text-[#c0392b]">ENGINEER</span> WHO LIVED THE PROBLEM
+                </h2>
+              </div>
+              <p className="font-mono-custom text-xs tracking-wider text-[#8a8a8a] md:text-right flex-shrink-0">
+                Est. 2025 · Mumbai · Remote-First
+              </p>
+            </div>
+          </FadeUp>
+
+          {/* Content: Photo + Story side by side */}
+          <div className="grid md:grid-cols-[240px_1fr] lg:grid-cols-[280px_1fr] gap-8 lg:gap-12 mb-10">
+            {/* Founder photo */}
+            <FadeUp>
+              <div className="relative aspect-[3/4] overflow-hidden border border-white/10">
+                <Image
+                  src="/mukul-photo.jpg"
+                  alt="Mukul Kulkarni, Founder"
+                  fill
+                  className="object-cover"
+                  style={{ objectPosition: "center 20%" }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0f0f0f]/60 to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 p-4">
+                  <p className="font-display text-lg text-[#f5f5f5] leading-none">MUKUL KULKARNI</p>
+                  <p className="font-mono-custom text-[10px] text-[#c0392b] tracking-wider mt-1">FOUNDER & PRINCIPAL CONSULTANT</p>
+                </div>
+              </div>
+            </FadeUp>
+
+            {/* Story text */}
+            <FadeUp delay={0.15}>
+              <div className="space-y-4 text-[#999999] leading-relaxed text-[15px]">
+                <p>
+                  Infini Imaginator Tech was founded by{" "}
+                  <span className="text-[#f5f5f5] font-medium">Mukul Kulkarni</span>,
+                  an analytics leader with 9+ years partnering with executives to turn data
+                  into business results. He spent 7 years as BI Data Analyst at{" "}
+                  <span className="text-[#c0392b]">Embrace Home Loans</span> in Rhode Island,
+                  working directly with VPs, EVPs, and department heads — and before that,
+                  built data engineering systems at{" "}
+                  <span className="text-[#c0392b]">Accenture</span> in Mumbai.
+                </p>
+                <p>
+                  This isn&apos;t a consultancy built on theory. It&apos;s built on 500+ BI reports
+                  managed, executive dashboards that identified $500K in issues, efficiency
+                  initiatives that cut loan processing time by 25% and labor costs by 40%,
+                  and 111 ETL pipelines delivered at enterprise scale.
+                </p>
+                <p>
+                  Today, we combine that deep enterprise data experience with modern AI tools —
+                  shipping production apps, building intelligent automation, and helping businesses
+                  move from manual processes to AI-powered systems that actually deliver.
+                </p>
+              </div>
+            </FadeUp>
+          </div>
+
+          {/* Stats row — full width, 4 columns */}
+          <FadeUp delay={0.25}>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-white/5 border border-white/10">
+              {[
+                { label: "Enterprise Experience", value: "9+ Years" },
+                { label: "Domain Expertise", value: "Mortgage · BFSI" },
+                { label: "Based In", value: "Mumbai, India" },
+                { label: "Delivery Model", value: "Remote-First" },
+              ].map((item) => (
+                <div key={item.label} className="bg-[#0f0f0f] p-5 text-center">
+                  <div className="text-xs font-mono-custom text-[#8a8a8a] tracking-widest uppercase mb-2">
+                    {item.label}
+                  </div>
+                  <div className="text-sm font-semibold text-[#f5f5f5]">
+                    {item.value}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </FadeUp>
+        </div>
+      </section>
+
+      {/* ── Services ───────────────────────────────────────────── */}
+      <section id="services" className="py-16 md:py-16 md:py-20 px-6 bg-[#080808]">
+        <div className="max-w-7xl mx-auto">
+          <FadeUp>
+            <div className="mb-10 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+              <div>
+                <p className="section-label mb-4">What We Do</p>
+                <h2 className="font-display text-4xl md:text-5xl leading-none text-[#f5f5f5]">
+                  WHAT WE <span className="text-[#c0392b]">BUILD</span>
+                </h2>
+              </div>
+              <p className="max-w-md text-[#999999] leading-relaxed md:text-right">
+                End-to-end solutions across the full AI and data spectrum — from
+                automation pipelines to executive dashboards.
+              </p>
+            </div>
+          </FadeUp>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 divide-x divide-y divide-dashed divide-white/10 border border-dashed border-white/10 bg-white/[0.02] backdrop-blur-sm">
+            {services.map((service, i) => (
+              <FadeUp key={service.title} delay={i * 0.12}>
+                <div className="h-full">
+                  <FeatureCard
+                    feature={{
+                      title: service.title.toUpperCase(),
+                      icon: service.icon,
+                      description: service.description,
+                    }}
+                  />
+                  <ul className="px-6 pb-6 space-y-2">
+                    {service.features.map((feat) => (
+                      <li key={feat} className="flex items-start gap-3 text-xs text-[#8a8a8a]">
+                        <span className="mt-1.5 w-1 h-1 rounded-full bg-[#c0392b] flex-shrink-0" />
+                        {feat}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </FadeUp>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Products ───────────────────────────────────────────── */}
+      <section id="products" className="py-16 md:py-16 md:py-20 px-6 bg-[#0f0f0f]">
+        <div className="max-w-7xl mx-auto">
+          <FadeUp>
+            <div className="mb-10">
+              <p className="section-label mb-4">What We've Built</p>
+              <h2 className="font-display text-4xl md:text-5xl leading-none text-[#f5f5f5]">
+                SHIPPED <span className="text-[#c0392b]">&amp; LIVE</span>
+              </h2>
+            </div>
+          </FadeUp>
+
+          <div className="space-y-16">
+            {products.map((product, i) => (
+              <FadeUp key={product.name} delay={i * 0.15}>
+                <div
+                  className={`grid md:grid-cols-2 gap-12 lg:gap-12 items-center ${
+                    i % 2 === 1 ? "md:grid-flow-dense" : ""
+                  }`}
+                >
+                  {/* Text */}
+                  <div className={i % 2 === 1 ? "md:col-start-1" : ""}>
+                    <p className="section-label mb-4">{product.label}</p>
+                    <h3 className="font-display text-3xl md:text-4xl text-[#f5f5f5] leading-none mb-2">
+                      {product.name.toUpperCase()}
+                    </h3>
+                    <p className="text-[#c0392b] font-mono-custom text-sm tracking-wider mb-3">
+                      {product.tagline}
+                    </p>
+                    <p className="text-[#999999] leading-relaxed mb-4">
+                      {product.description}
+                    </p>
+
+                    <ul className="space-y-2.5 mb-6">
+                      {product.features.map((feat) => (
+                        <li
+                          key={feat}
+                          className="flex items-start gap-3 text-sm text-[#999999]"
+                        >
+                          <span className="mt-1.5 w-1 h-1 rounded-full bg-[#c0392b] flex-shrink-0" />
+                          {feat}
+                        </li>
+                      ))}
+                    </ul>
+
+                    <a
+                      href={product.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group inline-flex items-center gap-3 px-6 py-3 border border-[#c0392b] text-[#c0392b] text-sm font-semibold tracking-wider hover:bg-[#c0392b] hover:text-white transition-all duration-300 font-mono-custom"
+                    >
+                      VISIT {product.name.toUpperCase()}
+                      <ExternalLink
+                        size={14}
+                        className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"
+                      />
+                    </a>
+                  </div>
+
+                  {/* Visual */}
+                  <div className={i % 2 === 1 ? "md:col-start-2" : ""}>
+                    {product.hasImage && product.image ? (
+                      <div className="relative aspect-video overflow-hidden border border-[#f5f5f5]/08 group">
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#080808]/60 to-transparent z-10" />
+                        <Image
+                          src={product.image}
+                          alt={product.imageAlt || product.name}
+                          fill
+                          className="object-cover group-hover:scale-105 transition-transform duration-700"
+                        />
+                      </div>
+                    ) : (
+                      <div className="relative aspect-video bg-[#111111] border border-white/10 overflow-hidden flex items-center justify-center group hover:border-[#c0392b]/30 transition-colors duration-500">
+                        {/* Decorative grid */}
+                        <div
+                          className="absolute inset-0 opacity-5"
+                          style={{
+                            backgroundImage:
+                              "linear-gradient(#c0392b 1px, transparent 1px), linear-gradient(90deg, #c0392b 1px, transparent 1px)",
+                            backgroundSize: "40px 40px",
+                          }}
+                        />
+                        <div className="relative z-10 text-center">
+                          <div className="font-display text-[clamp(3rem,8vw,5rem)] text-outline leading-none mb-2">
+                            {product.name.split(" ")[0].toUpperCase()}
+                          </div>
+                          <p className="font-mono-custom text-xs text-[#8a8a8a] tracking-widest">
+                            {product.tagline}
+                          </p>
+                        </div>
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#c0392b]/05 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </FadeUp>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Stats ──────────────────────────────────────────────── */}
+      <section
+        id="results"
+        className="py-16 md:py-20 px-6 bg-[#080808] border-y border-white/10"
+      >
+        <div className="max-w-7xl mx-auto">
+          <FadeUp>
+            <p className="section-label text-center mb-10">By The Numbers</p>
+          </FadeUp>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-4">
+            {stats.map((stat, i) => (
+              <FadeUp key={stat.label} delay={i * 0.1}>
+                <div className="text-center group">
+                  <div className="inline-flex items-center justify-center w-10 h-10 border border-[#c0392b]/30 text-[#c0392b] mb-4 group-hover:bg-[#c0392b]/10 transition-colors">
+                    {stat.icon}
+                  </div>
+                  <div className="font-display text-[clamp(2.5rem,6vw,4rem)] text-[#f5f5f5] leading-none mb-2">
+                    <AnimatedCounter
+                      target={stat.value}
+                      suffix={stat.suffix}
+                      prefix={stat.prefix}
+                    />
+                  </div>
+                  <p className="text-xs font-mono-custom text-[#8a8a8a] tracking-widest uppercase">
+                    {stat.label}
+                  </p>
+                </div>
+              </FadeUp>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Why Us ─────────────────────────────────────────────── */}
+      <section id="why-us" className="py-16 md:py-16 md:py-20 px-6 bg-[#0f0f0f]">
+        <div className="max-w-5xl mx-auto">
+          <FadeUp>
+            <div className="mb-10">
+              <p className="section-label mb-4">Why Choose Us</p>
+              <h2 className="font-display text-4xl md:text-5xl leading-none text-[#f5f5f5] break-words">
+                THE INFINI <br />
+                <span className="text-[#c0392b]">ADVANTAGE</span>
+              </h2>
+            </div>
+          </FadeUp>
+
+          <div className="space-y-10">
+            {whyUs.map((item, i) => (
+              <FadeUp key={item.num} delay={i * 0.08}>
+                <div className="border-t border-white/10 pt-8">
+                  <div className="flex items-baseline gap-4 mb-3">
+                    <span className="font-mono-custom text-xs text-[#c0392b]/50 tracking-widest flex-shrink-0">
+                      {item.num}
+                    </span>
+                    <h3 className="font-display text-xl md:text-2xl text-[#e74c3c] leading-tight">
+                      {item.title.toUpperCase()}
+                    </h3>
+                  </div>
+                  <p className="text-[#999999] leading-relaxed text-base pl-10">
+                    {item.description}
+                  </p>
+                </div>
+              </FadeUp>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Tech Stack ─────────────────────────────────────────── */}
+      <section id="stack" className="py-16 md:py-16 md:py-20 px-6 bg-[#080808]">
+        <div className="max-w-7xl mx-auto">
+          <FadeUp>
+            <div className="mb-10">
+              <p className="section-label mb-4">Our Toolkit</p>
+              <h2 className="font-display text-4xl md:text-5xl leading-none text-[#f5f5f5]">
+                TECH <span className="text-[#c0392b]">STACK</span>
+              </h2>
+            </div>
+          </FadeUp>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {techStack.map((group, i) => (
+              <FadeUp key={group.category} delay={i * 0.1}>
+                <div className="relative">
+                  {/* Glow behind card */}
+                  <div className="absolute inset-0 h-full w-full bg-gradient-to-r from-[#c0392b]/20 to-[#e74c3c]/10 transform scale-[0.85] rounded-full blur-3xl" />
+
+                  {/* Card */}
+                  <div className="relative shadow-xl bg-[#111111] border border-white/10 hover:border-[#c0392b]/30 transition-all duration-500 px-6 py-8 h-full overflow-hidden rounded-2xl group">
+                    <h3 className="font-mono-custom text-xs tracking-[0.25em] text-[#c0392b] uppercase mb-6 pb-4 border-b border-white/10 relative z-10">
+                      {group.category}
+                    </h3>
+                    <ul className="space-y-3 relative z-10">
+                      {group.items.map((item) => (
+                        <li
+                          key={item}
+                          className="flex items-center gap-3 text-sm text-[#999999] hover:text-[#f5f5f5] transition-colors duration-300"
+                        >
+                          <span className="w-1 h-1 rounded-full bg-[#c0392b]/60 flex-shrink-0" />
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+
+                    {/* Meteors */}
+                    <Meteors number={20} />
+                  </div>
+                </div>
+              </FadeUp>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Team ───────────────────────────────────────────────── */}
+      <section id="team" className="py-16 md:py-16 md:py-20 px-6 bg-[#0f0f0f]">
+        <div className="max-w-7xl mx-auto">
+          <FadeUp>
+            <div className="mb-10">
+              <p className="section-label mb-4">The People</p>
+              <h2 className="font-display text-4xl md:text-5xl leading-none text-[#f5f5f5]">
+                THE <span className="text-[#c0392b]">FOUNDER</span>
+              </h2>
+            </div>
+          </FadeUp>
+
+          <FadeUp delay={0.15}>
+            <div className="max-w-2xl">
+              <div className="grid sm:grid-cols-[auto_1fr] gap-8 items-start">
+                {/* Photo */}
+                <div className="relative w-36 h-36 sm:w-44 sm:h-44 flex-shrink-0 overflow-hidden border border-[#f5f5f5]/10">
+                  <Image
+                    src="/mukul-photo.jpg"
+                    alt="Mukul Kulkarni"
+                    fill
+                    className="object-cover"
+                    style={{ objectPosition: "center 20%" }}
+                    priority
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0f0f0f]/40 to-transparent" />
+                </div>
+
+                {/* Info */}
+                <div>
+                  <h3 className="font-display text-3xl text-[#f5f5f5] leading-none mb-1">
+                    MUKUL KULKARNI
+                  </h3>
+                  <p className="font-mono-custom text-sm text-[#c0392b] tracking-wider mb-6">
+                    Founder & Principal Consultant
+                  </p>
+
+                  <div className="space-y-3 text-sm text-[#999999] leading-relaxed mb-8">
+                    <p>
+                      9+ years in enterprise data — from 500+ BI reports at Embrace Home Loans to shipping AI products. Passionate about turning complex data problems into working systems.
+                    </p>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4 mb-8">
+                    {[
+                      { label: "Education", value: "MS Info Systems, Pace (3.88 GPA)" },
+                      { label: "Experience", value: "9+ Years Enterprise" },
+                      { label: "Former Roles", value: "BI Data Analyst · SE Analyst" },
+                      { label: "Specialties", value: "BI · Data Eng · AI · Product" },
+                    ].map((item) => (
+                      <div key={item.label} className="border-l-2 border-[#c0392b]/30 pl-3">
+                        <div className="text-[10px] font-mono-custom text-[#8a8a8a] tracking-widest uppercase mb-0.5">
+                          {item.label}
+                        </div>
+                        <div className="text-xs text-[#f5f5f5]">{item.value}</div>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="flex gap-4">
+                    <a
+                      href="mailto:mkulkarni.work@gmail.com"
+                      className="inline-flex items-center gap-2 text-sm text-[#999999] hover:text-[#c0392b] transition-colors font-mono-custom tracking-wider"
+                    >
+                      <Mail size={14} /> EMAIL
+                    </a>
+                    <a
+                      href="https://www.linkedin.com/in/mukul-kulkarni/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 text-sm text-[#999999] hover:text-[#c0392b] transition-colors font-mono-custom tracking-wider"
+                    >
+                      <Linkedin size={14} /> LINKEDIN
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </FadeUp>
+        </div>
+      </section>
+
+      {/* ── Contact ────────────────────────────────────────────── */}
+      <section
+        id="contact"
+        className="relative py-16 md:py-16 md:py-20 px-6 bg-[#080808] overflow-hidden"
+      >
+        {/* BackgroundPaths behind content */}
+        <BackgroundPaths />
+
+        {/* Gradient overlay to keep text readable */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#080808]/80 via-[#080808]/60 to-[#080808]/90 z-[1]" />
+
+        <div className="relative z-[2] max-w-5xl mx-auto text-center">
+          <FadeUp>
+            <p className="section-label mb-6">Get In Touch</p>
+            <h2 className="font-display text-[clamp(2.5rem,7vw,6rem)] leading-none text-[#f5f5f5] mb-6">
+              LET&apos;S BUILD YOUR{" "}
+              <span className="text-[#c0392b]">AI-POWERED</span> FUTURE
+            </h2>
+            <p className="text-[#999999] text-lg leading-relaxed max-w-2xl mx-auto mb-4">
+              Whether you need to automate a process, build a dashboard, or
+              completely rethink your data strategy — we&apos;re ready. Let&apos;s start
+              with a conversation.
+            </p>
+            <p className="font-mono-custom text-xs text-[#c0392b]/80 tracking-wider mb-10">
+              NO COMMITMENT · NO SALES PRESSURE · JUST A CONVERSATION
+            </p>
+          </FadeUp>
+
+          <FadeUp delay={0.15}>
+            <div className="grid sm:grid-cols-3 gap-6 mb-10 max-w-2xl mx-auto">
+              <div className="bg-[#111111]/80 backdrop-blur-sm border border-white/10 p-6 text-center">
+                <Mail size={20} className="text-[#c0392b] mx-auto mb-3" />
+                <p className="font-mono-custom text-[10px] tracking-widest text-[#8a8a8a] uppercase mb-2">
+                  Email
+                </p>
+                <a
+                  href="mailto:mkulkarni.work@gmail.com"
+                  className="text-sm text-[#f5f5f5] hover:text-[#c0392b] transition-colors break-all"
+                >
+                  mkulkarni.work@gmail.com
+                </a>
+              </div>
+
+              <div className="bg-[#111111]/80 backdrop-blur-sm border border-white/10 p-6 text-center">
+                <Linkedin size={20} className="text-[#c0392b] mx-auto mb-3" />
+                <p className="font-mono-custom text-[10px] tracking-widest text-[#8a8a8a] uppercase mb-2">
+                  LinkedIn
+                </p>
+                <a
+                  href="https://www.linkedin.com/in/mukul-kulkarni/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-[#f5f5f5] hover:text-[#c0392b] transition-colors"
+                >
+                  /in/mukul-kulkarni
+                </a>
+              </div>
+
+              <div className="bg-[#111111]/80 backdrop-blur-sm border border-white/10 p-6 text-center">
+                <Clock size={20} className="text-[#c0392b] mx-auto mb-3" />
+                <p className="font-mono-custom text-[10px] tracking-widest text-[#8a8a8a] uppercase mb-2">
+                  Response Time
+                </p>
+                <p className="text-sm text-[#f5f5f5]">Within 24 hours</p>
+              </div>
+            </div>
+          </FadeUp>
+
+          <FadeUp delay={0.25}>
+            <a
+              href="mailto:mkulkarni.work@gmail.com?subject=Consultation Request — Infini Imaginator Tech"
+              className="group inline-flex items-center gap-4 px-10 py-5 bg-[#c0392b] text-white font-semibold tracking-wider hover:bg-[#e74c3c] transition-all duration-300 text-sm font-mono-custom"
+            >
+              SCHEDULE A FREE CONSULTATION
+              <ArrowRight
+                size={16}
+                className="group-hover:translate-x-1 transition-transform"
+              />
+            </a>
+          </FadeUp>
+
+        </div>
+      </section>
+
       </main>
+
+      {/* ── Footer ─────────────────────────────────────────────── */}
+      <footer className="bg-[#080808] border-t border-white/10 py-10 px-6">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="font-mono-custom text-sm font-bold tracking-widest text-[#8a8a8a]">
+            <span className="text-[#c0392b]">//</span> INFINI IMAGINATOR TECH
+          </div>
+
+          <p className="font-mono-custom text-xs text-[#8a8a8a] tracking-wider text-center">
+            &copy; {new Date().getFullYear()} Infini Imaginator Tech. All rights reserved.
+          </p>
+
+          <div className="flex gap-6">
+            <a
+              href="mailto:mkulkarni.work@gmail.com"
+              className="p-3 -m-3 text-[#8a8a8a] hover:text-[#c0392b] transition-colors"
+              aria-label="Email"
+            >
+              <Mail size={16} />
+            </a>
+            <a
+              href="https://www.linkedin.com/in/mukul-kulkarni/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-3 -m-3 text-[#8a8a8a] hover:text-[#c0392b] transition-colors"
+              aria-label="LinkedIn"
+            >
+              <Linkedin size={16} />
+            </a>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
