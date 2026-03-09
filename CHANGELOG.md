@@ -4,67 +4,176 @@ All notable changes to the Infini Imaginator Tech landing page.
 
 ---
 
-## [1.0.0] — 2026-03-10
+## [1.2.0] — 2026-03-10 04:30 IST
 
-### Initial Release — Full Next.js Landing Page
+### Layout & Visual Polish
+
+**Spacing Overhaul:**
+- All section padding reduced: `py-32` → `py-16 md:py-24` (128px → 64/96px)
+- Section header margins: `mb-16`/`mb-20` → `mb-10` (64-80px → 40px)
+- Product card gaps: `lg:gap-20` → `lg:gap-12`, `space-y-24` → `space-y-16`
+- Product internal spacing compressed (tagline, description, features)
+- Section headings reduced: `text-5xl md:text-6xl` → `text-4xl md:text-5xl`
+- Product titles: `text-4xl md:text-5xl` → `text-3xl md:text-4xl`
+
+**About Section Redesigned:**
+- Removed decorative "II" column (wasted 50% of viewport)
+- Added founder photo on left (240-280px column) with name/title overlay
+- Story text fills right column — no wasted space
+- 4 stat cards as full-width row at bottom with grid-gap separators
+- "Est. 2025 · Mumbai · Remote-First" as compact header line
+
+**Hero Headline Fix:**
+- Reduced from `clamp(2.8rem, 8vw, 7rem)` to `clamp(2.5rem, 6vw, 5.5rem)`
+- Prevents "BUSINESS" from breaking mid-word on desktop viewports
+
+**Contact Section:**
+- "NO COMMITMENT · NO SALES PRESSURE · JUST A CONVERSATION" moved to first viewport (under subtitle)
+- Removed duplicate at bottom of section
+
+**BackgroundPaths (Contact):**
+- Expanded SVG viewBox from `"0 0 696 316"` to `"-100 -300 900 900"`
+- Added `preserveAspectRatio="xMidYMin slice"` — paths now start from top ~20%
+
+**Tech Stack → Meteor Cards (21st.dev):**
+- Integrated `meteors.tsx` component (exact 21st.dev implementation)
+- Cards now have `rounded-2xl`, `overflow-hidden`, `shadow-xl`
+- Crimson glow blur behind each card
+- 20 meteors per card with `bg-slate-500` trails (matching reference)
+- Added `@keyframes meteor` animation to globals.css
+
+---
+
+## [1.1.0] — 2026-03-10 03:00 IST
+
+### Review Fixes (3 rounds of UI/UX, Content, Performance audits)
+
+**Critical Accessibility:**
+- Added `useReducedMotion()` from framer-motion to FadeUp component
+- AnimatedCounter immediately shows final value when reduced-motion preferred
+- `scrollToSection` uses `behavior: "instant"` for reduced-motion users
+- Vanta.NET skipped entirely when reduced-motion preferred
+- Custom cursor scoped to `(pointer: fine)` devices only via `has-custom-cursor` class
+- Skip-to-content link + `<main id="main-content">` landmark added
+
+**Color Contrast (WCAG AA):**
+- Body text: `#888888` → `#999999` (5.9:1 on #080808)
+- Labels: `#555555` → `#8a8a8a` (4.6:1 on #0f0f0f)
+- Card borders: `border-[#f5f5f5]/05` → `border-white/10` (visible on monitors)
+- Why Us headings: `#c0392b` → `#e74c3c` (better contrast)
+- Global `cursor: none` removed from `*`, scoped to `.has-custom-cursor`
+
+**Mobile Nav Accessibility:**
+- Hamburger button: `aria-expanded`, `aria-controls="mobile-menu"`, `aria-label`, `p-3` touch target
+- Menu panel: `id="mobile-menu"`, `role="navigation"`, `aria-label="Mobile navigation"`
+- Footer icon links: `p-3 -m-3` for 44px minimum touch target
+- Logo `//` wrapped in `aria-hidden="true"`
+
+**Content Updates (from 3 resumes):**
+- Hero headline: "TRANSFORMING DATA..." → "FROM RAW DATA TO REAL BUSINESS IMPACT"
+- Hero sub: "From identifying $500K in issues at Embrace Home Loans..."
+- Section headlines: Services → "WHAT WE BUILD", Products → "SHIPPED & LIVE", Team → "THE FOUNDER"
+- Stats: 9+ years, 500+ reports, $500K identified, $200K+ savings (verified against resumes)
+- About: 9+ years (not 10+), BI Data Analyst title (not "BI Dev"), Mumbai India (not NY)
+- Team bio shortened to 2 sentences (deduplicated with About)
+- Tech stack reorganized: added Snowflake, Sigma, removed duplicates
+- "588+" fixed to "588" per resumes
+- Footer year: hard-coded 2026 → `new Date().getFullYear()`
+- LinkedIn URL fixed to `/in/mukul-kulkarni/` everywhere
+
+**Yuga Odysseys Rebrand:**
+- Tagline: "Gamified Learning Through Ancient Wisdom" → "Challenge. Decide. Grow."
+- Description rewritten: scenario-based platform, not quiz/game
+- Features: 24 life domains, AI mentor Guruji, trilingual
+- Removed all old terminology (post-apocalyptic, civilization, gamified)
+
+**Services → Glassmorphism FeatureCards (21st.dev):**
+- Integrated `grid-feature-cards.tsx` component
+- Dashed border grid with `backdrop-blur-sm` glassmorphism
+- SVG grid pattern overlay per card
+- Service icons changed from JSX elements to component references
+
+**GradientDots Brand Fix:**
+- Rainbow colors replaced with crimson palette (#c0392b, #922b21, #e74c3c, #1a0505)
+- `hue-rotate` animation removed entirely
+
+**BackgroundPaths Optimization:**
+- Paths reduced from 72 → 40 (20 per layer)
+- `Math.random()` in render replaced with deterministic `(path.id * 1.7) % 10`
+- Added `aria-hidden="true"`, removed `<title>` (purely decorative)
+- Increased stroke opacity and width for better visibility
+
+**SEO & Meta:**
+- Meta description: "7+ years" → "9+ years" with specific outcomes
+- Added OG image reference + Twitter card metadata
+- Added `metadataBase: new URL("https://imaginator.in")`
+- Product images: added descriptive `imageAlt` fields
+- Section IDs added: `why-us`, `stack`, `team`
+
+**Performance:**
+- Removed unused `useAnimation` import from framer-motion
+- DM Sans font weight 300 removed (unused)
+- `prefers-reduced-motion` CSS block stops all animations
+- Product stagger delay fixed: `delay={0.1}` → `delay={i * 0.15}`
+- Added `.card-border` utility class
+
+---
+
+## [1.0.0] — 2026-03-10 01:00 IST
+
+### Initial Release — Next.js Landing Page
 
 **Project Setup:**
-- Migrated from static HTML (`infini-imaginator-tech/`) to Next.js 16 with TypeScript, Tailwind CSS v4, and shadcn/ui
+- Migrated from static HTML to Next.js 16 with TypeScript, Tailwind CSS v4, and shadcn/ui
 - App Router with `src/` directory structure
 - Google Fonts: Bebas Neue (display), DM Sans (body), Space Mono (mono)
 - Forced dark mode theme with crimson (#c0392b) accent palette
+- Old static HTML version replaced on GitHub (`Hrykan/infini-imaginator-web`)
 
 **Sections Built:**
-- **Navigation** — Sticky glassmorphism nav, mobile hamburger with ARIA, scroll-aware opacity
-- **Hero** — Vanta.NET particle background (Three.js), framer-motion staggered character reveal, two CTAs
-- **About** — Founder photo (Mukul Kulkarni) + story, GradientDots animated background, 4 stat cards
-- **Services** — Glassmorphism FeatureCard grid (21st.dev grid-feature-cards component) with dashed borders
-- **Products** — Yuga Odysseys (with screenshot) + Research Assistant (with screenshot), alternating layout
-- **Stats** — 4 animated counters (9+ years, 500+ reports, $500K identified, $200K+ savings)
-- **Why Us** — 4 differentiators with clean card layout
-- **Tech Stack** — 4-column grid with Meteors effect (21st.dev meteors component), rounded cards with glow
-- **Team** — Founder card with photo, credentials grid, social links
-- **Contact** — BackgroundPaths animated SVG background (21st.dev), contact cards, CTA
-- **Footer** — Dynamic copyright year, social links
+- Navigation — Sticky glassmorphism nav, mobile hamburger, scroll-aware opacity
+- Hero — Vanta.NET particle background (Three.js), framer-motion character reveal
+- About — Company story with founder credentials
+- Services — 3-card grid (AI Automation, BI & Analytics, AI Strategy)
+- Products — Yuga Odysseys + Research Assistant with screenshots
+- Stats — 4 animated counters
+- Why Us — 4 differentiators
+- Tech Stack — 4-column category grid
+- Team — Founder card with photo
+- Contact — CTA section with contact details
+- Footer — Copyright, social links
 
-**21st.dev Components Integrated:**
-- `background-paths.tsx` — Animated SVG flowing paths (Contact section)
-- `gradient-dots.tsx` — Crimson dot pattern animation (About section)
-- `grid-feature-cards.tsx` — Grid pattern cards with glassmorphism (Services section)
-- `meteors.tsx` — Meteor streak animation (Tech Stack cards)
+**Content Source:**
+- All text verified against Mukul Kulkarni's resumes (AI Builder, Data Senior, Manager)
+- Product screenshots captured via Playwright browser automation
+- Founder photo from LinkedIn profile
 
-**Content (from Mukul's resumes):**
-- 9+ years enterprise experience (Embrace Home Loans 2018-2025, Accenture 2014-2016)
-- $500K tolerance issues identified, $200K+ cost avoidance
-- 500+ BI reports managed, 111 ETL pipelines built
-- 25% faster loan processing, 40% lower labor costs
-- MS Information Systems, Pace University (GPA 3.88)
-- BTech Computer Engineering, NMIMS University
+---
 
-**Yuga Odysseys Rebrand:**
-- Updated from "educational quiz game" to "scenario-based platform for learning and growth"
-- New tagline: "Challenge. Decide. Grow."
-- 24 life domains, 588 scenarios, AI mentor Guruji, trilingual
+## [0.1.0] — 2026-03-10 00:30 IST
 
-**Accessibility & Performance:**
-- `prefers-reduced-motion` support (CSS + JS + Framer Motion useReducedMotion)
-- Custom cursor scoped to pointer devices only (`pointer: fine`)
-- Skip-to-content link + `<main>` landmark
-- ARIA attributes on mobile nav (aria-expanded, aria-controls, role)
-- Color contrast improved: body text #999999, labels #8a8a8a (WCAG AA)
-- Card borders increased to white/10 for visibility
-- BackgroundPaths reduced to 40 paths (from 72), deterministic durations
-- Footer icon touch targets expanded to 44px minimum
+### Static HTML Prototype (Deprecated)
 
-**SEO & Meta:**
-- Meta description with specific outcomes ($500K, 500+ reports)
-- OpenGraph image reference + Twitter card metadata
-- metadataBase set to https://imaginator.in
+- Single `index.html` with all CSS/JS inline
+- Vanta.NET hero, GSAP + ScrollTrigger animations, Lenis smooth scroll, Splitting.js
+- Content scraped from old mytharaatech.imaginator.in website
+- Rebranded from Mytharaa Tech → Infini Imaginator Tech
+- Pushed to `Hrykan/infini-imaginator-web` (since replaced by Next.js version)
 
-**Known Issues / Future Work:**
-- Page is still a single `"use client"` monolith — should split into server + client components for SSR/SEO
-- Three.js/Vanta loaded via CDN script injection — should use next/script or npm bundle
-- No testimonials/social proof section yet
-- All CTAs are mailto links — need Calendly/booking integration
-- Missing: OG image file, robots.txt, sitemap.xml, structured data (JSON-LD)
-- Imaginator Chat product hidden (needs rebuild)
+---
+
+## Known Issues / Future Work
+
+| Priority | Issue | Status |
+|----------|-------|--------|
+| Critical | Page is single `"use client"` monolith — no SSR, poor SEO | Open |
+| Critical | Three.js/Vanta via CDN script injection — no SRI, ~600KB | Open |
+| High | All CTAs are mailto to Gmail — need Calendly/booking | Open |
+| High | No testimonials/social proof section | Open |
+| High | Missing OG image file (`/public/og-image.png`) | Open |
+| Medium | No process/how-we-work section | Open |
+| Medium | No FAQ section | Open |
+| Medium | Missing robots.txt, sitemap.xml | Open |
+| Medium | No structured data (JSON-LD for Organization) | Open |
+| Low | Imaginator Chat product hidden (needs rebuild) | Deferred |
+| Low | Business email needed (not Gmail) | Open |
