@@ -4,6 +4,129 @@ All notable changes to the Infini Imaginator Tech landing page.
 
 ---
 
+## [1.4.0] — 2026-03-11 IST
+
+### Booking CTAs — Google Calendar Integration
+
+- Replaced all 4 booking-intent `mailto:` links with Google Calendar Appointment Schedule URL
+  - Nav desktop CTA: text changed to "BOOK A FREE CALL"
+  - Nav mobile CTA: same
+  - Hero primary CTA: text changed to "BOOK A FREE STRATEGY CALL"
+  - Contact section CTA: text changed to "BOOK A FREE 30-MIN CALL"
+- All booking CTAs open in `target="_blank"` with `rel="noopener noreferrer"`
+- Email display links (Founder section, Contact info cards, Footer icon) remain as `mailto:` — intentional
+- Created `.env.local` with `NEXT_PUBLIC_BOOKING_URL` (gitignored)
+- Added `NEXT_PUBLIC_BOOKING_URL` to Vercel production environment via CLI
+- Updated JSON-LD `ContactAction` target in `layout.tsx` from `mailto:` to booking URL
+
+### Contact Form — Decided Against
+
+- Created `src/components/ui/contact-form.tsx` (Web3Forms, no npm package) but decided not to use it
+- Rationale: Google Calendar already collects name, email, and challenge question; contact section retains email info card as fallback for non-booking visitors
+- File deleted; `NEXT_PUBLIC_WEB3FORMS_KEY` placeholder removed from `.env.local`
+
+### Rounded Corners — Unified Card Aesthetic
+
+- Added `rounded-2xl overflow-hidden` to all card-like containers to match Tech Stack HighlightCard style:
+  - Services grid outer container
+  - About stats row (4-column grid)
+  - About founder photo
+  - Products image card (with photo variant)
+  - Products placeholder visual card
+  - Founder full-width two-column card
+  - All 3 Contact info cards (Email, LinkedIn, Response Time)
+- HighlightCard (Tech Stack) already had `rounded-2xl` — no change needed
+
+### Brand Name Fix — "Infini Imaginator Tech" Everywhere
+
+- Nav logo: `INFINI IMAGINATOR` → `INFINI IMAGINATOR TECH`
+- Founder photo alt text: `"Founder of Infini Imaginator"` → `"Founder of Infini Imaginator Tech"`
+- Founder bio: `"Infini Imaginator Technologies"` → `"Infini Imaginator Tech"`
+- FAQ JSON-LD question: `"how does Infini Imaginator use it?"` → `"...Infini Imaginator Tech..."`
+
+### Em Dash Removal — Natural Prose
+
+- Removed all em dashes (`—`) from visible page content (13 total)
+- Replacements chosen contextually: comma, period, or parentheses depending on sentence flow
+- Affected sections: Hero subtitle, Services (BI & Analytics, AI Strategy), Products (Yuga Odysseys), Why Us (all 4 cards + title), About (2 paragraphs), Founder bio (2 instances), Contact paragraph
+
+---
+
+## [1.3.0] — 2026-03-10 08:00 IST
+
+### Tech Stack Section — HighlightCard Component
+
+- Replaced Meteors component with new `highlight-card.tsx` (custom animated card design)
+- Created `src/components/ui/highlight-card.tsx` — dark card with subtle crimson accents, icon header, divider, and description
+- Created `src/components/ui/card.tsx` — shadcn Card base component (used as HighlightCard foundation)
+- Icons per tech stack category: `Bot`, `Database`, `PieChart`, `Code2` (lucide-react)
+- Card visual iteration: started with heavy crimson fills, dialed back to dark/neutral with minimal crimson — `border-white/10`, `hover:border-[#c0392b]/30`, crimson divider line, crimson dot accents
+- Outer wrapper: `rounded-2xl overflow-hidden` to match Card border-radius (prevents corner bleed)
+- Removed `hover:-rotate-1` tilt — geometry stays consistent on hover
+
+### Founder Section — Full Redesign
+
+- Layout changed from narrow `max-w-2xl` centered box to full-width two-column card
+- New photo: `/public/mukul-photo-2.jpg` (selfie format) added and applied, replacing crowd photo
+- Bio rewritten with specific career arc: Accenture India → MS at Pace University → Embrace Home Loans → Infini Imaginator Technologies
+- Achievements corrected from resumes: managed 500+ SSRS BI reports, built 50+ from scratch, $500K in tolerance cures (process improvement with VP of Operations), 6 executive command centre dashboards on TV screens
+- "Infini Imaginator Technologies" rendered in bold crimson with quotation marks around tagline
+- "Previously at" badge row added: Accenture + Embrace Home Loans
+- Credential tiles row: Experience, Degree (MS Info Systems), University (Pace University), GPA (3.88/4.0)
+- Typography tightened: bio unified to `text-sm`, section title reduced to `text-3xl md:text-4xl`, padding reduced to `p-6 md:p-8` so Email/LinkedIn buttons remain visible in viewport
+
+### SEO & AEO Implementation
+
+**`src/app/layout.tsx` metadata overhaul:**
+- Title template (`%s | Infini Imaginator Tech`) and full meta description
+- 21 targeted keywords across AI automation, BI analytics, and consulting
+- Robots directives: `googleBot` with `max-snippet: -1`, `max-image-preview: large`
+- Canonical URL, OG locale/siteName, Twitter creator handle
+- `<link rel="preconnect">` tags for CDN hosts
+- `theme-color` and `color-scheme` meta tags
+
+**JSON-LD structured data (3 schemas injected in `<head>`):**
+- `ProfessionalService` — organization, founder, and services list
+- `WebSite` — site identity with `SearchAction` / `ContactAction`
+- `FAQPage` — 8 Q&As targeting AI answer engine (AEO) queries
+
+**`src/app/sitemap.ts`:** Next.js sitemap generation covering all 6 page sections
+
+**`src/app/robots.ts`:** robots.txt generation with sitemap reference URL
+
+### Contact Section — BackgroundPaths Fix
+
+- Root cause identified: gradient overlay `from-[#080808]/80 via-[#080808]/60 to-[#080808]/90` was nearly opaque, hiding the SVG paths entirely
+- Overlay reduced: `from-[#080808]/40 via-[#080808]/10 to-[#080808]/60`
+- BackgroundPaths container repositioned: `absolute -top-80 inset-x-0 bottom-0` (extended 320px above section top) so paths visually begin beside the heading
+- Path count increased to 30 per layer (60 total, up from 20/40)
+- `strokeOpacity` increased: minimum 0.25 (was 0.15), formula `0.25 + i * 0.028`
+- ViewBox expanded: `-100 -350 900 1000` (was `-100 -300 900 900`)
+- Path spacing tightened: `i * 7` (was `i * 8`) for denser bundling
+- Stroke width adjusted: `0.6 + i * 0.05` (was `0.8 + i * 0.06`)
+- Animation opacity range raised: `[0.5, 0.9, 0.5]` (was `[0.4, 0.8, 0.4]`)
+
+### Floating Dot Navigation
+
+- New `FloatingDotNav` component added to `page.tsx`
+- 8 navigation dots: Home, About, Services, Products, Results, Tech Stack, Founder, Contact
+- Positioned `fixed right-5`, vertically centered, desktop-only (`hidden md:flex flex-col`)
+- Active dot: crimson `w-2.5 h-2.5` with crimson glow `box-shadow`
+- Inactive dots: `bg-white/20`, brighten on hover
+- Section labels: slide in from right on hover — monospace font, small pill with backdrop blur
+- `IntersectionObserver` at 35% threshold tracks which section is active
+- `activeSection` state added to the Home component
+
+### Bug Fixes
+
+- **Hydration error (critical)** — `grid-feature-cards.tsx`: `genRandomPattern()` called `Math.random()` during render, causing server/client mismatch and React hydration warnings. Fixed with `useState([])` initialised to empty + `useEffect` to fill pattern after hydration — server renders plain squares (deterministic), client fills random pattern on mount.
+- **`button.tsx`** — Removed dependency on `@base-ui/react` (unused package); rewrote using `@radix-ui/react-slot` (standard shadcn/ui pattern).
+- **Vanta CDN loader** — Added `.catch()` handler to script loading promise chain for silent failure on network error.
+- **Tailwind border syntax** — Fixed `border-[#f5f5f5]/08` → `border-[#f5f5f5]/[0.08]` (arbitrary opacity requires bracket notation).
+- **`package.json`** — Removed unused `@base-ui/react` dependency.
+
+---
+
 ## [1.2.0] — 2026-03-10 04:30 IST
 
 ### Layout & Visual Polish
@@ -172,8 +295,8 @@ All notable changes to the Infini Imaginator Tech landing page.
 | High | No testimonials/social proof section | Open |
 | High | Missing OG image file (`/public/og-image.png`) | Open |
 | Medium | No process/how-we-work section | Open |
-| Medium | No FAQ section | Open |
-| Medium | Missing robots.txt, sitemap.xml | Open |
-| Medium | No structured data (JSON-LD for Organization) | Open |
+| Medium | Missing robots.txt, sitemap.xml | Resolved in v1.3.0 (`robots.ts`, `sitemap.ts`) |
+| Medium | No structured data (JSON-LD for Organization) | Resolved in v1.3.0 (3 schemas) |
+| Medium | No FAQ section (visible) | Resolved in v1.3.0 (FAQPage JSON-LD for AEO) |
 | Low | Imaginator Chat product hidden (needs rebuild) | Deferred |
 | Low | Business email needed (not Gmail) | Open |

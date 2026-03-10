@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 type FeatureType = {
     title: string;
@@ -12,7 +12,13 @@ type FeatureCardProps = React.ComponentProps<'div'> & {
 };
 
 export function FeatureCard({ feature, className, ...props }: FeatureCardProps) {
-    const p = genRandomPattern();
+    // Start with empty squares so server and client render identically.
+    // useEffect fires only on the client after hydration, then sets the random pattern.
+    const [squares, setSquares] = useState<number[][]>([]);
+
+    useEffect(() => {
+        setSquares(genRandomPattern());
+    }, []);
 
     return (
         <div className={cn('relative overflow-hidden p-6', className)} {...props}>
@@ -23,7 +29,7 @@ export function FeatureCard({ feature, className, ...props }: FeatureCardProps) 
                         height={20}
                         x="-12"
                         y="4"
-                        squares={p}
+                        squares={squares}
                         className="fill-[#c0392b]/5 stroke-[#c0392b]/25 absolute inset-0 h-full w-full mix-blend-overlay"
                     />
                 </div>
@@ -53,7 +59,7 @@ function GridPattern({
                 </pattern>
             </defs>
             <rect width="100%" height="100%" strokeWidth={0} fill={`url(#${patternId})`} />
-            {squares && (
+            {squares && squares.length > 0 && (
                 <svg x={x} y={y} className="overflow-visible">
                     {squares.map(([sx, sy], index) => (
                         <rect strokeWidth="0" key={index} width={width + 1} height={height + 1} x={sx * width} y={sy * height} />

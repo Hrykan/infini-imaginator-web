@@ -6,7 +6,7 @@ import { motion, useInView, AnimatePresence, useReducedMotion } from "framer-mot
 import { BackgroundPaths } from "@/components/ui/background-paths";
 import { GradientDots } from "@/components/ui/gradient-dots";
 import { FeatureCard } from "@/components/ui/grid-feature-cards";
-import { Meteors } from "@/components/ui/meteors";
+import HighlightCard from "@/components/ui/highlight-card";
 import {
   ExternalLink,
   Mail,
@@ -20,6 +20,10 @@ import {
   TrendingUp,
   DollarSign,
   FileText,
+  Bot,
+  Database,
+  PieChart,
+  Code2,
 } from "lucide-react";
 
 // ─── Type declarations for Vanta ────────────────────────────────
@@ -109,12 +113,62 @@ function FadeUp({
   );
 }
 
+// ─── Floating dot navigation ────────────────────────────────────
+const NAV_SECTIONS = [
+  { id: "hero",     label: "Home" },
+  { id: "about",    label: "About" },
+  { id: "services", label: "Services" },
+  { id: "products", label: "Products" },
+  { id: "results",  label: "Results" },
+  { id: "stack",    label: "Tech Stack" },
+  { id: "team",     label: "Founder" },
+  { id: "contact",  label: "Contact" },
+];
+
+function FloatingDotNav({
+  active,
+  onNavigate,
+}: {
+  active: string;
+  onNavigate: (id: string) => void;
+}) {
+  return (
+    <nav
+      aria-label="Quick section navigation"
+      className="fixed right-5 top-1/2 -translate-y-1/2 z-40 hidden md:flex flex-col gap-3.5"
+    >
+      {NAV_SECTIONS.map((s) => (
+        <button
+          key={s.id}
+          onClick={() => onNavigate(s.id)}
+          aria-label={`Go to ${s.label}`}
+          className="group relative flex items-center justify-end gap-2.5"
+        >
+          {/* Label — slides in on hover */}
+          <span className="pointer-events-none opacity-0 group-hover:opacity-100 translate-x-1 group-hover:translate-x-0 transition-all duration-200 font-mono-custom text-[9px] tracking-widest uppercase text-[#999999] bg-[#111111]/95 border border-white/10 px-2 py-0.5 whitespace-nowrap">
+            {s.label}
+          </span>
+          {/* Dot */}
+          <span
+            className={`block rounded-full transition-all duration-300 ${
+              active === s.id
+                ? "w-2.5 h-2.5 bg-[#c0392b] shadow-[0_0_8px_rgba(192,57,43,0.7)]"
+                : "w-1.5 h-1.5 bg-white/20 group-hover:bg-white/50"
+            }`}
+          />
+        </button>
+      ))}
+    </nav>
+  );
+}
+
 // ─── Main Page ──────────────────────────────────────────────────
 export default function Home() {
   const heroRef = useRef<HTMLDivElement>(null);
   const vantaRef = useRef<{ destroy: () => void } | null>(null);
   const [navScrolled, setNavScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("hero");
 
   // Vanta.NET hero background
   useEffect(() => {
@@ -151,6 +205,9 @@ export default function Home() {
             spacing: 18,
           });
         }
+      })
+      .catch(() => {
+        // Vanta CDN failed to load — hero renders with solid background fallback
       });
 
     return () => {
@@ -163,6 +220,24 @@ export default function Home() {
     const handleScroll = () => setNavScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Active section tracking for floating nav
+  useEffect(() => {
+    const observers: IntersectionObserver[] = [];
+    NAV_SECTIONS.forEach(({ id }) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const obs = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => { if (e.isIntersecting) setActiveSection(id); });
+        },
+        { threshold: 0.35, rootMargin: "-10% 0px -10% 0px" }
+      );
+      obs.observe(el);
+      observers.push(obs);
+    });
+    return () => observers.forEach((o) => o.disconnect());
   }, []);
 
   // Custom cursor
@@ -243,7 +318,7 @@ export default function Home() {
   };
 
   const subWords =
-    "9+ years partnering with executives to turn data into business results. From identifying $500K in issues at Embrace Home Loans to shipping production apps — we build systems that actually deliver.".split(
+    "Most businesses have data. Few turn it into competitive advantage. We bridge that gap, drawing on 9+ years of enterprise BI depth, applying AI pair programming where human judgment drives every decision, and building with best practices that catch problems before they surface.".split(
       " "
     );
 
@@ -265,7 +340,7 @@ export default function Home() {
       icon: BarChart3,
       title: "Business Intelligence & Analytics",
       description:
-        "Transform raw data into actionable intelligence. We've managed 500+ BI reports and built executive dashboards that drive real decisions at the C-suite level.",
+        "Transform raw data into executive clarity. We design and build dashboards, reporting pipelines, and data infrastructure that give decision-makers the intelligence to act, built right the first time, backed by enterprise-grade data engineering depth.",
       features: [
         "Executive dashboards (Sigma, Tableau, Qlik)",
         "Advanced SQL reporting & SSRS",
@@ -278,7 +353,7 @@ export default function Home() {
       icon: Brain,
       title: "AI Strategy & Transformation",
       description:
-        "Navigate the AI landscape with confidence. We design comprehensive strategies that align AI investments with business goals.",
+        "Navigate the AI landscape with confidence. We translate AI capabilities into practical, buildable systems. No hype, no slide decks. Every recommendation is grounded in what we've actually designed and deployed.",
       features: [
         "GenAI readiness & strategy",
         "Technology modernization roadmaps",
@@ -294,7 +369,7 @@ export default function Home() {
       name: "Yuga Odysseys",
       tagline: "Challenge. Decide. Grow.",
       description:
-        "A scenario-based platform where users learn and grow through real-world challenges across 24 life domains — from Ethics and Digital Literacy to Philosophy and Spirituality. Users face realistic dilemmas, decide, receive reflective guidance from AI mentor Guruji, and develop clarity over time. Not a course with an endpoint — an ongoing daily practice for life skills.",
+        "A scenario-based platform where users learn and grow through real-world challenges across 24 life domains, from Ethics and Digital Literacy to Philosophy and Spirituality. Users face realistic dilemmas, decide, receive reflective guidance from AI mentor Guruji, and develop clarity over time. Not a course with an endpoint. An ongoing daily practice for life skills.",
       features: [
         "24 life domains with 588 scenario-based challenges",
         "AI mentor (Guruji) for personalized reflective guidance",
@@ -340,25 +415,25 @@ export default function Home() {
       num: "01",
       title: "9+ Years Across US & India Enterprise",
       description:
-        "From building 111 ETL pipelines at Accenture Mumbai to managing 500+ BI reports at Embrace Home Loans in Rhode Island — we've worked across the full data lifecycle in enterprise environments spanning mortgage, financial services, and Fortune 500 organizations.",
+        "From building 111 ETL pipelines at Accenture Mumbai to managing reporting infrastructure for a top US mortgage lender. We've worked across the full data lifecycle in enterprise environments spanning mortgage, financial services, and Fortune 500 organizations.",
     },
     {
       num: "02",
       title: "Executive-Level Impact",
       description:
-        "We don't just build reports — we partner with VPs, EVPs, and department heads to drive real business outcomes. Our dashboards have identified $500K in tolerance issues, contributed to 25% faster loan processing, and 40% lower labor costs.",
+        "We don't just build reports. We partner with VPs, EVPs, and department heads to drive real business outcomes. Our dashboards have identified $500K in tolerance issues, contributed to 25% faster loan processing, and 40% lower labor costs.",
     },
     {
       num: "03",
-      title: "Builder Mentality — Not Just Strategy",
+      title: "Builder Mentality, Not Just Strategy",
       description:
-        "We ship working products. From Yuga Odysseys (concept to production in 30 days — a scenario-based platform with 588 challenges across 24 life domains) to enterprise dashboards displayed on 6 live TV screens — proof of execution, not just PowerPoint.",
+        "We ship working products. From Yuga Odysseys (concept to production in 30 days) to executive command-centre dashboards on 6 live screens. We execute, not just strategize. We stay current with every major AI advancement and use AI as a pair programmer to move fast without cutting corners. Human expertise decides; AI accelerates.",
     },
     {
       num: "04",
-      title: "Modern Stack, Deep Data Roots",
+      title: "Human Judgment. AI Speed. Zero Shortcuts.",
       description:
-        "Snowflake (3+ years production), Sigma Computing, Informatica, React Native, TypeScript, OpenAI API — we combine deep enterprise data engineering expertise with cutting-edge AI and modern development tools.",
+        "We use the best modern tools (Snowflake, Sigma, OpenAI, Claude), but tools are only as good as the judgment behind them. Every decision is made by a human with enterprise context. Every build is grounded in best practices that prevent problems before they surface, not patches applied after the fact.",
     },
   ];
 
@@ -366,18 +441,22 @@ export default function Home() {
     {
       category: "AI & Automation",
       items: ["OpenAI API / GPT-4", "Claude Code", "n8n Workflows", "LangChain", "AI-Assisted Dev", "ChatGPT"],
+      icon: <Bot className="w-8 h-8 text-[#c0392b]" />,
     },
     {
       category: "Data & Analytics",
       items: ["Snowflake (3+ yrs)", "SQL Server", "PostgreSQL", "Sigma Computing", "Informatica", "ETL / CDC"],
+      icon: <Database className="w-8 h-8 text-[#c0392b]" />,
     },
     {
       category: "BI & Visualization",
       items: ["SSRS", "Tableau", "Qlik Sense", "Executive Dashboards", "Data Warehousing", "Workforce Analytics"],
+      icon: <PieChart className="w-8 h-8 text-[#c0392b]" />,
     },
     {
       category: "Development",
       items: ["React Native", "TypeScript", "Python", "SQL (Advanced)", "Supabase", "Next.js"],
+      icon: <Code2 className="w-8 h-8 text-[#c0392b]" />,
     },
   ];
 
@@ -388,6 +467,12 @@ export default function Home() {
       <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-[#c0392b] focus:text-white">
         Skip to main content
       </a>
+
+      {/* Floating dot navigation */}
+      <FloatingDotNav active={activeSection} onNavigate={(id) => {
+        const el = document.getElementById(id);
+        if (el) el.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? "instant" : "smooth" });
+      }} />
       {/* ── Navigation ─────────────────────────────────────────── */}
       <nav
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
@@ -400,7 +485,7 @@ export default function Home() {
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             className="font-mono-custom text-sm font-bold tracking-widest text-[#f5f5f5] hover:text-[#c0392b] transition-colors duration-200"
           >
-            <span className="text-[#c0392b]" aria-hidden="true">//</span> INFINI IMAGINATOR
+            <span className="text-[#c0392b]" aria-hidden="true">//</span> INFINI IMAGINATOR TECH
           </button>
 
           {/* Desktop Nav */}
@@ -419,10 +504,12 @@ export default function Home() {
           {/* CTA */}
           <div className="hidden md:block">
             <a
-              href="mailto:mkulkarni.work@gmail.com?subject=Consultation Request"
+              href={process.env.NEXT_PUBLIC_BOOKING_URL}
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-5 py-2.5 border border-[#c0392b] text-[#c0392b] text-sm font-semibold tracking-wider hover:bg-[#c0392b] hover:text-white transition-all duration-300 font-mono-custom"
             >
-              SCHEDULE CONSULTATION
+              BOOK A FREE CALL
               <ArrowRight size={14} />
             </a>
           </div>
@@ -471,10 +558,12 @@ export default function Home() {
                   </button>
                 ))}
                 <a
-                  href="mailto:mkulkarni.work@gmail.com?subject=Consultation Request"
+                  href={process.env.NEXT_PUBLIC_BOOKING_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="mt-2 inline-flex items-center gap-2 px-5 py-3 border border-[#c0392b] text-[#c0392b] text-sm font-semibold tracking-wider hover:bg-[#c0392b] hover:text-white transition-all duration-300 font-mono-custom w-fit"
                 >
-                  SCHEDULE CONSULTATION
+                  BOOK A FREE CALL
                 </a>
               </div>
             </motion.div>
@@ -566,10 +655,12 @@ export default function Home() {
             className="flex flex-col sm:flex-row gap-4 justify-center"
           >
             <a
-              href="mailto:mkulkarni.work@gmail.com?subject=Consultation Request"
+              href={process.env.NEXT_PUBLIC_BOOKING_URL}
+              target="_blank"
+              rel="noopener noreferrer"
               className="group inline-flex items-center gap-3 px-8 py-4 bg-[#c0392b] text-white font-semibold tracking-wider hover:bg-[#e74c3c] transition-all duration-300 text-sm font-mono-custom"
             >
-              START YOUR TRANSFORMATION
+              BOOK A FREE STRATEGY CALL
               <ArrowRight
                 size={16}
                 className="group-hover:translate-x-1 transition-transform"
@@ -631,7 +722,7 @@ export default function Home() {
           <div className="grid md:grid-cols-[240px_1fr] lg:grid-cols-[280px_1fr] gap-8 lg:gap-12 mb-10">
             {/* Founder photo */}
             <FadeUp>
-              <div className="relative aspect-[3/4] overflow-hidden border border-white/10">
+              <div className="relative aspect-[3/4] overflow-hidden border border-white/10 rounded-2xl">
                 <Image
                   src="/mukul-photo.jpg"
                   alt="Mukul Kulkarni, Founder"
@@ -653,11 +744,9 @@ export default function Home() {
                 <p>
                   Infini Imaginator Tech was founded by{" "}
                   <span className="text-[#f5f5f5] font-medium">Mukul Kulkarni</span>,
-                  an analytics leader with 9+ years partnering with executives to turn data
-                  into business results. He spent 7 years as BI Data Analyst at{" "}
-                  <span className="text-[#c0392b]">Embrace Home Loans</span> in Rhode Island,
-                  working directly with VPs, EVPs, and department heads — and before that,
-                  built data engineering systems at{" "}
+                  an analytics leader with 9+ years inside enterprise data organizations across the US and India,
+                  working directly with VPs, EVPs, and department heads to turn data complexity into decisions that
+                  move the business. Before founding the company, he built data engineering systems at{" "}
                   <span className="text-[#c0392b]">Accenture</span> in Mumbai.
                 </p>
                 <p>
@@ -667,9 +756,9 @@ export default function Home() {
                   and 111 ETL pipelines delivered at enterprise scale.
                 </p>
                 <p>
-                  Today, we combine that deep enterprise data experience with modern AI tools —
-                  shipping production apps, building intelligent automation, and helping businesses
-                  move from manual processes to AI-powered systems that actually deliver.
+                  Today, we combine that enterprise depth with an AI-augmented approach, where human judgment
+                  leads every architectural decision and AI accelerates execution. Best practices aren&apos;t bolted
+                  on at the end; they&apos;re the foundation we build on from day one.
                 </p>
               </div>
             </FadeUp>
@@ -677,7 +766,7 @@ export default function Home() {
 
           {/* Stats row — full width, 4 columns */}
           <FadeUp delay={0.25}>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-white/5 border border-white/10">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-white/5 border border-white/10 rounded-2xl overflow-hidden">
               {[
                 { label: "Enterprise Experience", value: "9+ Years" },
                 { label: "Domain Expertise", value: "Mortgage · BFSI" },
@@ -710,13 +799,13 @@ export default function Home() {
                 </h2>
               </div>
               <p className="max-w-md text-[#999999] leading-relaxed md:text-right">
-                End-to-end solutions across the full AI and data spectrum — from
+                End-to-end solutions across the full AI and data spectrum, from
                 automation pipelines to executive dashboards.
               </p>
             </div>
           </FadeUp>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 divide-x divide-y divide-dashed divide-white/10 border border-dashed border-white/10 bg-white/[0.02] backdrop-blur-sm">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 divide-x divide-y divide-dashed divide-white/10 border border-dashed border-white/10 bg-white/[0.02] backdrop-blur-sm rounded-2xl overflow-hidden">
             {services.map((service, i) => (
               <FadeUp key={service.title} delay={i * 0.12}>
                 <div className="h-full">
@@ -804,7 +893,7 @@ export default function Home() {
                   {/* Visual */}
                   <div className={i % 2 === 1 ? "md:col-start-2" : ""}>
                     {product.hasImage && product.image ? (
-                      <div className="relative aspect-video overflow-hidden border border-[#f5f5f5]/08 group">
+                      <div className="relative aspect-video overflow-hidden border border-[#f5f5f5]/[0.08] group rounded-2xl">
                         <div className="absolute inset-0 bg-gradient-to-t from-[#080808]/60 to-transparent z-10" />
                         <Image
                           src={product.image}
@@ -814,7 +903,7 @@ export default function Home() {
                         />
                       </div>
                     ) : (
-                      <div className="relative aspect-video bg-[#111111] border border-white/10 overflow-hidden flex items-center justify-center group hover:border-[#c0392b]/30 transition-colors duration-500">
+                      <div className="relative aspect-video bg-[#111111] border border-white/10 overflow-hidden flex items-center justify-center group hover:border-[#c0392b]/30 transition-colors duration-500 rounded-2xl">
                         {/* Decorative grid */}
                         <div
                           className="absolute inset-0 opacity-5"
@@ -926,31 +1015,11 @@ export default function Home() {
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {techStack.map((group, i) => (
               <FadeUp key={group.category} delay={i * 0.1}>
-                <div className="relative">
-                  {/* Glow behind card */}
-                  <div className="absolute inset-0 h-full w-full bg-gradient-to-r from-[#c0392b]/20 to-[#e74c3c]/10 transform scale-[0.85] rounded-full blur-3xl" />
-
-                  {/* Card */}
-                  <div className="relative shadow-xl bg-[#111111] border border-white/10 hover:border-[#c0392b]/30 transition-all duration-500 px-6 py-8 h-full overflow-hidden rounded-2xl group">
-                    <h3 className="font-mono-custom text-xs tracking-[0.25em] text-[#c0392b] uppercase mb-6 pb-4 border-b border-white/10 relative z-10">
-                      {group.category}
-                    </h3>
-                    <ul className="space-y-3 relative z-10">
-                      {group.items.map((item) => (
-                        <li
-                          key={item}
-                          className="flex items-center gap-3 text-sm text-[#999999] hover:text-[#f5f5f5] transition-colors duration-300"
-                        >
-                          <span className="w-1 h-1 rounded-full bg-[#c0392b]/60 flex-shrink-0" />
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-
-                    {/* Meteors */}
-                    <Meteors number={20} />
-                  </div>
-                </div>
+                <HighlightCard
+                  title={group.category}
+                  description={group.items}
+                  icon={group.icon}
+                />
               </FadeUp>
             ))}
           </div>
@@ -958,7 +1027,7 @@ export default function Home() {
       </section>
 
       {/* ── Team ───────────────────────────────────────────────── */}
-      <section id="team" className="py-16 md:py-16 md:py-20 px-6 bg-[#0f0f0f]">
+      <section id="team" className="py-16 md:py-20 px-6 bg-[#0f0f0f]">
         <div className="max-w-7xl mx-auto">
           <FadeUp>
             <div className="mb-10">
@@ -970,56 +1039,86 @@ export default function Home() {
           </FadeUp>
 
           <FadeUp delay={0.15}>
-            <div className="max-w-2xl">
-              <div className="grid sm:grid-cols-[auto_1fr] gap-8 items-start">
+            <div className="relative overflow-hidden border border-white/10 bg-gradient-to-br from-[#111111] to-[#0a0a0a] rounded-2xl">
+              {/* Crimson glow accent */}
+              <div className="absolute top-0 left-0 w-72 h-72 bg-[#c0392b]/10 rounded-full blur-3xl pointer-events-none" />
+              <div className="absolute bottom-0 right-0 w-96 h-96 bg-[#c0392b]/5 rounded-full blur-3xl pointer-events-none" />
+
+              <div className="grid md:grid-cols-[340px_1fr]">
                 {/* Photo */}
-                <div className="relative w-36 h-36 sm:w-44 sm:h-44 flex-shrink-0 overflow-hidden border border-[#f5f5f5]/10">
+                <div className="relative h-64 md:h-auto min-h-[420px] overflow-hidden">
                   <Image
-                    src="/mukul-photo.jpg"
-                    alt="Mukul Kulkarni"
+                    src="/mukul-photo-2.jpg"
+                    alt="Mukul Kulkarni, Founder of Infini Imaginator Tech"
                     fill
-                    className="object-cover"
-                    style={{ objectPosition: "center 20%" }}
+                    className="object-cover object-top"
                     priority
+                    sizes="(max-width: 768px) 100vw, 340px"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0f0f0f]/40 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-[#111111] hidden md:block" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#111111] via-[#111111]/40 to-transparent md:hidden" />
                 </div>
 
-                {/* Info */}
-                <div>
-                  <h3 className="font-display text-3xl text-[#f5f5f5] leading-none mb-1">
-                    MUKUL KULKARNI
-                  </h3>
-                  <p className="font-mono-custom text-sm text-[#c0392b] tracking-wider mb-6">
-                    Founder & Principal Consultant
-                  </p>
-
-                  <div className="space-y-3 text-sm text-[#999999] leading-relaxed mb-8">
-                    <p>
-                      9+ years in enterprise data — from 500+ BI reports at Embrace Home Loans to shipping AI products. Passionate about turning complex data problems into working systems.
+                {/* Content */}
+                <div className="p-6 md:p-8 flex flex-col justify-center relative z-10">
+                  {/* Name + title */}
+                  <div className="mb-4">
+                    <h3 className="font-display text-3xl md:text-4xl text-[#f5f5f5] leading-none mb-2">
+                      MUKUL KULKARNI
+                    </h3>
+                    <p className="font-mono-custom text-xs text-[#c0392b] tracking-[0.25em] uppercase">
+                      Founder &amp; Principal Consultant
                     </p>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-4 mb-8">
+                  {/* Bio */}
+                  <div className="border-l-2 border-[#c0392b] pl-4 mb-5 space-y-2.5">
+                    <p className="text-[#cccccc] text-sm leading-relaxed">
+                      I started at <strong className="text-[#f5f5f5]">Accenture India</strong>, building 111 ETL pipelines across enterprise data landscapes. After moving to the US, I completed my <strong className="text-[#f5f5f5]">MS in Information Systems</strong> (Data &amp; BI focus) at Pace University.
+                    </p>
+                    <p className="text-[#cccccc] text-sm leading-relaxed">
+                      At <strong className="text-[#f5f5f5]">Embrace Home Loans</strong>, I managed 500+ SSRS BI reports and dashboards (50+ built from scratch), partnered with the VP of Operations on an initiative uncovering <strong className="text-[#f5f5f5]">$500K in tolerance cures</strong>, and designed 6 executive command centre dashboards on live TV screens, contributing to 25% faster loan processing.
+                    </p>
+                    <p className="text-[#999999] text-sm leading-relaxed">
+                      Today I run <strong className="text-[#c0392b]">Infini Imaginator Tech</strong>, where enterprise depth meets AI-augmented execution. I use AI as a pair programmer to move fast, human judgment to decide wisely, and best practices to make it last. <span className="text-[#cccccc] italic">&ldquo;I don&apos;t consult with slide decks. I build alongside you.&rdquo;</span>
+                    </p>
+                  </div>
+
+                  {/* Credential tiles */}
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-4">
                     {[
-                      { label: "Education", value: "MS Info Systems, Pace (3.88 GPA)" },
-                      { label: "Experience", value: "9+ Years Enterprise" },
-                      { label: "Former Roles", value: "BI Data Analyst · SE Analyst" },
-                      { label: "Specialties", value: "BI · Data Eng · AI · Product" },
+                      { label: "Experience", value: "9+ Years" },
+                      { label: "Degree", value: "MS Info Systems" },
+                      { label: "University", value: "Pace University" },
+                      { label: "GPA", value: "3.88 / 4.0" },
                     ].map((item) => (
-                      <div key={item.label} className="border-l-2 border-[#c0392b]/30 pl-3">
-                        <div className="text-[10px] font-mono-custom text-[#8a8a8a] tracking-widest uppercase mb-0.5">
+                      <div key={item.label} className="bg-white/5 border border-white/10 p-2.5 hover:border-[#c0392b]/30 transition-colors duration-300">
+                        <div className="text-[9px] font-mono-custom text-[#8a8a8a] tracking-widest uppercase mb-0.5">
                           {item.label}
                         </div>
-                        <div className="text-xs text-[#f5f5f5]">{item.value}</div>
+                        <div className="text-xs text-[#f5f5f5] font-medium leading-snug">{item.value}</div>
                       </div>
                     ))}
                   </div>
 
-                  <div className="flex gap-4">
+                  {/* Previously at */}
+                  <div className="mb-5">
+                    <p className="text-[9px] font-mono-custom text-[#8a8a8a] tracking-widest uppercase mb-2">Previously at</p>
+                    <div className="flex flex-wrap gap-2">
+                      {["Accenture", "Embrace Home Loans"].map((company) => (
+                        <span key={company} className="px-2.5 py-0.5 border border-white/10 text-xs text-[#999999] font-mono-custom tracking-wide">
+                          {company}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* CTAs */}
+                  <div className="flex gap-4 flex-wrap">
                     <a
-                      href="mailto:mkulkarni.work@gmail.com"
-                      className="inline-flex items-center gap-2 text-sm text-[#999999] hover:text-[#c0392b] transition-colors font-mono-custom tracking-wider"
+                      href="mailto:business@imaginator.in"
+                      aria-label="Email Mukul Kulkarni"
+                      className="inline-flex items-center gap-2 px-5 py-2.5 border border-[#c0392b] text-[#c0392b] text-sm font-semibold tracking-wider hover:bg-[#c0392b] hover:text-white transition-all duration-300 font-mono-custom"
                     >
                       <Mail size={14} /> EMAIL
                     </a>
@@ -1027,7 +1126,8 @@ export default function Home() {
                       href="https://www.linkedin.com/in/mukul-kulkarni/"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 text-sm text-[#999999] hover:text-[#c0392b] transition-colors font-mono-custom tracking-wider"
+                      aria-label="Mukul Kulkarni on LinkedIn (opens in new tab)"
+                      className="inline-flex items-center gap-2 px-5 py-2.5 border border-white/20 text-[#999999] text-sm font-semibold tracking-wider hover:border-[#c0392b] hover:text-[#c0392b] transition-all duration-300 font-mono-custom"
                     >
                       <Linkedin size={14} /> LINKEDIN
                     </a>
@@ -1047,8 +1147,8 @@ export default function Home() {
         {/* BackgroundPaths behind content */}
         <BackgroundPaths />
 
-        {/* Gradient overlay to keep text readable */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#080808]/80 via-[#080808]/60 to-[#080808]/90 z-[1]" />
+        {/* Gradient overlay — thin enough that paths show through the full section */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#080808]/40 via-[#080808]/10 to-[#080808]/60 z-[1]" />
 
         <div className="relative z-[2] max-w-5xl mx-auto text-center">
           <FadeUp>
@@ -1058,9 +1158,9 @@ export default function Home() {
               <span className="text-[#c0392b]">AI-POWERED</span> FUTURE
             </h2>
             <p className="text-[#999999] text-lg leading-relaxed max-w-2xl mx-auto mb-4">
-              Whether you need to automate a process, build a dashboard, or
-              completely rethink your data strategy — we&apos;re ready. Let&apos;s start
-              with a conversation.
+              Whether you need to automate a workflow, build executive dashboards, or rethink your data
+              strategy. We bring enterprise depth, AI-augmented speed, and the judgment to get it right.
+              Let&apos;s start with a conversation.
             </p>
             <p className="font-mono-custom text-xs text-[#c0392b]/80 tracking-wider mb-10">
               NO COMMITMENT · NO SALES PRESSURE · JUST A CONVERSATION
@@ -1069,20 +1169,20 @@ export default function Home() {
 
           <FadeUp delay={0.15}>
             <div className="grid sm:grid-cols-3 gap-6 mb-10 max-w-2xl mx-auto">
-              <div className="bg-[#111111]/80 backdrop-blur-sm border border-white/10 p-6 text-center">
+              <div className="bg-[#111111]/80 backdrop-blur-sm border border-white/10 p-6 text-center rounded-2xl">
                 <Mail size={20} className="text-[#c0392b] mx-auto mb-3" />
                 <p className="font-mono-custom text-[10px] tracking-widest text-[#8a8a8a] uppercase mb-2">
                   Email
                 </p>
                 <a
-                  href="mailto:mkulkarni.work@gmail.com"
+                  href="mailto:business@imaginator.in"
                   className="text-sm text-[#f5f5f5] hover:text-[#c0392b] transition-colors break-all"
                 >
-                  mkulkarni.work@gmail.com
+                  business@imaginator.in
                 </a>
               </div>
 
-              <div className="bg-[#111111]/80 backdrop-blur-sm border border-white/10 p-6 text-center">
+              <div className="bg-[#111111]/80 backdrop-blur-sm border border-white/10 p-6 text-center rounded-2xl">
                 <Linkedin size={20} className="text-[#c0392b] mx-auto mb-3" />
                 <p className="font-mono-custom text-[10px] tracking-widest text-[#8a8a8a] uppercase mb-2">
                   LinkedIn
@@ -1097,7 +1197,7 @@ export default function Home() {
                 </a>
               </div>
 
-              <div className="bg-[#111111]/80 backdrop-blur-sm border border-white/10 p-6 text-center">
+              <div className="bg-[#111111]/80 backdrop-blur-sm border border-white/10 p-6 text-center rounded-2xl">
                 <Clock size={20} className="text-[#c0392b] mx-auto mb-3" />
                 <p className="font-mono-custom text-[10px] tracking-widest text-[#8a8a8a] uppercase mb-2">
                   Response Time
@@ -1109,10 +1209,12 @@ export default function Home() {
 
           <FadeUp delay={0.25}>
             <a
-              href="mailto:mkulkarni.work@gmail.com?subject=Consultation Request — Infini Imaginator Tech"
+              href={process.env.NEXT_PUBLIC_BOOKING_URL}
+              target="_blank"
+              rel="noopener noreferrer"
               className="group inline-flex items-center gap-4 px-10 py-5 bg-[#c0392b] text-white font-semibold tracking-wider hover:bg-[#e74c3c] transition-all duration-300 text-sm font-mono-custom"
             >
-              SCHEDULE A FREE CONSULTATION
+              BOOK A FREE 30-MIN CALL
               <ArrowRight
                 size={16}
                 className="group-hover:translate-x-1 transition-transform"
@@ -1138,7 +1240,7 @@ export default function Home() {
 
           <div className="flex gap-6">
             <a
-              href="mailto:mkulkarni.work@gmail.com"
+              href="mailto:business@imaginator.in"
               className="p-3 -m-3 text-[#8a8a8a] hover:text-[#c0392b] transition-colors"
               aria-label="Email"
             >

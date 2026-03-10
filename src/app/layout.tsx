@@ -121,7 +121,7 @@ const organizationSchema = {
   name: "Infini Imaginator Tech",
   url: siteUrl,
   logo: `${siteUrl}/logo.svg`,
-  email: "mkulkarni.work@gmail.com",
+  email: "business@imaginator.in",
   description:
     "AI automation and business intelligence consulting firm specialising in n8n workflow automation, Snowflake data engineering, executive dashboards, and AI strategy for enterprises.",
   founder: {
@@ -130,7 +130,7 @@ const organizationSchema = {
     name: "Mukul Kulkarni",
     jobTitle: "Founder & Principal Consultant",
     url: "https://www.linkedin.com/in/mukul-kulkarni/",
-    email: "mkulkarni.work@gmail.com",
+    email: "business@imaginator.in",
     alumniOf: {
       "@type": "CollegeOrUniversity",
       name: "Pace University",
@@ -205,8 +205,8 @@ const websiteSchema = {
   publisher: { "@id": `${siteUrl}/#organization` },
   potentialAction: {
     "@type": "ContactAction",
-    target: `mailto:mkulkarni.work@gmail.com`,
-    name: "Schedule a Free Consultation",
+    target: process.env.NEXT_PUBLIC_BOOKING_URL ?? `mailto:business@imaginator.in`,
+    name: "Book a Free Strategy Consultation",
   },
 };
 
@@ -243,12 +243,12 @@ const faqSchema = {
       name: "How much does AI automation consulting cost?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Infini Imaginator Tech offers a free initial consultation with no commitment and no sales pressure. Pricing is scoped based on project requirements. Contact mkulkarni.work@gmail.com to start a conversation.",
+        text: "Infini Imaginator Tech offers a free initial consultation with no commitment and no sales pressure. Pricing is scoped based on project requirements. Contact business@imaginator.in to start a conversation.",
       },
     },
     {
       "@type": "Question",
-      name: "What is n8n and how does Infini Imaginator use it?",
+      name: "What is n8n and how does Infini Imaginator Tech use it?",
       acceptedAnswer: {
         "@type": "Answer",
         text: "n8n is an open-source workflow automation platform. Infini Imaginator Tech uses n8n to build custom business automation workflows, connecting APIs, databases, and AI models to eliminate repetitive manual processes for clients.",
