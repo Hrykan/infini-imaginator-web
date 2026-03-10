@@ -4,6 +4,37 @@ All notable changes to the Infini Imaginator Tech landing page.
 
 ---
 
+## [1.5.0] — 2026-03-11 IST
+
+### Business Email
+- Replaced `mkulkarni.work@gmail.com` with `business@imaginator.in` across all 8 occurrences
+  - `page.tsx`: Founder email link, Contact email card (href + display text), Footer mail icon
+  - `layout.tsx`: JSON-LD email fields (×2), ContactAction fallback, FAQ answer text
+- Email routing already configured in Cloudflare: `business@imaginator.in` forwards to Gmail
+
+### Production Deployment — First Live Deploy
+- Deployed to Vercel production via CLI (`vercel deploy --prod`)
+- Clean build: compiled in 7.3s, 0 errors, 0 warnings
+- 5 static routes: `/`, `/_not-found`, `/icon.svg`, `/robots.txt`, `/sitemap.xml`
+- Live URL: https://infini-imaginator-tech.vercel.app
+
+### Domain — imaginator.in Connected
+- Added `imaginator.in` and `www.imaginator.in` as custom domains in Vercel
+- Cloudflare DNS configured for both:
+  - Root: `A @ → 216.198.79.1` (Vercel IP), proxied: OFF
+  - www: `CNAME www → f731b609b6345bf9.verce...` (Vercel), proxied: OFF
+- Removed conflicting A records that pointed to old hosting IPs (`65.20.83.134`, `213.210.37.215`)
+- `www.imaginator.in` — Valid Configuration confirmed
+- `imaginator.in` — DNS propagating (record set, Vercel verification pending)
+- **Note:** Cloudflare proxy must stay OFF on both records — double-proxying breaks Vercel SSL
+
+### Environment Variables — Vercel Production
+- `NEXT_PUBLIC_BOOKING_URL` added to Vercel production environment via CLI
+- Value: `https://calendar.app.google/Rpjucz8wLz9HhQe49` (Google Calendar Appointment Schedule)
+- `.env.local` holds local dev values — gitignored, not committed
+
+---
+
 ## [1.4.0] — 2026-03-11 IST
 
 ### Booking CTAs — Google Calendar Integration
