@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <!-- Dark background -->
+  <rect width="512" height="512" rx="80" fill="#080808"/>
+
+  <!-- Left "I" pillar -->
+  <rect x="108" y="112" width="88" height="288" rx="20" fill="#E8E8E8"/>
+
+  <!-- Right "I" pillar -->
+  <rect x="316" y="112" width="88" height="288" rx="20" fill="#E8E8E8"/>
+
+  <!-- Crimson connector — data flow / brand accent -->
+  <rect x="108" y="232" width="296" height="48" rx="12" fill="#C0392B"/>
+</svg>
