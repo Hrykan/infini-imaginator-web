@@ -487,7 +487,13 @@ export default function Home() {
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             className="font-mono-custom text-sm font-bold tracking-widest text-[#f5f5f5] hover:text-[#c0392b] transition-colors duration-200"
           >
-            <span className="text-[#c0392b]" aria-hidden="true">//</span> INFINI IMAGINATOR TECH
+            <span className="inline-flex items-center gap-2.5">
+              <svg width="20" height="20" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <rect x="7" y="7" width="6" height="18" rx="1.5" fill="#C0392B"/>
+                <rect x="19" y="7" width="6" height="18" rx="1.5" fill="#C0392B"/>
+              </svg>
+              INFINI IMAGINATOR TECH
+            </span>
           </button>
 
           {/* Desktop Nav */}

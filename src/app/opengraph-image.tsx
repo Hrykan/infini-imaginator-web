@@ -21,18 +21,10 @@ export default async function Image() {
           padding: "60px",
         }}
       >
-        {/* II monogram */}
-        <div style={{ display: "flex", alignItems: "center", gap: "0px", marginBottom: "40px" }}>
-          {/* Left I */}
-          <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-            <div style={{ width: "18px", height: "72px", background: "#C0392B", borderRadius: "4px" }} />
-          </div>
-          {/* Connector */}
-          <div style={{ width: "36px", height: "14px", background: "#E8E8E8", borderRadius: "3px", margin: "0 -2px" }} />
-          {/* Right I */}
-          <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-            <div style={{ width: "18px", height: "72px", background: "#C0392B", borderRadius: "4px" }} />
-          </div>
+        {/* II monogram — two crimson pillars, no connector */}
+        <div style={{ display: "flex", alignItems: "center", gap: "16px", marginBottom: "40px" }}>
+          <div style={{ width: "18px", height: "72px", background: "#C0392B", borderRadius: "4px" }} />
+          <div style={{ width: "18px", height: "72px", background: "#C0392B", borderRadius: "4px" }} />
         </div>
 
         {/* Brand name */}
