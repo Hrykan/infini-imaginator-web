@@ -2,12 +2,12 @@
   <!-- Dark background -->
   <rect width="32" height="32" rx="6" fill="#080808"/>
 
-  <!-- Left "I" pillar -->
-  <rect x="7" y="7" width="5.5" height="18" rx="1.5" fill="#E8E8E8"/>
+  <!-- Left "I" — crimson -->
+  <rect x="7" y="7" width="5.5" height="18" rx="1.5" fill="#C0392B"/>
 
-  <!-- Right "I" pillar -->
-  <rect x="19.5" y="7" width="5.5" height="18" rx="1.5" fill="#E8E8E8"/>
+  <!-- Right "I" — crimson -->
+  <rect x="19.5" y="7" width="5.5" height="18" rx="1.5" fill="#C0392B"/>
 
-  <!-- Crimson connector — data flow / brand accent -->
-  <rect x="7" y="14.5" width="18" height="3" rx="1" fill="#C0392B"/>
+  <!-- White connector bar -->
+  <rect x="7" y="14.25" width="18" height="3.5" rx="1" fill="#E8E8E8"/>
 </svg>

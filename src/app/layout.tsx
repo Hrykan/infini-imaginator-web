@@ -29,7 +29,6 @@ export const metadata: Metadata = {
     icon: [
       { url: "/icon.svg", type: "image/svg+xml" },
     ],
-    apple: "/apple-touch-icon.png",
     shortcut: "/icon.svg",
   },
 
@@ -95,7 +94,7 @@ export const metadata: Metadata = {
       "Enterprise AI automation and BI consulting with 9+ years of experience. We build AI agents, data pipelines, and executive dashboards that drive measurable business outcomes.",
     images: [
       {
-        url: "/og-image.png",
+        url: "/opengraph-image",
         width: 1200,
         height: 630,
         alt: "Infini Imaginator Tech — AI Automation & Business Intelligence Consulting",

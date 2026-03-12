@@ -285,12 +285,14 @@ export default function Home() {
   }, []);
 
   const scrollToSection = useCallback((id: string) => {
-    const el = document.getElementById(id);
-    if (el) {
-      const behavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? "instant" as ScrollBehavior : "smooth" as ScrollBehavior;
-      el.scrollIntoView({ behavior });
-      setMobileMenuOpen(false);
-    }
+    setMobileMenuOpen(false);
+    setTimeout(() => {
+      const el = document.getElementById(id);
+      if (el) {
+        const behavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? "instant" as ScrollBehavior : "smooth" as ScrollBehavior;
+        el.scrollIntoView({ behavior });
+      }
+    }, 300);
   }, []);
 
   // Hero headline characters
@@ -605,15 +607,17 @@ export default function Home() {
             style={{ perspective: "800px" }}
             aria-label={headline}
           >
-            {headlineChars.map((char, i) => (
-              <motion.span
-                key={i}
-                variants={charVariants}
-                className="inline-block"
-                style={{ display: char === " " ? "inline" : "inline-block" }}
-              >
-                {char === " " ? "\u00A0" : char}
-              </motion.span>
+            {headline.split(" ").map((word, wi, words) => (
+              <span key={wi} className="inline-block whitespace-nowrap">
+                {word.split("").map((char, ci) => (
+                  <motion.span key={ci} variants={charVariants} className="inline-block">
+                    {char}
+                  </motion.span>
+                ))}
+                {wi < words.length - 1 && (
+                  <motion.span variants={charVariants} className="inline-block">&nbsp;</motion.span>
+                )}
+              </span>
             ))}
           </motion.h1>
 
