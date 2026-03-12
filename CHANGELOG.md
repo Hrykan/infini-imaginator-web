@@ -4,6 +4,48 @@ All notable changes to the Infini Imaginator Tech landing page.
 
 ---
 
+## [1.7.0] — 2026-03-12 IST
+
+### Domain Alias — yuga.life → yugaodysseys.in Redirect
+
+- Purchased `yuga.life` on Hostinger as a short, shareable alias for the Yuga Odysseys product
+- Created 301 (permanent) redirect via Hostinger Domain Forwarding API:
+  - `http://yuga.life` → `https://yugaodysseys.in`
+- Verified live with `curl -I http://yuga.life` — returns `301 Moved Permanently`, `Location: https://yugaodysseys.in`
+- `yugaodysseys.in` DNS, Cloudflare config, and SEO remain untouched — `yuga.life` is alias-only
+- No Cloudflare migration needed for `yuga.life` — Hostinger parking DNS handles the forward natively
+- `www.yuga.life` forwarding not supported as a separate entry (Hostinger apex-only forwarding); apex redirect covers primary use case
+
+---
+
+## [1.6.0] — 2026-03-11 IST
+
+### Infrastructure — DNS Migration to Cloudflare
+
+- Migrated DNS for both `imaginator.in` and `yugaodysseys.in` from Hostinger parking DNS to Cloudflare (free plan)
+- Cloudflare account: `mkulkarni.work@gmail.com`
+- Nameservers updated at Hostinger via API: `itzel.ns.cloudflare.com` / `jose.ns.cloudflare.com`
+- All existing DNS records preserved and migrated — including VPS A records, Vercel CNAMEs, subdomains
+- Missing subdomains added to Cloudflare that scanner missed: `yuga-odysseys`, `yo`, `research`, `mytharaatech`, `_lovable.mytharaatech`
+- AI training bot crawlers blocked on all pages for both domains (Cloudflare AI Crawl Control)
+- Wildcard `*.imaginator.in → 213.210.37.215` means new subdomains auto-resolve to VPS without DNS changes
+
+### Email — Custom Domain Addresses
+
+- Set up `business@imaginator.in` → forwards to `mkulkarni.work@gmail.com` via Cloudflare Email Routing
+- Set up `support@yugaodysseys.in` → forwards to `mkulkarni.work@gmail.com` via Cloudflare Email Routing
+- Gmail "Send as" configured for both addresses using Gmail SMTP + App Password
+- Both addresses fully functional for inbound and outbound
+- `business@imaginator.in` replaces `mkulkarni.work@gmail.com` in all public-facing references
+
+### Tooling — Hostinger & Cloudflare MCP
+
+- Hostinger MCP (`hostinger-api-mcp`) configured in Claude Code for `infini-imaginator-tech` project
+- Cloudflare API token (`$CLOUDFLARE_API_TOKEN`) stored in `~/.zshrc`, Zone DNS Edit scope
+- `imaginator-cloudflare` skill created at `~/.claude/skills/imaginator-cloudflare/` with zone IDs, DNS inventory, and deployment patterns
+
+---
+
 ## [1.5.0] — 2026-03-11 IST
 
 ### Business Email
