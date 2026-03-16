@@ -21,10 +21,10 @@ export default async function Image() {
           padding: "60px",
         }}
       >
-        {/* II monogram — two crimson pillars, no connector */}
-        <div style={{ display: "flex", alignItems: "center", gap: "16px", marginBottom: "40px" }}>
-          <div style={{ width: "18px", height: "72px", background: "#C0392B", borderRadius: "4px" }} />
-          <div style={{ width: "18px", height: "72px", background: "#C0392B", borderRadius: "4px" }} />
+        {/* // slash mark */}
+        <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "40px" }}>
+          <div style={{ width: "14px", height: "72px", background: "#C0392B", borderRadius: "4px", transform: "skewX(-15deg)" }} />
+          <div style={{ width: "14px", height: "72px", background: "#C0392B", borderRadius: "4px", transform: "skewX(-15deg)" }} />
         </div>
 
         {/* Brand name */}
