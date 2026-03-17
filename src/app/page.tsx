@@ -492,7 +492,7 @@ export default function Home() {
                 <rect x="9" y="7" width="3.5" height="18" rx="1" transform="rotate(15 9 7)" fill="#C0392B"/>
                 <rect x="18" y="7" width="3.5" height="18" rx="1" transform="rotate(15 18 7)" fill="#C0392B"/>
               </svg>
-              INFINI IMAGINATOR TECH
+              INFINI IMAGINATOR
             </span>
           </button>
 
@@ -752,7 +752,7 @@ export default function Home() {
             <FadeUp delay={0.15}>
               <div className="space-y-4 text-[#999999] leading-relaxed text-[15px]">
                 <p>
-                  Infini Imaginator Tech was founded by{" "}
+                  Infini Imaginator was founded by{" "}
                   <span className="text-[#f5f5f5] font-medium">Mukul Kulkarni</span>,
                   an analytics leader with 9+ years inside enterprise data organizations across the US and India,
                   working directly with VPs, EVPs, and department heads to turn data complexity into decisions that
@@ -1059,7 +1059,7 @@ export default function Home() {
                 <div className="relative h-64 md:h-auto min-h-[420px] overflow-hidden">
                   <Image
                     src="/mukul-photo-2.jpg"
-                    alt="Mukul Kulkarni, Founder of Infini Imaginator Tech"
+                    alt="Mukul Kulkarni, Founder of Infini Imaginator"
                     fill
                     className="object-cover object-top"
                     priority
@@ -1090,7 +1090,7 @@ export default function Home() {
                       At <strong className="text-[#f5f5f5]">Embrace Home Loans</strong>, I managed 500+ SSRS BI reports and dashboards (50+ built from scratch), partnered with the VP of Operations on an initiative uncovering <strong className="text-[#f5f5f5]">$500K in tolerance cures</strong>, and designed 6 executive command centre dashboards on live TV screens, contributing to 25% faster loan processing.
                     </p>
                     <p className="text-[#999999] text-sm leading-relaxed">
-                      Today I run <strong className="text-[#c0392b]">Infini Imaginator Tech</strong>, where enterprise depth meets AI-augmented execution. I use AI as a pair programmer to move fast, human judgment to decide wisely, and best practices to make it last. <span className="text-[#cccccc] italic">&ldquo;I don&apos;t consult with slide decks. I build alongside you.&rdquo;</span>
+                      Today I run <strong className="text-[#c0392b]">Infini Imaginator</strong>, where enterprise depth meets AI-augmented execution. I use AI as a pair programmer to move fast, human judgment to decide wisely, and best practices to make it last. <span className="text-[#cccccc] italic">&ldquo;I don&apos;t consult with slide decks. I build alongside you.&rdquo;</span>
                     </p>
                   </div>
 
@@ -1241,11 +1241,11 @@ export default function Home() {
       <footer className="bg-[#080808] border-t border-white/10 py-10 px-6">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="font-mono-custom text-sm font-bold tracking-widest text-[#8a8a8a]">
-            <span className="text-[#c0392b]">//</span> INFINI IMAGINATOR TECH
+            <span className="text-[#c0392b]">//</span> INFINI IMAGINATOR
           </div>
 
           <p className="font-mono-custom text-xs text-[#8a8a8a] tracking-wider text-center">
-            &copy; {new Date().getFullYear()} Infini Imaginator Tech. All rights reserved.
+            &copy; {new Date().getFullYear()} Infini Imaginator. All rights reserved.
           </p>
 
           <div className="flex gap-6">

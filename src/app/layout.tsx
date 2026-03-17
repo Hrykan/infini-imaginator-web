@@ -33,8 +33,8 @@ export const metadata: Metadata = {
   },
 
   title: {
-    default: "Infini Imaginator Tech | AI Automation & Business Intelligence Consulting",
-    template: "%s | Infini Imaginator Tech",
+    default: "Infini Imaginator | AI Automation & Business Intelligence Consulting",
+    template: "%s | Infini Imaginator",
   },
   description:
     "Enterprise AI automation and business intelligence consulting. 9+ years, 500+ BI reports, $500K in actionable insights. We build AI agents, n8n workflows, Snowflake pipelines, and executive dashboards that deliver measurable ROI.",
@@ -59,13 +59,13 @@ export const metadata: Metadata = {
     "Informatica ETL",
     "SQL Server BI",
     "Mukul Kulkarni consultant",
-    "Infini Imaginator Tech",
+    "Infini Imaginator",
     "imaginator.in",
   ],
 
   authors: [{ name: "Mukul Kulkarni", url: "https://www.linkedin.com/in/mukul-kulkarni/" }],
   creator: "Mukul Kulkarni",
-  publisher: "Infini Imaginator Tech",
+  publisher: "Infini Imaginator",
   category: "technology",
 
   robots: {
@@ -88,8 +88,8 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: siteUrl,
-    siteName: "Infini Imaginator Tech",
-    title: "Infini Imaginator Tech | AI Automation & Business Intelligence Consulting",
+    siteName: "Infini Imaginator",
+    title: "Infini Imaginator | AI Automation & Business Intelligence Consulting",
     description:
       "Enterprise AI automation and BI consulting with 9+ years of experience. We build AI agents, data pipelines, and executive dashboards that drive measurable business outcomes.",
     images: [
@@ -97,14 +97,14 @@ export const metadata: Metadata = {
         url: "/opengraph-image",
         width: 1200,
         height: 630,
-        alt: "Infini Imaginator Tech — AI Automation & Business Intelligence Consulting",
+        alt: "Infini Imaginator — AI Automation & Business Intelligence Consulting",
       },
     ],
   },
 
   twitter: {
     card: "summary_large_image",
-    title: "Infini Imaginator Tech | AI Automation & BI Consulting",
+    title: "Infini Imaginator | AI Automation & BI Consulting",
     description:
       "9+ years enterprise consulting. AI automation, n8n workflows, Snowflake, executive dashboards. $500K in actionable insights delivered.",
     images: ["/og-image.png"],
@@ -117,7 +117,7 @@ const organizationSchema = {
   "@context": "https://schema.org",
   "@type": "ProfessionalService",
   "@id": `${siteUrl}/#organization`,
-  name: "Infini Imaginator Tech",
+  name: "Infini Imaginator",
   url: siteUrl,
   logo: `${siteUrl}/logo.svg`,
   email: "business@imaginator.in",
@@ -199,7 +199,7 @@ const websiteSchema = {
   "@type": "WebSite",
   "@id": `${siteUrl}/#website`,
   url: siteUrl,
-  name: "Infini Imaginator Tech",
+  name: "Infini Imaginator",
   description: "AI Automation & Business Intelligence Consulting",
   publisher: { "@id": `${siteUrl}/#organization` },
   potentialAction: {
@@ -215,10 +215,10 @@ const faqSchema = {
   mainEntity: [
     {
       "@type": "Question",
-      name: "What services does Infini Imaginator Tech offer?",
+      name: "What services does Infini Imaginator offer?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Infini Imaginator Tech offers three core services: AI Automation & Integration (n8n workflows, AI agents, API orchestration), Business Intelligence & Analytics (executive dashboards, Snowflake, ETL pipelines, Tableau/Qlik/Sigma reporting), and AI Strategy & Transformation (GenAI readiness, modernisation roadmaps, ROI frameworks).",
+        text: "Infini Imaginator offers three core services: AI Automation & Integration (n8n workflows, AI agents, API orchestration), Business Intelligence & Analytics (executive dashboards, Snowflake, ETL pipelines, Tableau/Qlik/Sigma reporting), and AI Strategy & Transformation (GenAI readiness, modernisation roadmaps, ROI frameworks).",
       },
     },
     {
@@ -226,15 +226,15 @@ const faqSchema = {
       name: "Who is Mukul Kulkarni?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Mukul Kulkarni is the founder and principal consultant at Infini Imaginator Tech. He has 9+ years of enterprise data experience across Accenture India and Embrace Home Loans in the US. He holds an MS in Information Systems from Pace University (3.88 GPA) and specialises in business intelligence, AI automation, data engineering, and product development.",
+        text: "Mukul Kulkarni is the founder and principal consultant at Infini Imaginator. He has 9+ years of enterprise data experience across Accenture India and Embrace Home Loans in the US. He holds an MS in Information Systems from Pace University (3.88 GPA) and specialises in business intelligence, AI automation, data engineering, and product development.",
       },
     },
     {
       "@type": "Question",
-      name: "What is Infini Imaginator Tech's experience with Snowflake?",
+      name: "What is Infini Imaginator's experience with Snowflake?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Infini Imaginator Tech has 3+ years of production Snowflake experience, including data warehouse architecture, ETL pipeline design, and integration with BI tools like Sigma Computing and Tableau.",
+        text: "Infini Imaginator has 3+ years of production Snowflake experience, including data warehouse architecture, ETL pipeline design, and integration with BI tools like Sigma Computing and Tableau.",
       },
     },
     {
@@ -242,28 +242,28 @@ const faqSchema = {
       name: "How much does AI automation consulting cost?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Infini Imaginator Tech offers a free initial consultation with no commitment and no sales pressure. Pricing is scoped based on project requirements. Contact business@imaginator.in to start a conversation.",
+        text: "Infini Imaginator offers a free initial consultation with no commitment and no sales pressure. Pricing is scoped based on project requirements. Contact business@imaginator.in to start a conversation.",
       },
     },
     {
       "@type": "Question",
-      name: "What is n8n and how does Infini Imaginator Tech use it?",
+      name: "What is n8n and how does Infini Imaginator use it?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "n8n is an open-source workflow automation platform. Infini Imaginator Tech uses n8n to build custom business automation workflows, connecting APIs, databases, and AI models to eliminate repetitive manual processes for clients.",
+        text: "n8n is an open-source workflow automation platform. Infini Imaginator uses n8n to build custom business automation workflows, connecting APIs, databases, and AI models to eliminate repetitive manual processes for clients.",
       },
     },
     {
       "@type": "Question",
-      name: "Does Infini Imaginator Tech build AI products?",
+      name: "Does Infini Imaginator build AI products?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Yes. Infini Imaginator Tech has built production AI products including Yuga Odysseys (a scenario-based personal growth platform with 588 challenges across 24 life domains) and an AI-powered Research Assistant that automates competitive intelligence gathering. Products are built using React Native, Next.js, TypeScript, OpenAI API, and Supabase.",
+        text: "Yes. Infini Imaginator has built production AI products including Yuga Odysseys (a scenario-based personal growth platform with 588 challenges across 24 life domains) and an AI-powered Research Assistant that automates competitive intelligence gathering. Products are built using React Native, Next.js, TypeScript, OpenAI API, and Supabase.",
       },
     },
     {
       "@type": "Question",
-      name: "What results has Infini Imaginator Tech delivered for clients?",
+      name: "What results has Infini Imaginator delivered for clients?",
       acceptedAnswer: {
         "@type": "Answer",
         text: "Key results include: identifying $500K in data tolerance issues through executive dashboards at Embrace Home Loans, contributing to 25% faster loan processing time, achieving 40% lower labour costs, managing 500+ BI reports, and building 111 ETL pipelines at Accenture.",
@@ -271,10 +271,10 @@ const faqSchema = {
     },
     {
       "@type": "Question",
-      name: "What BI tools does Infini Imaginator Tech work with?",
+      name: "What BI tools does Infini Imaginator work with?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Infini Imaginator Tech works with Tableau, Qlik Sense, Sigma Computing, SSRS, and custom executive dashboard development. They specialise in connecting these tools to Snowflake, SQL Server, and PostgreSQL data warehouses.",
+        text: "Infini Imaginator works with Tableau, Qlik Sense, Sigma Computing, SSRS, and custom executive dashboard development. They specialise in connecting these tools to Snowflake, SQL Server, and PostgreSQL data warehouses.",
       },
     },
   ],
