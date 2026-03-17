@@ -1,6 +1,31 @@
-# Changelog — Infini Imaginator Tech Website
+# Changelog — Infini Imaginator Website
 
-All notable changes to the Infini Imaginator Tech landing page.
+All notable changes to the Infini Imaginator landing page.
+
+---
+
+## [1.8.0] — 2026-03-17 IST
+
+### Brand Rename + Design System
+
+**Brand rename: "Infini Imaginator Tech" → "Infini Imaginator"**
+- Company is registering as "Infini Imaginator" Private Limited — removed "Tech" from all occurrences
+- Updated: nav logo, footer, page title metadata, OG title, Twitter card title, JSON-LD schemas (ProfessionalService name, FAQPage answers, WebSite name, founder knowsAbout context)
+
+**Design system tokens added to `globals.css`**
+- CSS custom properties: `--ii-white`, `--ii-muted`, `--ii-dim`, `--ii-crimson`, `--ii-crimson-hover`, `--ii-bg`, `--ii-card`, `--ii-border`
+- Named type-scale utility classes with inline documentation:
+  - `.type-hero` — Bebas Neue fluid hero display (`clamp(2.5rem, 6vw, 5.5rem)`)
+  - `.type-stat` — Bebas Neue fluid stat numbers (`clamp(2.5rem, 6vw, 5rem)`)
+  - `.type-section` — Bebas Neue section h2 (fluid 2→3rem)
+  - `.type-card-heading` — Bebas Neue card h3 (fluid 1.75→2.25rem)
+  - `.type-sub-heading` — Bebas Neue sub-heading (fluid 1.25→1.5rem)
+  - `.type-label` — Space Mono section tag (0.75rem, tracked, crimson)
+  - `.type-body-lg` — DM Sans large prose (fluid 1→1.25rem)
+  - `.type-body` — DM Sans standard body (15px)
+  - `.type-body-sm` — DM Sans caption (14px)
+  - `.type-cta` — Space Mono button / nav (14px, tracked)
+  - `.type-tag` — Space Mono tech chip (12px, tracked, uppercase)
 
 ---
 
