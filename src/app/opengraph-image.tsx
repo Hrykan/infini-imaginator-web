@@ -23,8 +23,8 @@ export default async function Image() {
       >
         {/* // slash mark */}
         <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "40px" }}>
-          <div style={{ width: "14px", height: "72px", background: "#C0392B", borderRadius: "4px", transform: "skewX(-15deg)" }} />
-          <div style={{ width: "14px", height: "72px", background: "#C0392B", borderRadius: "4px", transform: "skewX(-15deg)" }} />
+          <div style={{ width: "14px", height: "72px", background: "#C0392B", borderRadius: "4px", transform: "skewX(15deg)" }} />
+          <div style={{ width: "14px", height: "72px", background: "#C0392B", borderRadius: "4px", transform: "skewX(15deg)" }} />
         </div>
 
         {/* Brand name */}

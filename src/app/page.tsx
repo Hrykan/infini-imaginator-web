@@ -489,8 +489,8 @@ export default function Home() {
           >
             <span className="inline-flex items-center gap-2.5">
               <svg width="20" height="20" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <rect x="9" y="7" width="3.5" height="18" rx="1" transform="rotate(-15 9 7)" fill="#C0392B"/>
-                <rect x="18" y="7" width="3.5" height="18" rx="1" transform="rotate(-15 18 7)" fill="#C0392B"/>
+                <rect x="9" y="7" width="3.5" height="18" rx="1" transform="rotate(15 9 7)" fill="#C0392B"/>
+                <rect x="18" y="7" width="3.5" height="18" rx="1" transform="rotate(15 18 7)" fill="#C0392B"/>
               </svg>
               INFINI IMAGINATOR TECH
             </span>
