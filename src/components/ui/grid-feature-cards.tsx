@@ -23,19 +23,19 @@ export function FeatureCard({ feature, className, ...props }: FeatureCardProps) 
     return (
         <div className={cn('relative overflow-hidden p-6', className)} {...props}>
             <div className="pointer-events-none absolute top-0 left-1/2 -mt-2 -ml-20 h-full w-full [mask-image:linear-gradient(white,transparent)]">
-                <div className="absolute inset-0 bg-gradient-to-r from-[#c0392b]/5 to-[#c0392b]/[0.01] [mask-image:radial-gradient(farthest-side_at_top,white,transparent)] opacity-100">
+                <div className="absolute inset-0 bg-gradient-to-r from-[#e74c3c]/5 to-[#e74c3c]/[0.01] [mask-image:radial-gradient(farthest-side_at_top,white,transparent)] opacity-100">
                     <GridPattern
                         width={20}
                         height={20}
                         x="-12"
                         y="4"
                         squares={squares}
-                        className="fill-[#c0392b]/5 stroke-[#c0392b]/25 absolute inset-0 h-full w-full mix-blend-overlay"
+                        className="fill-[#e74c3c]/5 stroke-[#e74c3c]/25 absolute inset-0 h-full w-full mix-blend-overlay"
                     />
                 </div>
             </div>
-            <feature.icon className="text-[#c0392b] size-6" strokeWidth={1} aria-hidden />
-            <h3 className="mt-10 text-sm md:text-base text-[#f5f5f5] font-medium">{feature.title}</h3>
+            <feature.icon className="text-[#e74c3c] size-6" strokeWidth={1} aria-hidden />
+            <h3 className="mt-10 font-display text-xl md:text-2xl text-[#f5f5f5] tracking-wide leading-none">{feature.title}</h3>
             <p className="text-[#999999] relative z-20 mt-2 text-xs font-light leading-relaxed">{feature.description}</p>
         </div>
     );

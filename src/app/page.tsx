@@ -705,7 +705,7 @@ export default function Home() {
       {/* ── About ──────────────────────────────────────────────── */}
       <section
         id="about"
-        className="relative py-16 md:py-16 md:py-20 px-6 bg-[#0f0f0f] clip-diagonal-top overflow-hidden"
+        className="relative py-16 md:py-20 px-6 bg-[#0f0f0f] clip-diagonal-top overflow-hidden"
       >
         {/* GradientDots background effect */}
         <GradientDots
@@ -798,7 +798,7 @@ export default function Home() {
       </section>
 
       {/* ── Services ───────────────────────────────────────────── */}
-      <section id="services" className="py-16 md:py-16 md:py-20 px-6 bg-[#080808]">
+      <section id="services" className="py-16 md:py-20 px-6 bg-[#080808]">
         <div className="max-w-7xl mx-auto">
           <FadeUp>
             <div className="mb-10 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
@@ -838,11 +838,29 @@ export default function Home() {
               </FadeUp>
             ))}
           </div>
+
+          {/* Services CTA strip */}
+          <FadeUp delay={0.2}>
+            <div className="mt-12 flex flex-col sm:flex-row items-center justify-between gap-6 border-t border-white/10 pt-10">
+              <p className="text-[#999999] type-body-sm max-w-md">
+                Not sure which service fits? Start with a free 30-min call — we&apos;ll scope it together.
+              </p>
+              <a
+                href={process.env.NEXT_PUBLIC_BOOKING_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group inline-flex items-center gap-2 px-6 py-3 border border-[#e74c3c] text-[#e74c3c] hover:bg-[#e74c3c] hover:text-white transition-all duration-300 type-cta whitespace-nowrap flex-shrink-0"
+              >
+                BOOK A FREE CALL
+                <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+              </a>
+            </div>
+          </FadeUp>
         </div>
       </section>
 
       {/* ── Products ───────────────────────────────────────────── */}
-      <section id="products" className="py-16 md:py-16 md:py-20 px-6 bg-[#0f0f0f]">
+      <section id="products" className="py-16 md:py-20 px-6 bg-[#0f0f0f]">
         <div className="max-w-7xl mx-auto">
           <FadeUp>
             <div className="mb-10">
@@ -972,11 +990,29 @@ export default function Home() {
               </FadeUp>
             ))}
           </div>
+
+          {/* Stats CTA strip */}
+          <FadeUp delay={0.35}>
+            <div className="mt-12 text-center">
+              <p className="type-body-sm text-[#8a8a8a] mb-6">
+                These results came from real enterprise engagements — not projections.
+              </p>
+              <a
+                href={process.env.NEXT_PUBLIC_BOOKING_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group inline-flex items-center gap-2 px-6 py-3 border border-[#e74c3c] text-[#e74c3c] hover:bg-[#e74c3c] hover:text-white transition-all duration-300 type-cta"
+              >
+                SEE HOW WE CAN DO THIS FOR YOU
+                <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+              </a>
+            </div>
+          </FadeUp>
         </div>
       </section>
 
       {/* ── Why Us ─────────────────────────────────────────────── */}
-      <section id="why-us" className="py-16 md:py-16 md:py-20 px-6 bg-[#0f0f0f]">
+      <section id="why-us" className="py-16 md:py-20 px-6 bg-[#0f0f0f]">
         <div className="max-w-5xl mx-auto">
           <FadeUp>
             <div className="mb-10">
@@ -996,7 +1032,7 @@ export default function Home() {
                     <span className="font-mono-custom text-xs text-[#e74c3c]/50 tracking-widest flex-shrink-0">
                       {item.num}
                     </span>
-                    <h3 className="type-sub-heading text-[#e74c3c]">
+                    <h3 className="type-sub-heading text-[#f5f5f5]">
                       {item.title.toUpperCase()}
                     </h3>
                   </div>
@@ -1011,7 +1047,7 @@ export default function Home() {
       </section>
 
       {/* ── Tech Stack ─────────────────────────────────────────── */}
-      <section id="stack" className="py-16 md:py-16 md:py-20 px-6 bg-[#080808]">
+      <section id="stack" className="py-16 md:py-20 px-6 bg-[#080808]">
         <div className="max-w-7xl mx-auto">
           <FadeUp>
             <div className="mb-10">
@@ -1152,7 +1188,7 @@ export default function Home() {
       {/* ── Contact ────────────────────────────────────────────── */}
       <section
         id="contact"
-        className="relative py-16 md:py-16 md:py-20 px-6 bg-[#080808] overflow-hidden"
+        className="relative py-16 md:py-20 px-6 bg-[#080808] overflow-hidden"
       >
         {/* BackgroundPaths behind content */}
         <BackgroundPaths />
