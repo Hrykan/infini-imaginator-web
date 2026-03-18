@@ -118,10 +118,10 @@ const NAV_SECTIONS = [
   { id: "hero",     label: "Home" },
   { id: "about",    label: "About" },
   { id: "services", label: "Services" },
+  { id: "process",  label: "Process" },
   { id: "products", label: "Products" },
-  { id: "results",  label: "Results" },
-  { id: "stack",    label: "Tech Stack" },
   { id: "team",     label: "Founder" },
+  { id: "faq",      label: "FAQ" },
   { id: "contact",  label: "Contact" },
 ];
 
@@ -159,6 +159,71 @@ function FloatingDotNav({
         </button>
       ))}
     </nav>
+  );
+}
+
+// ─── FAQ Accordion ───────────────────────────────────────────────
+const FAQ_ITEMS = [
+  {
+    q: "What services does Infini Imaginator offer?",
+    a: "Three core services: AI Automation & Integration (n8n workflows, AI agents, API orchestration), Business Intelligence & Analytics (executive dashboards, Snowflake, ETL pipelines, Tableau/Qlik/Sigma reporting), and AI Strategy & Transformation (GenAI readiness, modernisation roadmaps, ROI frameworks).",
+  },
+  {
+    q: "How much does AI automation consulting cost?",
+    a: "We offer a free initial consultation with no commitment and no sales pressure. Pricing is scoped to your specific project after the discovery call. Contact business@imaginator.in to start a conversation.",
+  },
+  {
+    q: "What is Infini Imaginator's experience with Snowflake?",
+    a: "3+ years of production Snowflake experience, including data warehouse architecture, ETL pipeline design, and integration with BI tools like Sigma Computing and Tableau.",
+  },
+  {
+    q: "What is n8n and how do you use it?",
+    a: "n8n is an open-source workflow automation platform. We use it to build custom business automation workflows — connecting APIs, databases, and AI models to eliminate repetitive manual processes.",
+  },
+  {
+    q: "Does Infini Imaginator build AI products?",
+    a: "Yes. We've shipped Yuga Odysseys (scenario-based personal growth platform, 588 challenges across 24 life domains) and an AI-powered Research Assistant that automates competitive intelligence. Built with React Native, Next.js, TypeScript, OpenAI API, and Supabase.",
+  },
+  {
+    q: "What BI tools do you work with?",
+    a: "Tableau, Qlik Sense, Sigma Computing, SSRS, and custom executive dashboard development — connected to Snowflake, SQL Server, and PostgreSQL data warehouses.",
+  },
+  {
+    q: "What results have you delivered?",
+    a: "Identifying $500K in data tolerance issues via executive dashboards, contributing to 25% faster loan processing and 40% lower labour costs, managing 500+ BI reports, and building 111 ETL pipelines at Accenture.",
+  },
+  {
+    q: "Who will I be working with?",
+    a: "Directly with Mukul Kulkarni — founder, principal consultant, and the person who does the work. No account managers, no handoffs to junior staff.",
+  },
+];
+
+function FaqAccordion() {
+  const [open, setOpen] = useState<number | null>(null);
+  return (
+    <div className="space-y-2">
+      {FAQ_ITEMS.map((item, i) => (
+        <FadeUp key={i} delay={i * 0.04}>
+          <div className="border border-white/10 rounded-xl overflow-hidden">
+            <button
+              onClick={() => setOpen(open === i ? null : i)}
+              className="w-full flex items-center justify-between gap-4 px-6 py-5 text-left hover:bg-white/[0.03] transition-colors"
+              aria-expanded={open === i}
+            >
+              <span className="type-body text-[#f5f5f5] font-medium">{item.q}</span>
+              <span className={`flex-shrink-0 w-5 h-5 flex items-center justify-center border border-white/20 rounded-full transition-transform duration-200 ${open === i ? "rotate-45 border-[#e74c3c]" : ""}`}>
+                <span className={`text-xs leading-none ${open === i ? "text-[#e74c3c]" : "text-[#8a8a8a]"}`}>+</span>
+              </span>
+            </button>
+            {open === i && (
+              <div className="px-6 pb-5">
+                <p className="type-body-sm text-[#999999] leading-relaxed">{item.a}</p>
+              </div>
+            )}
+          </div>
+        </FadeUp>
+      ))}
+    </div>
   );
 }
 
@@ -462,7 +527,7 @@ export default function Home() {
     },
   ];
 
-  const navLinks = ["About", "Services", "Products", "Results", "Contact"];
+  const navLinks = ["About", "Services", "Products", "Contact"];
 
   return (
     <div className="min-h-screen bg-[#080808] text-[#f5f5f5] overflow-x-hidden">
@@ -797,6 +862,57 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ── Stats ──────────────────────────────────────────────── */}
+      <section
+        id="results"
+        className="py-16 md:py-20 px-6 bg-[#080808] border-y border-white/10"
+      >
+        <div className="max-w-7xl mx-auto">
+          <FadeUp>
+            <p className="section-label text-center mb-10">By The Numbers</p>
+          </FadeUp>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-4">
+            {stats.map((stat, i) => (
+              <FadeUp key={stat.label} delay={i * 0.1}>
+                <div className="text-center group">
+                  <div className="inline-flex items-center justify-center w-10 h-10 border border-[#e74c3c]/30 text-[#e74c3c] mb-4 group-hover:bg-[#e74c3c]/10 transition-colors">
+                    {stat.icon}
+                  </div>
+                  <div className="font-display text-[clamp(2.5rem,6vw,4rem)] text-[#f5f5f5] leading-none mb-2">
+                    <AnimatedCounter
+                      target={stat.value}
+                      suffix={stat.suffix}
+                      prefix={stat.prefix}
+                    />
+                  </div>
+                  <p className="text-xs font-mono-custom text-[#8a8a8a] tracking-widest uppercase">
+                    {stat.label}
+                  </p>
+                </div>
+              </FadeUp>
+            ))}
+          </div>
+
+          {/* Stats CTA strip */}
+          <FadeUp delay={0.35}>
+            <div className="mt-12 text-center">
+              <p className="type-body-sm text-[#8a8a8a] mb-6">
+                These results came from real enterprise engagements — not projections.
+              </p>
+              <a
+                href={process.env.NEXT_PUBLIC_BOOKING_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group inline-flex items-center gap-2 px-6 py-3 border border-[#e74c3c] text-[#e74c3c] hover:bg-[#e74c3c] hover:text-white transition-all duration-300 type-cta"
+              >
+                SEE HOW WE CAN DO THIS FOR YOU
+                <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+              </a>
+            </div>
+          </FadeUp>
+        </div>
+      </section>
+
       {/* ── Services ───────────────────────────────────────────── */}
       <section id="services" className="py-16 md:py-20 px-6 bg-[#080808]">
         <div className="max-w-7xl mx-auto">
@@ -856,6 +972,64 @@ export default function Home() {
               </a>
             </div>
           </FadeUp>
+        </div>
+      </section>
+
+      {/* ── Process ────────────────────────────────────────────── */}
+      <section id="process" className="py-16 md:py-20 px-6 bg-[#0f0f0f]">
+        <div className="max-w-6xl mx-auto">
+          <FadeUp>
+            <div className="mb-12">
+              <p className="section-label mb-4">How We Work</p>
+              <h2 className="type-section text-[#f5f5f5]">
+                FROM FIRST CALL TO <span className="text-[#e74c3c]">LIVE IN PRODUCTION</span>
+              </h2>
+            </div>
+          </FadeUp>
+
+          <div className="grid md:grid-cols-4 gap-0 relative">
+            {/* Connecting line — desktop only */}
+            <div className="hidden md:block absolute top-8 left-[12.5%] right-[12.5%] h-px bg-white/10" />
+
+            {[
+              {
+                step: "01",
+                title: "Discovery Call",
+                duration: "30 min · Free",
+                description: "We understand your data landscape, tooling, pain points, and goals. No questionnaire. A real conversation.",
+              },
+              {
+                step: "02",
+                title: "Scope & Proposal",
+                duration: "3–5 days",
+                description: "A clear proposal with deliverables, tech stack, timeline, and pricing. No black boxes, no ambiguity.",
+              },
+              {
+                step: "03",
+                title: "Build & Iterate",
+                duration: "Weekly check-ins",
+                description: "Working software over documentation. You see progress every week. We adjust based on feedback in real time.",
+              },
+              {
+                step: "04",
+                title: "Deliver & Hand Off",
+                duration: "Production-ready",
+                description: "Deployed, documented, and handed over. Optional retainer for ongoing support, monitoring, or iteration.",
+              },
+            ].map((item, i) => (
+              <FadeUp key={item.step} delay={i * 0.1}>
+                <div className="relative flex flex-col items-center text-center px-6 py-8">
+                  {/* Step number circle */}
+                  <div className="relative z-10 w-16 h-16 rounded-full border border-[#e74c3c]/30 bg-[#0f0f0f] flex items-center justify-center mb-5">
+                    <span className="font-mono-custom text-xs text-[#e74c3c] tracking-widest">{item.step}</span>
+                  </div>
+                  <p className="font-mono-custom text-[10px] text-[#e74c3c]/60 tracking-widest uppercase mb-2">{item.duration}</p>
+                  <h3 className="type-sub-heading text-[#f5f5f5] mb-3">{item.title.toUpperCase()}</h3>
+                  <p className="type-body-sm text-[#999999]">{item.description}</p>
+                </div>
+              </FadeUp>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -957,57 +1131,6 @@ export default function Home() {
               </FadeUp>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* ── Stats ──────────────────────────────────────────────── */}
-      <section
-        id="results"
-        className="py-16 md:py-20 px-6 bg-[#080808] border-y border-white/10"
-      >
-        <div className="max-w-7xl mx-auto">
-          <FadeUp>
-            <p className="section-label text-center mb-10">By The Numbers</p>
-          </FadeUp>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-4">
-            {stats.map((stat, i) => (
-              <FadeUp key={stat.label} delay={i * 0.1}>
-                <div className="text-center group">
-                  <div className="inline-flex items-center justify-center w-10 h-10 border border-[#e74c3c]/30 text-[#e74c3c] mb-4 group-hover:bg-[#e74c3c]/10 transition-colors">
-                    {stat.icon}
-                  </div>
-                  <div className="font-display text-[clamp(2.5rem,6vw,4rem)] text-[#f5f5f5] leading-none mb-2">
-                    <AnimatedCounter
-                      target={stat.value}
-                      suffix={stat.suffix}
-                      prefix={stat.prefix}
-                    />
-                  </div>
-                  <p className="text-xs font-mono-custom text-[#8a8a8a] tracking-widest uppercase">
-                    {stat.label}
-                  </p>
-                </div>
-              </FadeUp>
-            ))}
-          </div>
-
-          {/* Stats CTA strip */}
-          <FadeUp delay={0.35}>
-            <div className="mt-12 text-center">
-              <p className="type-body-sm text-[#8a8a8a] mb-6">
-                These results came from real enterprise engagements — not projections.
-              </p>
-              <a
-                href={process.env.NEXT_PUBLIC_BOOKING_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group inline-flex items-center gap-2 px-6 py-3 border border-[#e74c3c] text-[#e74c3c] hover:bg-[#e74c3c] hover:text-white transition-all duration-300 type-cta"
-              >
-                SEE HOW WE CAN DO THIS FOR YOU
-                <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
-              </a>
-            </div>
-          </FadeUp>
         </div>
       </section>
 
@@ -1182,6 +1305,22 @@ export default function Home() {
               </div>
             </div>
           </FadeUp>
+        </div>
+      </section>
+
+      {/* ── FAQ ────────────────────────────────────────────────── */}
+      <section id="faq" className="py-16 md:py-20 px-6 bg-[#0f0f0f]">
+        <div className="max-w-3xl mx-auto">
+          <FadeUp>
+            <div className="mb-12 text-center">
+              <p className="section-label mb-4">Common Questions</p>
+              <h2 className="type-section text-[#f5f5f5]">
+                FREQUENTLY ASKED <span className="text-[#e74c3c]">QUESTIONS</span>
+              </h2>
+            </div>
+          </FadeUp>
+
+          <FaqAccordion />
         </div>
       </section>
 
