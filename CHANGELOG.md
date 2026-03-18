@@ -4,7 +4,7 @@ All notable changes to the Infini Imaginator landing page.
 
 ---
 
-## [1.8.0] — 2026-03-17 IST
+## [1.8.0] — 2026-03-18 IST
 
 ### Brand Rename + Design System
 
@@ -26,6 +26,51 @@ All notable changes to the Infini Imaginator landing page.
   - `.type-body-sm` — DM Sans caption (14px)
   - `.type-cta` — Space Mono button / nav (14px, tracked)
   - `.type-tag` — Space Mono tech chip (12px, tracked, uppercase)
+
+---
+
+## [1.7.1] — 2026-03-17 IST
+
+### Favicon Final Design + Nav Identity
+
+**Favicon — `//` forward-slash icon**
+- Final design chosen: two crimson `rect` elements with `rotate(15)` (forward-slash direction)
+- Iteration history: white I's → crimson I's with connector (looked like "H") → two crimson pillars (looked like pause button) → `\\` backslash (`rotate(-15)`) → corrected to `/` (`rotate(15)`)
+- Updated both `src/app/icon.svg` and `public/icon.svg` to final design
+- Key learnings: SVG `rotate(N)` positive = clockwise = forward slash `/`; CSS `skewX(N)` positive = backslash `\\`
+
+**Nav Logo — `//` icon + wordmark**
+- Added inline SVG `//` icon (20×20) beside "INFINI IMAGINATOR" text in nav
+- Icon uses same geometry as favicon: two rects, `rotate(15)`, crimson `#C0392B`
+
+**OG Image — Dynamic branded card** (`src/app/opengraph-image.tsx`)
+- Created Next.js edge `ImageResponse` route (1200×630) replacing missing `/og-image.png`
+- Fixes WhatsApp, Slack, and social share previews showing blurry triangle (missing file)
+- Design: dark `#080808` background, `//` slash mark, brand name, divider, tagline, domain
+- `skewX` direction corrected to `15deg` (positive = forward slash) in OG image after initial backslash
+- OG metadata updated in `layout.tsx` to point to `/opengraph-image` route
+
+---
+
+## [1.5.1] — 2026-03-12 IST
+
+### Bug Fixes — Mobile Nav, Hero, Initial Favicon
+
+**Mobile hamburger menu — Android Chrome fix**
+- Root cause: `scrollToSection` called `scrollIntoView` before `AnimatePresence` finished closing the menu, creating a race condition that prevented scroll on Android Chrome
+- Fix: call `setMobileMenuOpen(false)` first, then delay scroll with `setTimeout(..., 300ms)` to let exit animation complete
+- Respects `prefers-reduced-motion`: uses `behavior: "instant"` vs `"smooth"` accordingly
+
+**Hero headline — mid-word line break fix**
+- Root cause: each character was wrapped in its own `inline-block` span (for framer-motion reveal), allowing the browser to break "BUSINESS IM / PACT" mid-word
+- Fix: group characters by word, wrap each word in `whitespace-nowrap` span, emit `&nbsp;` between words as a separate animated span
+- Result: line breaks only at word boundaries
+
+**Initial favicon — two crimson I's**
+- First pass: two crimson vertical rects with a white horizontal bar (connector bar)
+- User feedback: "why H?" — white connector made II look like H
+- Removed connector bar; second pass: two crimson pillars
+- User feedback: "looks like a pause button" — prompted favicon options page for decision
 
 ---
 
@@ -389,12 +434,15 @@ All notable changes to the Infini Imaginator landing page.
 |----------|-------|--------|
 | Critical | Page is single `"use client"` monolith — no SSR, poor SEO | Open |
 | Critical | Three.js/Vanta via CDN script injection — no SRI, ~600KB | Open |
-| High | All CTAs are mailto to Gmail — need Calendly/booking | Open |
 | High | No testimonials/social proof section | Open |
-| High | Missing OG image file (`/public/og-image.png`) | Open |
-| Medium | No process/how-we-work section | Open |
-| Medium | Missing robots.txt, sitemap.xml | Resolved in v1.3.0 (`robots.ts`, `sitemap.ts`) |
-| Medium | No structured data (JSON-LD for Organization) | Resolved in v1.3.0 (3 schemas) |
-| Medium | No FAQ section (visible) | Resolved in v1.3.0 (FAQPage JSON-LD for AEO) |
-| Low | Imaginator Chat product hidden (needs rebuild) | Deferred |
-| Low | Business email needed (not Gmail) | Open |
+| High | No process/how-we-work section | Open |
+| Medium | Imaginator Chat product hidden (needs rebuild) | Deferred |
+| Low | Type-scale utility classes not yet applied — existing code still uses inline Tailwind | Open |
+| — | All booking CTAs are mailto — need Calendly/booking | Resolved v1.4.0 (Google Calendar) |
+| — | Missing OG image for social sharing | Resolved v1.7.1 (`opengraph-image.tsx`) |
+| — | Business email needed (not Gmail) | Resolved v1.5.0/v1.6.0 (`business@imaginator.in`) |
+| — | Missing robots.txt, sitemap.xml | Resolved v1.3.0 |
+| — | No structured data / JSON-LD | Resolved v1.3.0 (3 schemas) |
+| — | Mobile hamburger not working on Android Chrome | Resolved v1.5.1 |
+| — | Hero headline breaks mid-word | Resolved v1.5.1 |
+| — | No favicon / browser tab icon | Resolved v1.7.1 (`//` slash icon) |
