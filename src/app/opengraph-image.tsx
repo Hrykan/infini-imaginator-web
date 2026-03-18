@@ -23,8 +23,8 @@ export default async function Image() {
       >
         {/* // slash mark */}
         <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "40px" }}>
-          <div style={{ width: "14px", height: "72px", background: "#C0392B", borderRadius: "4px", transform: "skewX(15deg)" }} />
-          <div style={{ width: "14px", height: "72px", background: "#C0392B", borderRadius: "4px", transform: "skewX(15deg)" }} />
+          <div style={{ width: "14px", height: "72px", background: "#e74c3c", borderRadius: "4px", transform: "skewX(-15deg)" }} />
+          <div style={{ width: "14px", height: "72px", background: "#e74c3c", borderRadius: "4px", transform: "skewX(-15deg)" }} />
         </div>
 
         {/* Brand name */}
@@ -40,7 +40,7 @@ export default async function Image() {
             marginBottom: "20px",
           }}
         >
-          INFINI IMAGINATOR TECH
+          INFINI IMAGINATOR
         </div>
 
         {/* Divider */}
@@ -48,7 +48,7 @@ export default async function Image() {
           style={{
             width: "120px",
             height: "2px",
-            background: "#C0392B",
+            background: "#e74c3c",
             marginBottom: "20px",
             borderRadius: "2px",
           }}
@@ -70,7 +70,7 @@ export default async function Image() {
         {/* Domain */}
         <div
           style={{
-            color: "#C0392B",
+            color: "#e74c3c",
             fontSize: "18px",
             marginTop: "32px",
             letterSpacing: "4px",

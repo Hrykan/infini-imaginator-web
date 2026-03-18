@@ -116,10 +116,10 @@ function FadeUp({
 // ─── Floating dot navigation ────────────────────────────────────
 const NAV_SECTIONS = [
   { id: "hero",     label: "Home" },
-  { id: "about",    label: "About" },
+  { id: "results",  label: "Results" },
+  { id: "products", label: "Products" },
   { id: "services", label: "Services" },
   { id: "process",  label: "Process" },
-  { id: "products", label: "Products" },
   { id: "team",     label: "Founder" },
   { id: "faq",      label: "FAQ" },
   { id: "contact",  label: "Contact" },
@@ -444,11 +444,10 @@ export default function Home() {
         "Adaptive difficulty from beginner (age 14+) to advanced",
         "Trilingual: English, Hindi, Marathi",
       ],
-      link: "https://yuga-odysseys.imaginator.in/",
+      link: "https://yuga.life",
       label: "PRODUCT 01",
-      hasImage: true,
-      image: "/yuga-preview.jpg",
-      imageAlt: "Screenshot of Yuga Odysseys scenario challenge interface",
+      hasImage: false,
+      embedUrl: "https://yuga.life",
     },
     {
       name: "Research Assistant",
@@ -527,7 +526,7 @@ export default function Home() {
     },
   ];
 
-  const navLinks = ["About", "Services", "Products", "Contact"];
+  const navLinks = ["Services", "Products", "Contact"];
 
   return (
     <div className="min-h-screen bg-[#080808] text-[#f5f5f5] overflow-x-hidden">
@@ -767,101 +766,6 @@ export default function Home() {
         </motion.div>
       </section>
 
-      {/* ── About ──────────────────────────────────────────────── */}
-      <section
-        id="about"
-        className="relative py-16 md:py-20 px-6 bg-[#0f0f0f] clip-diagonal-top overflow-hidden"
-      >
-        {/* GradientDots background effect */}
-        <GradientDots
-          backgroundColor="#0f0f0f"
-          className="opacity-25 pointer-events-none"
-        />
-        <div className="max-w-6xl mx-auto">
-          {/* Header row */}
-          <FadeUp>
-            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-10">
-              <div>
-                <p className="section-label mb-3">About the Company</p>
-                <h2 className="type-section text-[#f5f5f5]">
-                  BUILT BY AN <span className="text-[#e74c3c]">ENGINEER</span> WHO LIVED THE PROBLEM
-                </h2>
-              </div>
-              <p className="font-mono-custom text-xs tracking-wider text-[#8a8a8a] md:text-right flex-shrink-0">
-                Est. 2025 · Mumbai · Remote-First
-              </p>
-            </div>
-          </FadeUp>
-
-          {/* Content: Photo + Story side by side */}
-          <div className="grid md:grid-cols-[240px_1fr] lg:grid-cols-[280px_1fr] gap-8 lg:gap-12 mb-10">
-            {/* Founder photo */}
-            <FadeUp>
-              <div className="relative aspect-[3/4] overflow-hidden border border-white/10 rounded-2xl">
-                <Image
-                  src="/mukul-photo.jpg"
-                  alt="Mukul Kulkarni, Founder"
-                  fill
-                  className="object-cover"
-                  style={{ objectPosition: "center 20%" }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0f0f0f]/60 to-transparent" />
-                <div className="absolute bottom-0 left-0 right-0 p-4">
-                  <p className="font-display text-lg text-[#f5f5f5] leading-none">MUKUL KULKARNI</p>
-                  <p className="font-mono-custom text-[10px] text-[#e74c3c] tracking-wider mt-1">FOUNDER & PRINCIPAL CONSULTANT</p>
-                </div>
-              </div>
-            </FadeUp>
-
-            {/* Story text */}
-            <FadeUp delay={0.15}>
-              <div className="space-y-4 text-[#999999] type-body">
-                <p>
-                  Infini Imaginator was founded by{" "}
-                  <span className="text-[#f5f5f5] font-medium">Mukul Kulkarni</span>,
-                  an analytics leader with 9+ years inside enterprise data organizations across the US and India,
-                  working directly with VPs, EVPs, and department heads to turn data complexity into decisions that
-                  move the business. Before founding the company, he built data engineering systems at{" "}
-                  <span className="text-[#e74c3c]">Accenture</span> in Mumbai.
-                </p>
-                <p>
-                  This isn&apos;t a consultancy built on theory. It&apos;s built on 500+ BI reports
-                  managed, executive dashboards that identified $500K in issues, efficiency
-                  initiatives that cut loan processing time by 25% and labor costs by 40%,
-                  and 111 ETL pipelines delivered at enterprise scale.
-                </p>
-                <p>
-                  Today, we combine that enterprise depth with an AI-augmented approach, where human judgment
-                  leads every architectural decision and AI accelerates execution. Best practices aren&apos;t bolted
-                  on at the end; they&apos;re the foundation we build on from day one.
-                </p>
-              </div>
-            </FadeUp>
-          </div>
-
-          {/* Stats row — full width, 4 columns */}
-          <FadeUp delay={0.25}>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-white/5 border border-white/10 rounded-2xl overflow-hidden">
-              {[
-                { label: "Enterprise Experience", value: "9+ Years" },
-                { label: "Domain Expertise", value: "Mortgage · BFSI" },
-                { label: "Based In", value: "Mumbai, India" },
-                { label: "Delivery Model", value: "Remote-First" },
-              ].map((item) => (
-                <div key={item.label} className="bg-[#0f0f0f] p-5 text-center">
-                  <div className="text-xs font-mono-custom text-[#8a8a8a] tracking-widest uppercase mb-2">
-                    {item.label}
-                  </div>
-                  <div className="text-sm font-semibold text-[#f5f5f5]">
-                    {item.value}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </FadeUp>
-        </div>
-      </section>
-
       {/* ── Stats ──────────────────────────────────────────────── */}
       <section
         id="results"
@@ -910,6 +814,128 @@ export default function Home() {
               </a>
             </div>
           </FadeUp>
+        </div>
+      </section>
+
+      {/* ── Products ───────────────────────────────────────────── */}
+      <section id="products" className="py-16 md:py-20 px-6 bg-[#0f0f0f]">
+        <div className="max-w-7xl mx-auto">
+          <FadeUp>
+            <div className="mb-10">
+              <p className="section-label mb-4">What We've Built</p>
+              <h2 className="type-section text-[#f5f5f5]">
+                SHIPPED <span className="text-[#e74c3c]">&amp; LIVE</span>
+              </h2>
+            </div>
+          </FadeUp>
+
+          <div className="space-y-16">
+            {products.map((product, i) => (
+              <FadeUp key={product.name} delay={i * 0.15}>
+                <div
+                  className={`grid md:grid-cols-2 gap-12 lg:gap-12 items-center ${
+                    i % 2 === 1 ? "md:grid-flow-dense" : ""
+                  }`}
+                >
+                  {/* Text */}
+                  <div className={i % 2 === 1 ? "md:col-start-1" : ""}>
+                    <p className="section-label mb-4">{product.label}</p>
+                    <h3 className="type-card-heading text-[#f5f5f5] mb-2">
+                      {product.name.toUpperCase()}
+                    </h3>
+                    <p className="text-[#e74c3c] type-cta mb-3">
+                      {product.tagline}
+                    </p>
+                    <p className="text-[#999999] leading-relaxed mb-4">
+                      {product.description}
+                    </p>
+
+                    <ul className="space-y-2.5 mb-6">
+                      {product.features.map((feat) => (
+                        <li
+                          key={feat}
+                          className="flex items-start gap-3 type-body-sm text-[#999999]"
+                        >
+                          <span className="mt-1.5 w-1 h-1 rounded-full bg-[#e74c3c] flex-shrink-0" />
+                          {feat}
+                        </li>
+                      ))}
+                    </ul>
+
+                    <a
+                      href={product.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group inline-flex items-center gap-3 px-6 py-3 border border-[#e74c3c] text-[#e74c3c] hover:bg-[#e74c3c] hover:text-white transition-all duration-300 type-cta"
+                    >
+                      VISIT {product.name.toUpperCase()}
+                      <ExternalLink
+                        size={14}
+                        className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"
+                      />
+                    </a>
+                  </div>
+
+                  {/* Visual */}
+                  <div className={i % 2 === 1 ? "md:col-start-2" : ""}>
+                    {"embedUrl" in product && product.embedUrl ? (
+                      <a
+                        href={product.embedUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`Open ${product.name} in new tab`}
+                        className="relative block aspect-video overflow-hidden border border-[#f5f5f5]/[0.08] rounded-2xl group cursor-pointer"
+                      >
+                        <iframe
+                          src={product.embedUrl}
+                          title={`${product.name} live preview`}
+                          className="w-full h-full pointer-events-none"
+                          loading="lazy"
+                          sandbox="allow-scripts allow-same-origin"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#080808]/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                        <div className="absolute bottom-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center gap-1.5 bg-[#080808]/80 backdrop-blur-sm px-3 py-1.5 rounded-lg border border-white/10">
+                          <ExternalLink size={12} className="text-[#e74c3c]" />
+                          <span className="type-tag text-[#f5f5f5] text-[10px]">OPEN SITE</span>
+                        </div>
+                      </a>
+                    ) : product.hasImage && product.image ? (
+                      <div className="relative aspect-video overflow-hidden border border-[#f5f5f5]/[0.08] group rounded-2xl">
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#080808]/60 to-transparent z-10" />
+                        <Image
+                          src={product.image}
+                          alt={product.imageAlt || product.name}
+                          fill
+                          className="object-cover group-hover:scale-105 transition-transform duration-700"
+                        />
+                      </div>
+                    ) : (
+                      <div className="relative aspect-video bg-[#111111] border border-white/10 overflow-hidden flex items-center justify-center group hover:border-[#e74c3c]/30 transition-colors duration-500 rounded-2xl">
+                        {/* Decorative grid */}
+                        <div
+                          className="absolute inset-0 opacity-5"
+                          style={{
+                            backgroundImage:
+                              "linear-gradient(#e74c3c 1px, transparent 1px), linear-gradient(90deg, #e74c3c 1px, transparent 1px)",
+                            backgroundSize: "40px 40px",
+                          }}
+                        />
+                        <div className="relative z-10 text-center">
+                          <div className="font-display text-[clamp(3rem,8vw,5rem)] text-outline leading-none mb-2">
+                            {product.name.split(" ")[0].toUpperCase()}
+                          </div>
+                          <p className="font-mono-custom text-xs text-[#8a8a8a] tracking-widest">
+                            {product.tagline}
+                          </p>
+                        </div>
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#e74c3c]/05 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </FadeUp>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -1033,107 +1059,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── Products ───────────────────────────────────────────── */}
-      <section id="products" className="py-16 md:py-20 px-6 bg-[#0f0f0f]">
-        <div className="max-w-7xl mx-auto">
-          <FadeUp>
-            <div className="mb-10">
-              <p className="section-label mb-4">What We've Built</p>
-              <h2 className="type-section text-[#f5f5f5]">
-                SHIPPED <span className="text-[#e74c3c]">&amp; LIVE</span>
-              </h2>
-            </div>
-          </FadeUp>
-
-          <div className="space-y-16">
-            {products.map((product, i) => (
-              <FadeUp key={product.name} delay={i * 0.15}>
-                <div
-                  className={`grid md:grid-cols-2 gap-12 lg:gap-12 items-center ${
-                    i % 2 === 1 ? "md:grid-flow-dense" : ""
-                  }`}
-                >
-                  {/* Text */}
-                  <div className={i % 2 === 1 ? "md:col-start-1" : ""}>
-                    <p className="section-label mb-4">{product.label}</p>
-                    <h3 className="type-card-heading text-[#f5f5f5] mb-2">
-                      {product.name.toUpperCase()}
-                    </h3>
-                    <p className="text-[#e74c3c] type-cta mb-3">
-                      {product.tagline}
-                    </p>
-                    <p className="text-[#999999] leading-relaxed mb-4">
-                      {product.description}
-                    </p>
-
-                    <ul className="space-y-2.5 mb-6">
-                      {product.features.map((feat) => (
-                        <li
-                          key={feat}
-                          className="flex items-start gap-3 type-body-sm text-[#999999]"
-                        >
-                          <span className="mt-1.5 w-1 h-1 rounded-full bg-[#e74c3c] flex-shrink-0" />
-                          {feat}
-                        </li>
-                      ))}
-                    </ul>
-
-                    <a
-                      href={product.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group inline-flex items-center gap-3 px-6 py-3 border border-[#e74c3c] text-[#e74c3c] hover:bg-[#e74c3c] hover:text-white transition-all duration-300 type-cta"
-                    >
-                      VISIT {product.name.toUpperCase()}
-                      <ExternalLink
-                        size={14}
-                        className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"
-                      />
-                    </a>
-                  </div>
-
-                  {/* Visual */}
-                  <div className={i % 2 === 1 ? "md:col-start-2" : ""}>
-                    {product.hasImage && product.image ? (
-                      <div className="relative aspect-video overflow-hidden border border-[#f5f5f5]/[0.08] group rounded-2xl">
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#080808]/60 to-transparent z-10" />
-                        <Image
-                          src={product.image}
-                          alt={product.imageAlt || product.name}
-                          fill
-                          className="object-cover group-hover:scale-105 transition-transform duration-700"
-                        />
-                      </div>
-                    ) : (
-                      <div className="relative aspect-video bg-[#111111] border border-white/10 overflow-hidden flex items-center justify-center group hover:border-[#e74c3c]/30 transition-colors duration-500 rounded-2xl">
-                        {/* Decorative grid */}
-                        <div
-                          className="absolute inset-0 opacity-5"
-                          style={{
-                            backgroundImage:
-                              "linear-gradient(#e74c3c 1px, transparent 1px), linear-gradient(90deg, #e74c3c 1px, transparent 1px)",
-                            backgroundSize: "40px 40px",
-                          }}
-                        />
-                        <div className="relative z-10 text-center">
-                          <div className="font-display text-[clamp(3rem,8vw,5rem)] text-outline leading-none mb-2">
-                            {product.name.split(" ")[0].toUpperCase()}
-                          </div>
-                          <p className="font-mono-custom text-xs text-[#8a8a8a] tracking-widest">
-                            {product.tagline}
-                          </p>
-                        </div>
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#e74c3c]/05 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </FadeUp>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ── Why Us ─────────────────────────────────────────────── */}
       <section id="why-us" className="py-16 md:py-20 px-6 bg-[#0f0f0f]">
         <div className="max-w-5xl mx-auto">
@@ -1199,11 +1124,16 @@ export default function Home() {
       <section id="team" className="py-16 md:py-20 px-6 bg-[#0f0f0f]">
         <div className="max-w-7xl mx-auto">
           <FadeUp>
-            <div className="mb-10">
-              <p className="section-label mb-4">The People</p>
-              <h2 className="type-section text-[#f5f5f5]">
-                THE <span className="text-[#e74c3c]">FOUNDER</span>
-              </h2>
+            <div className="mb-10 flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+              <div>
+                <p className="section-label mb-4">The People</p>
+                <h2 className="type-section text-[#f5f5f5]">
+                  THE <span className="text-[#e74c3c]">FOUNDER</span>
+                </h2>
+              </div>
+              <p className="font-mono-custom text-xs tracking-wider text-[#8a8a8a] md:text-right flex-shrink-0">
+                Est. 2025 · Mumbai · Remote-First
+              </p>
             </div>
           </FadeUp>
 
