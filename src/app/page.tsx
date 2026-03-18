@@ -152,7 +152,7 @@ function FloatingDotNav({
           <span
             className={`block rounded-full transition-all duration-300 ${
               active === s.id
-                ? "w-2.5 h-2.5 bg-[#c0392b] shadow-[0_0_8px_rgba(192,57,43,0.7)]"
+                ? "w-2.5 h-2.5 bg-[#e74c3c] shadow-[0_0_8px_rgba(231,76,60,0.7)]"
                 : "w-1.5 h-1.5 bg-white/20 group-hover:bg-white/50"
             }`}
           />
@@ -198,7 +198,7 @@ export default function Home() {
         if (window.VANTA && heroRef.current) {
           vantaRef.current = window.VANTA.NET({
             el: heroRef.current,
-            color: 0xc0392b,
+            color: 0xe74c3c,
             backgroundColor: 0x080808,
             points: 8,
             maxDistance: 20,
@@ -406,10 +406,10 @@ export default function Home() {
   ];
 
   const stats = [
-    { value: 9, suffix: "+", label: "Years Enterprise Experience", icon: <Clock size={20} /> },
-    { value: 500, suffix: "+", label: "BI Reports Managed", icon: <FileText size={20} /> },
-    { value: 500, suffix: "K", label: "Issues Identified via Dashboards", icon: <TrendingUp size={20} />, prefix: "$" },
+    { value: 500, suffix: "K", label: "Value Identified via Dashboards", icon: <TrendingUp size={20} />, prefix: "$" },
     { value: 200, suffix: "K+", label: "Annual Cost Savings Driven", icon: <DollarSign size={20} />, prefix: "$" },
+    { value: 500, suffix: "+", label: "BI Reports Managed", icon: <FileText size={20} /> },
+    { value: 9, suffix: "+", label: "Years Enterprise Experience", icon: <Clock size={20} /> },
   ];
 
   const whyUs = [
@@ -443,22 +443,22 @@ export default function Home() {
     {
       category: "AI & Automation",
       items: ["OpenAI API / GPT-4", "Claude Code", "n8n Workflows", "LangChain", "AI-Assisted Dev", "ChatGPT"],
-      icon: <Bot className="w-8 h-8 text-[#c0392b]" />,
+      icon: <Bot className="w-8 h-8 text-[#e74c3c]" />,
     },
     {
       category: "Data & Analytics",
       items: ["Snowflake (3+ yrs)", "SQL Server", "PostgreSQL", "Sigma Computing", "Informatica", "ETL / CDC"],
-      icon: <Database className="w-8 h-8 text-[#c0392b]" />,
+      icon: <Database className="w-8 h-8 text-[#e74c3c]" />,
     },
     {
       category: "BI & Visualization",
       items: ["SSRS", "Tableau", "Qlik Sense", "Executive Dashboards", "Data Warehousing", "Workforce Analytics"],
-      icon: <PieChart className="w-8 h-8 text-[#c0392b]" />,
+      icon: <PieChart className="w-8 h-8 text-[#e74c3c]" />,
     },
     {
       category: "Development",
       items: ["React Native", "TypeScript", "Python", "SQL (Advanced)", "Supabase", "Next.js"],
-      icon: <Code2 className="w-8 h-8 text-[#c0392b]" />,
+      icon: <Code2 className="w-8 h-8 text-[#e74c3c]" />,
     },
   ];
 
@@ -466,7 +466,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-[#080808] text-[#f5f5f5] overflow-x-hidden">
-      <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-[#c0392b] focus:text-white">
+      <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-[#e74c3c] focus:text-white">
         Skip to main content
       </a>
 
@@ -485,7 +485,7 @@ export default function Home() {
           {/* Logo */}
           <button
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            className="font-mono-custom text-sm font-bold tracking-widest text-[#f5f5f5] hover:text-[#c0392b] transition-colors duration-200"
+            className="font-mono-custom text-sm font-bold tracking-widest text-[#f5f5f5] hover:text-[#e74c3c] transition-colors duration-200"
           >
             <span className="inline-flex items-center gap-2.5">
               <svg width="20" height="20" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -515,7 +515,7 @@ export default function Home() {
               href={process.env.NEXT_PUBLIC_BOOKING_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-5 py-2.5 border border-[#c0392b] text-[#c0392b] hover:bg-[#c0392b] hover:text-white transition-all duration-300 type-cta"
+              className="inline-flex items-center gap-2 px-5 py-2.5 border border-[#e74c3c] text-[#e74c3c] hover:bg-[#e74c3c] hover:text-white transition-all duration-300 type-cta"
             >
               BOOK A FREE CALL
               <ArrowRight size={14} />
@@ -553,7 +553,7 @@ export default function Home() {
               animate={{ height: "auto", opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
               transition={{ duration: 0.3 }}
-              className="md:hidden overflow-hidden glass-nav border-t border-[#c0392b]/20"
+              className="md:hidden overflow-hidden glass-nav border-t border-[#e74c3c]/20"
             >
               <div className="px-6 py-6 flex flex-col gap-4">
                 {navLinks.map((link) => (
@@ -569,7 +569,7 @@ export default function Home() {
                   href={process.env.NEXT_PUBLIC_BOOKING_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-2 inline-flex items-center gap-2 px-5 py-3 border border-[#c0392b] text-[#c0392b] hover:bg-[#c0392b] hover:text-white transition-all duration-300 type-cta w-fit"
+                  className="mt-2 inline-flex items-center gap-2 px-5 py-3 border border-[#e74c3c] text-[#e74c3c] hover:bg-[#e74c3c] hover:text-white transition-all duration-300 type-cta w-fit"
                 >
                   BOOK A FREE CALL
                 </a>
@@ -668,7 +668,7 @@ export default function Home() {
               href={process.env.NEXT_PUBLIC_BOOKING_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="group inline-flex items-center gap-3 px-8 py-4 bg-[#c0392b] text-white hover:bg-[#e74c3c] transition-all duration-300 type-cta"
+              className="group inline-flex items-center gap-3 px-8 py-4 bg-[#e74c3c] text-white hover:bg-[#f05a46] transition-all duration-300 type-cta"
             >
               BOOK A FREE STRATEGY CALL
               <ArrowRight
@@ -678,7 +678,7 @@ export default function Home() {
             </a>
             <button
               onClick={() => scrollToSection("services")}
-              className="inline-flex items-center gap-3 px-8 py-4 border border-[#f5f5f5]/20 text-[#f5f5f5] hover:border-[#c0392b] hover:text-[#c0392b] transition-all duration-300 type-cta"
+              className="inline-flex items-center gap-3 px-8 py-4 border border-[#f5f5f5]/20 text-[#f5f5f5] hover:border-[#e74c3c] hover:text-[#e74c3c] transition-all duration-300 type-cta"
             >
               EXPLORE SERVICES
             </button>
@@ -697,7 +697,7 @@ export default function Home() {
             animate={{ y: [0, 6, 0] }}
             transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
           >
-            <ChevronDown size={16} className="text-[#c0392b]" />
+            <ChevronDown size={16} className="text-[#e74c3c]" />
           </motion.div>
         </motion.div>
       </section>
@@ -719,7 +719,7 @@ export default function Home() {
               <div>
                 <p className="section-label mb-3">About the Company</p>
                 <h2 className="type-section text-[#f5f5f5]">
-                  BUILT BY AN <span className="text-[#c0392b]">ENGINEER</span> WHO LIVED THE PROBLEM
+                  BUILT BY AN <span className="text-[#e74c3c]">ENGINEER</span> WHO LIVED THE PROBLEM
                 </h2>
               </div>
               <p className="font-mono-custom text-xs tracking-wider text-[#8a8a8a] md:text-right flex-shrink-0">
@@ -743,7 +743,7 @@ export default function Home() {
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0f0f0f]/60 to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-4">
                   <p className="font-display text-lg text-[#f5f5f5] leading-none">MUKUL KULKARNI</p>
-                  <p className="font-mono-custom text-[10px] text-[#c0392b] tracking-wider mt-1">FOUNDER & PRINCIPAL CONSULTANT</p>
+                  <p className="font-mono-custom text-[10px] text-[#e74c3c] tracking-wider mt-1">FOUNDER & PRINCIPAL CONSULTANT</p>
                 </div>
               </div>
             </FadeUp>
@@ -757,7 +757,7 @@ export default function Home() {
                   an analytics leader with 9+ years inside enterprise data organizations across the US and India,
                   working directly with VPs, EVPs, and department heads to turn data complexity into decisions that
                   move the business. Before founding the company, he built data engineering systems at{" "}
-                  <span className="text-[#c0392b]">Accenture</span> in Mumbai.
+                  <span className="text-[#e74c3c]">Accenture</span> in Mumbai.
                 </p>
                 <p>
                   This isn&apos;t a consultancy built on theory. It&apos;s built on 500+ BI reports
@@ -805,7 +805,7 @@ export default function Home() {
               <div>
                 <p className="section-label mb-4">What We Do</p>
                 <h2 className="type-section text-[#f5f5f5]">
-                  WHAT WE <span className="text-[#c0392b]">BUILD</span>
+                  WHAT WE <span className="text-[#e74c3c]">BUILD</span>
                 </h2>
               </div>
               <p className="max-w-md text-[#999999] leading-relaxed md:text-right">
@@ -829,7 +829,7 @@ export default function Home() {
                   <ul className="px-6 pb-6 space-y-2">
                     {service.features.map((feat) => (
                       <li key={feat} className="flex items-start gap-3 text-xs text-[#8a8a8a]">
-                        <span className="mt-1.5 w-1 h-1 rounded-full bg-[#c0392b] flex-shrink-0" />
+                        <span className="mt-1.5 w-1 h-1 rounded-full bg-[#e74c3c] flex-shrink-0" />
                         {feat}
                       </li>
                     ))}
@@ -848,7 +848,7 @@ export default function Home() {
             <div className="mb-10">
               <p className="section-label mb-4">What We've Built</p>
               <h2 className="type-section text-[#f5f5f5]">
-                SHIPPED <span className="text-[#c0392b]">&amp; LIVE</span>
+                SHIPPED <span className="text-[#e74c3c]">&amp; LIVE</span>
               </h2>
             </div>
           </FadeUp>
@@ -867,7 +867,7 @@ export default function Home() {
                     <h3 className="type-card-heading text-[#f5f5f5] mb-2">
                       {product.name.toUpperCase()}
                     </h3>
-                    <p className="text-[#c0392b] type-cta mb-3">
+                    <p className="text-[#e74c3c] type-cta mb-3">
                       {product.tagline}
                     </p>
                     <p className="text-[#999999] leading-relaxed mb-4">
@@ -880,7 +880,7 @@ export default function Home() {
                           key={feat}
                           className="flex items-start gap-3 type-body-sm text-[#999999]"
                         >
-                          <span className="mt-1.5 w-1 h-1 rounded-full bg-[#c0392b] flex-shrink-0" />
+                          <span className="mt-1.5 w-1 h-1 rounded-full bg-[#e74c3c] flex-shrink-0" />
                           {feat}
                         </li>
                       ))}
@@ -890,7 +890,7 @@ export default function Home() {
                       href={product.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group inline-flex items-center gap-3 px-6 py-3 border border-[#c0392b] text-[#c0392b] hover:bg-[#c0392b] hover:text-white transition-all duration-300 type-cta"
+                      className="group inline-flex items-center gap-3 px-6 py-3 border border-[#e74c3c] text-[#e74c3c] hover:bg-[#e74c3c] hover:text-white transition-all duration-300 type-cta"
                     >
                       VISIT {product.name.toUpperCase()}
                       <ExternalLink
@@ -913,13 +913,13 @@ export default function Home() {
                         />
                       </div>
                     ) : (
-                      <div className="relative aspect-video bg-[#111111] border border-white/10 overflow-hidden flex items-center justify-center group hover:border-[#c0392b]/30 transition-colors duration-500 rounded-2xl">
+                      <div className="relative aspect-video bg-[#111111] border border-white/10 overflow-hidden flex items-center justify-center group hover:border-[#e74c3c]/30 transition-colors duration-500 rounded-2xl">
                         {/* Decorative grid */}
                         <div
                           className="absolute inset-0 opacity-5"
                           style={{
                             backgroundImage:
-                              "linear-gradient(#c0392b 1px, transparent 1px), linear-gradient(90deg, #c0392b 1px, transparent 1px)",
+                              "linear-gradient(#e74c3c 1px, transparent 1px), linear-gradient(90deg, #e74c3c 1px, transparent 1px)",
                             backgroundSize: "40px 40px",
                           }}
                         />
@@ -931,7 +931,7 @@ export default function Home() {
                             {product.tagline}
                           </p>
                         </div>
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#c0392b]/05 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#e74c3c]/05 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                       </div>
                     )}
                   </div>
@@ -955,7 +955,7 @@ export default function Home() {
             {stats.map((stat, i) => (
               <FadeUp key={stat.label} delay={i * 0.1}>
                 <div className="text-center group">
-                  <div className="inline-flex items-center justify-center w-10 h-10 border border-[#c0392b]/30 text-[#c0392b] mb-4 group-hover:bg-[#c0392b]/10 transition-colors">
+                  <div className="inline-flex items-center justify-center w-10 h-10 border border-[#e74c3c]/30 text-[#e74c3c] mb-4 group-hover:bg-[#e74c3c]/10 transition-colors">
                     {stat.icon}
                   </div>
                   <div className="font-display text-[clamp(2.5rem,6vw,4rem)] text-[#f5f5f5] leading-none mb-2">
@@ -983,7 +983,7 @@ export default function Home() {
               <p className="section-label mb-4">Why Choose Us</p>
               <h2 className="type-section text-[#f5f5f5] break-words">
                 THE INFINI <br />
-                <span className="text-[#c0392b]">ADVANTAGE</span>
+                <span className="text-[#e74c3c]">ADVANTAGE</span>
               </h2>
             </div>
           </FadeUp>
@@ -993,7 +993,7 @@ export default function Home() {
               <FadeUp key={item.num} delay={i * 0.08}>
                 <div className="border-t border-white/10 pt-8">
                   <div className="flex items-baseline gap-4 mb-3">
-                    <span className="font-mono-custom text-xs text-[#c0392b]/50 tracking-widest flex-shrink-0">
+                    <span className="font-mono-custom text-xs text-[#e74c3c]/50 tracking-widest flex-shrink-0">
                       {item.num}
                     </span>
                     <h3 className="type-sub-heading text-[#e74c3c]">
@@ -1017,7 +1017,7 @@ export default function Home() {
             <div className="mb-10">
               <p className="section-label mb-4">Our Toolkit</p>
               <h2 className="type-section text-[#f5f5f5]">
-                TECH <span className="text-[#c0392b]">STACK</span>
+                TECH <span className="text-[#e74c3c]">STACK</span>
               </h2>
             </div>
           </FadeUp>
@@ -1043,7 +1043,7 @@ export default function Home() {
             <div className="mb-10">
               <p className="section-label mb-4">The People</p>
               <h2 className="type-section text-[#f5f5f5]">
-                THE <span className="text-[#c0392b]">FOUNDER</span>
+                THE <span className="text-[#e74c3c]">FOUNDER</span>
               </h2>
             </div>
           </FadeUp>
@@ -1051,8 +1051,8 @@ export default function Home() {
           <FadeUp delay={0.15}>
             <div className="relative overflow-hidden border border-white/10 bg-gradient-to-br from-[#111111] to-[#0a0a0a] rounded-2xl">
               {/* Crimson glow accent */}
-              <div className="absolute top-0 left-0 w-72 h-72 bg-[#c0392b]/10 rounded-full blur-3xl pointer-events-none" />
-              <div className="absolute bottom-0 right-0 w-96 h-96 bg-[#c0392b]/5 rounded-full blur-3xl pointer-events-none" />
+              <div className="absolute top-0 left-0 w-72 h-72 bg-[#e74c3c]/10 rounded-full blur-3xl pointer-events-none" />
+              <div className="absolute bottom-0 right-0 w-96 h-96 bg-[#e74c3c]/5 rounded-full blur-3xl pointer-events-none" />
 
               <div className="grid md:grid-cols-[340px_1fr]">
                 {/* Photo */}
@@ -1076,13 +1076,13 @@ export default function Home() {
                     <h3 className="type-card-heading text-[#f5f5f5] mb-2">
                       MUKUL KULKARNI
                     </h3>
-                    <p className="font-mono-custom text-xs text-[#c0392b] tracking-[0.25em] uppercase">
+                    <p className="font-mono-custom text-xs text-[#e74c3c] tracking-[0.25em] uppercase">
                       Founder &amp; Principal Consultant
                     </p>
                   </div>
 
                   {/* Bio */}
-                  <div className="border-l-2 border-[#c0392b] pl-4 mb-5 space-y-2.5">
+                  <div className="border-l-2 border-[#e74c3c] pl-4 mb-5 space-y-2.5">
                     <p className="text-[#cccccc] type-body-sm">
                       I started at <strong className="text-[#f5f5f5]">Accenture India</strong>, building 111 ETL pipelines across enterprise data landscapes. After moving to the US, I completed my <strong className="text-[#f5f5f5]">MS in Information Systems</strong> (Data &amp; BI focus) at Pace University.
                     </p>
@@ -1090,7 +1090,7 @@ export default function Home() {
                       At <strong className="text-[#f5f5f5]">Embrace Home Loans</strong>, I managed 500+ SSRS BI reports and dashboards (50+ built from scratch), partnered with the VP of Operations on an initiative uncovering <strong className="text-[#f5f5f5]">$500K in tolerance cures</strong>, and designed 6 executive command centre dashboards on live TV screens, contributing to 25% faster loan processing.
                     </p>
                     <p className="text-[#999999] type-body-sm">
-                      Today I run <strong className="text-[#c0392b]">Infini Imaginator</strong>, where enterprise depth meets AI-augmented execution. I use AI as a pair programmer to move fast, human judgment to decide wisely, and best practices to make it last. <span className="text-[#cccccc] italic">&ldquo;I don&apos;t consult with slide decks. I build alongside you.&rdquo;</span>
+                      Today I run <strong className="text-[#e74c3c]">Infini Imaginator</strong>, where enterprise depth meets AI-augmented execution. I use AI as a pair programmer to move fast, human judgment to decide wisely, and best practices to make it last. <span className="text-[#cccccc] italic">&ldquo;I don&apos;t consult with slide decks. I build alongside you.&rdquo;</span>
                     </p>
                   </div>
 
@@ -1102,7 +1102,7 @@ export default function Home() {
                       { label: "University", value: "Pace University" },
                       { label: "GPA", value: "3.88 / 4.0" },
                     ].map((item) => (
-                      <div key={item.label} className="bg-white/5 border border-white/10 p-2.5 hover:border-[#c0392b]/30 transition-colors duration-300">
+                      <div key={item.label} className="bg-white/5 border border-white/10 p-2.5 hover:border-[#e74c3c]/30 transition-colors duration-300">
                         <div className="text-[9px] font-mono-custom text-[#8a8a8a] tracking-widest uppercase mb-0.5">
                           {item.label}
                         </div>
@@ -1128,7 +1128,7 @@ export default function Home() {
                     <a
                       href="mailto:business@imaginator.in"
                       aria-label="Email Mukul Kulkarni"
-                      className="inline-flex items-center gap-2 px-5 py-2.5 border border-[#c0392b] text-[#c0392b] hover:bg-[#c0392b] hover:text-white transition-all duration-300 type-cta"
+                      className="inline-flex items-center gap-2 px-5 py-2.5 border border-[#e74c3c] text-[#e74c3c] hover:bg-[#e74c3c] hover:text-white transition-all duration-300 type-cta"
                     >
                       <Mail size={14} /> EMAIL
                     </a>
@@ -1137,7 +1137,7 @@ export default function Home() {
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label="Mukul Kulkarni on LinkedIn (opens in new tab)"
-                      className="inline-flex items-center gap-2 px-5 py-2.5 border border-white/20 text-[#999999] hover:border-[#c0392b] hover:text-[#c0392b] transition-all duration-300 type-cta"
+                      className="inline-flex items-center gap-2 px-5 py-2.5 border border-white/20 text-[#999999] hover:border-[#e74c3c] hover:text-[#e74c3c] transition-all duration-300 type-cta"
                     >
                       <Linkedin size={14} /> LINKEDIN
                     </a>
@@ -1165,14 +1165,14 @@ export default function Home() {
             <p className="section-label mb-6">Get In Touch</p>
             <h2 className="font-display text-[clamp(2.5rem,7vw,6rem)] leading-none text-[#f5f5f5] mb-6">
               LET&apos;S BUILD YOUR{" "}
-              <span className="text-[#c0392b]">AI-POWERED</span> FUTURE
+              <span className="text-[#e74c3c]">AI-POWERED</span> FUTURE
             </h2>
             <p className="text-[#999999] text-lg leading-relaxed max-w-2xl mx-auto mb-4">
               Whether you need to automate a workflow, build executive dashboards, or rethink your data
               strategy. We bring enterprise depth, AI-augmented speed, and the judgment to get it right.
               Let&apos;s start with a conversation.
             </p>
-            <p className="font-mono-custom text-xs text-[#c0392b]/80 tracking-wider mb-10">
+            <p className="font-mono-custom text-xs text-[#e74c3c]/80 tracking-wider mb-10">
               NO COMMITMENT · NO SALES PRESSURE · JUST A CONVERSATION
             </p>
           </FadeUp>
@@ -1180,20 +1180,20 @@ export default function Home() {
           <FadeUp delay={0.15}>
             <div className="grid sm:grid-cols-3 gap-6 mb-10 max-w-2xl mx-auto">
               <div className="bg-[#111111]/80 backdrop-blur-sm border border-white/10 p-6 text-center rounded-2xl">
-                <Mail size={20} className="text-[#c0392b] mx-auto mb-3" />
+                <Mail size={20} className="text-[#e74c3c] mx-auto mb-3" />
                 <p className="font-mono-custom text-[10px] tracking-widest text-[#8a8a8a] uppercase mb-2">
                   Email
                 </p>
                 <a
                   href="mailto:business@imaginator.in"
-                  className="text-sm text-[#f5f5f5] hover:text-[#c0392b] transition-colors break-all"
+                  className="text-sm text-[#f5f5f5] hover:text-[#e74c3c] transition-colors break-all"
                 >
                   business@imaginator.in
                 </a>
               </div>
 
               <div className="bg-[#111111]/80 backdrop-blur-sm border border-white/10 p-6 text-center rounded-2xl">
-                <Linkedin size={20} className="text-[#c0392b] mx-auto mb-3" />
+                <Linkedin size={20} className="text-[#e74c3c] mx-auto mb-3" />
                 <p className="font-mono-custom text-[10px] tracking-widest text-[#8a8a8a] uppercase mb-2">
                   LinkedIn
                 </p>
@@ -1201,14 +1201,14 @@ export default function Home() {
                   href="https://www.linkedin.com/in/mukul-kulkarni/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm text-[#f5f5f5] hover:text-[#c0392b] transition-colors"
+                  className="text-sm text-[#f5f5f5] hover:text-[#e74c3c] transition-colors"
                 >
                   /in/mukul-kulkarni
                 </a>
               </div>
 
               <div className="bg-[#111111]/80 backdrop-blur-sm border border-white/10 p-6 text-center rounded-2xl">
-                <Clock size={20} className="text-[#c0392b] mx-auto mb-3" />
+                <Clock size={20} className="text-[#e74c3c] mx-auto mb-3" />
                 <p className="font-mono-custom text-[10px] tracking-widest text-[#8a8a8a] uppercase mb-2">
                   Response Time
                 </p>
@@ -1222,7 +1222,7 @@ export default function Home() {
               href={process.env.NEXT_PUBLIC_BOOKING_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="group inline-flex items-center gap-4 px-10 py-5 bg-[#c0392b] text-white hover:bg-[#e74c3c] transition-all duration-300 type-cta"
+              className="group inline-flex items-center gap-4 px-10 py-5 bg-[#e74c3c] text-white hover:bg-[#f05a46] transition-all duration-300 type-cta"
             >
               BOOK A FREE 30-MIN CALL
               <ArrowRight
@@ -1241,7 +1241,13 @@ export default function Home() {
       <footer className="bg-[#080808] border-t border-white/10 py-10 px-6">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="font-mono-custom text-sm font-bold tracking-widest text-[#8a8a8a]">
-            <span className="text-[#c0392b]">//</span> INFINI IMAGINATOR
+            <span className="inline-flex items-center gap-2.5">
+              <svg width="16" height="16" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <rect x="9" y="7" width="3.5" height="18" rx="1" transform="rotate(15 9 7)" fill="#C0392B"/>
+                <rect x="18" y="7" width="3.5" height="18" rx="1" transform="rotate(15 18 7)" fill="#C0392B"/>
+              </svg>
+              INFINI IMAGINATOR
+            </span>
           </div>
 
           <p className="font-mono-custom text-xs text-[#8a8a8a] tracking-wider text-center">
@@ -1251,7 +1257,7 @@ export default function Home() {
           <div className="flex gap-6">
             <a
               href="mailto:business@imaginator.in"
-              className="p-3 -m-3 text-[#8a8a8a] hover:text-[#c0392b] transition-colors"
+              className="p-3 -m-3 text-[#8a8a8a] hover:text-[#e74c3c] transition-colors"
               aria-label="Email"
             >
               <Mail size={16} />
@@ -1260,7 +1266,7 @@ export default function Home() {
               href="https://www.linkedin.com/in/mukul-kulkarni/"
               target="_blank"
               rel="noopener noreferrer"
-              className="p-3 -m-3 text-[#8a8a8a] hover:text-[#c0392b] transition-colors"
+              className="p-3 -m-3 text-[#8a8a8a] hover:text-[#e74c3c] transition-colors"
               aria-label="LinkedIn"
             >
               <Linkedin size={16} />
