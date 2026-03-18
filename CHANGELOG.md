@@ -4,6 +4,49 @@ All notable changes to the Infini Imaginator landing page.
 
 ---
 
+## [1.9.0] — 2026-03-18 IST
+
+### Claude Code Infrastructure Overhaul
+
+**Global `~/.claude/CLAUDE.md` rewrite (139 → 69 lines)**
+- Removed bloat and default-behavior repetition — every line earns its place
+- Added continuation prompt rule: before any compact/clear, generate a full copy-pasteable context summary
+- Changed commit discipline from "proactive force" to "propose at logical breakpoints" (prevents system prompt conflicts)
+- Made CHANGELOG conditional: only mentioned if the file exists in the active project
+- Added complexity threshold: changes under 5 lines skip GitHub Issues, CHANGELOG, and skill triggers
+- Added `writing-plans` skill trigger (was missing)
+- Merged Communication + Recommendations into 4 lines
+
+**Stop hook fix (`~/.claude/scripts/check-uncommitted.sh`)**
+- Changed `exit 2` → `exit 0` — advisory only, never blocks stopping
+- Added branch name to warning message
+- Made CHANGELOG reminder conditional on file existing in cwd
+
+**Post-compaction cross-project fix (`~/.claude/scripts/log-prompt.py`)**
+- Added cwd validation: checkpoint cwd vs. hook cwd must match before injecting context
+- Prevents stale context from a different project bleeding into a new session
+
+**Rules directory (`~/.claude/rules/`)**
+- Moved 4 sections from CLAUDE.md into separate always-loaded rule files:
+  `agent-teams.md`, `github-issues.md`, `browser-automation.md`, `prompt-journaling.md`
+
+**Frontend design skill — complete overhaul (`frontend-design:frontend-design`)**
+- Expanded from 42 → 616 lines via 8 parallel research agents
+- Research covered: GitHub skill repos, Awwwards agency patterns, GSAP/Lenis/Framer Motion,
+  luxury typography (Utopia fluid scales, Vercel letter-spacing system), Kling/Veo AI video,
+  WebGL/Spline/Rive/GLSL tier list, Remotion motion graphics, technical implementation patterns
+- New additions: Utopia `clamp()` type scale with exact values, letter-spacing progression table,
+  variable font GRAD axis, OLED surface elevation stack, 5-token accent derivation, grain overlay
+  technique (20-line CSS, highest ROI), blur-to-sharp "Vercel look" stagger, Lenis + GSAP ticker
+  integration, AI video model rankings + FFmpeg pipeline, Remotion playbook, Three-point lighting
+  standard, Rive vs Lottie decision matrix, 25-item pre-flight checklist
+- Added `frontend-design` trigger to global CLAUDE.md Skill Triggers section
+
+**Project meta**
+- `lessons.md` added: captures development corrections for session-start review
+
+---
+
 ## [1.8.0] — 2026-03-18 IST
 
 ### Brand Rename + Design System
