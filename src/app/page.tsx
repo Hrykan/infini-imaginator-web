@@ -880,7 +880,13 @@ export default function Home() {
                   {/* Visual */}
                   <div className={i % 2 === 1 ? "md:col-start-2" : ""}>
                     {product.hasImage && product.image ? (
-                      <div className="relative aspect-video overflow-hidden border border-[#f5f5f5]/[0.08] group rounded-2xl">
+                      <a
+                        href={product.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`Open ${product.name}`}
+                        className="relative block aspect-video overflow-hidden border border-[#f5f5f5]/[0.08] group rounded-2xl"
+                      >
                         <div className="absolute inset-0 bg-gradient-to-t from-[#080808]/60 to-transparent z-10" />
                         <Image
                           src={product.image}
@@ -888,7 +894,7 @@ export default function Home() {
                           fill
                           className="object-cover group-hover:scale-105 transition-transform duration-700"
                         />
-                      </div>
+                      </a>
                     ) : (
                       <div className="relative aspect-video bg-[#111111] border border-white/10 overflow-hidden flex items-center justify-center group hover:border-[#e74c3c]/30 transition-colors duration-500 rounded-2xl">
                         {/* Decorative grid */}
