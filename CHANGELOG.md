@@ -4,6 +4,93 @@ All notable changes to the Infini Imaginator landing page.
 
 ---
 
+## [2.0.0] — 2026-03-18 IST
+
+### Design Audit + Conversion Architecture (Phase 1–3)
+
+This release applies a comprehensive design and conversion audit across the landing page, adding three new sections, fixing WCAG contrast compliance, unifying the design system, and restructuring the page flow for B2B conversion.
+
+---
+
+#### Phase 1 — WCAG Compliance + Design System Fixes
+
+**Crimson color corrected: #c0392b → #e74c3c (WCAG AA)**
+- `#c0392b` on `#080808` = 3.68:1 contrast ratio — fails WCAG AA (4.5:1 required)
+- `#e74c3c` on `#080808` = 5.24:1 — passes AA for normal text
+- Updated across: `globals.css` CSS variables (`--ii-crimson`, `--accent`, `--destructive`, `--ring`, `--sidebar-primary`, `--sidebar-ring`, `--chart-1`), all `rgba(192,57,43,…)` → `rgba(231,76,60,…)`, scrollbar thumb, cursor-dot, `.text-accent`, `.animated-underline`, `.section-label`
+- `page.tsx`: bulk-replaced all `text-[#c0392b]`, `border-[#c0392b]`, `hover:bg-[#c0392b]`, `bg-[#c0392b]`; Vanta color `0xc0392b` → `0xe74c3c`; floating dot nav active state updated
+- `grid-feature-cards.tsx`: all hardcoded `#c0392b` → `#e74c3c`
+- CTA button base remains crimson; hover upgraded to `#f05a46` (distinct from base)
+
+**Letter-spacing fixes (type system)**
+- `.section-label` + `.type-label`: `0.3em` → `0.18em` (was over-tracked, compressed readability)
+- `.type-cta`: `0.05em` → `0.1em` (was under-tracked for monospace button label)
+
+**Footer logo consistency**
+- Footer `//` was plain text characters rendering differently than the nav SVG mark
+- Replaced with identical 16×16 inline SVG (two crimson rects, `rotate(15)`) matching the nav logo exactly
+
+**Stats reorder — outcomes-first**
+- Old order: Years, Reports, Cost Savings, Value Identified
+- New order: `$500K Value Identified` → `$200K+ Annual Cost Savings` → `500+ BI Reports` → `9+ Years`
+- Label corrected: "Issues Identified" → "Value Identified via Dashboards"
+- Rationale: proof of impact leads, credential (years) closes
+
+---
+
+#### Phase 2 — Component Polish + CTA Strips
+
+**FeatureCard heading font — Bebas Neue**
+- `grid-feature-cards.tsx` h3: `text-sm md:text-base font-medium` → `font-display text-xl md:text-2xl tracking-wide leading-none`
+- Service card headings now use display font matching the rest of the design system
+
+**Why Us h3 color — white instead of crimson**
+- All 4 Why Us card headings: `text-[#e74c3c]` → `text-[#f5f5f5]`
+- Rationale: crimson on dark card is low contrast and competes with the numbered label; white reads cleanly
+
+**CTA strip after Services section**
+- Added inline `flex` row: "Not sure which service fits? Book a free call and we'll identify exactly where AI and data can move the needle for your business."
+- CTA button: "BOOK A FREE CALL" linking to `NEXT_PUBLIC_BOOKING_URL`
+- Separated from cards by `border-t border-white/10`
+
+**CTA strip after Stats section**
+- Added centered text: "These results came from real enterprise engagements — not projections."
+- CTA button: "SEE HOW WE CAN DO THIS FOR YOU" linking to booking URL
+
+**Duplicate Tailwind class fix**
+- Multiple sections had `py-16 md:py-16 md:py-20` (duplicate `md:py-*`)
+- Corrected to `py-16 md:py-20` throughout
+
+---
+
+#### Phase 3 — New Sections + Page Restructure
+
+**Stats section moved — before Services**
+- Old order: About → Services → Products → Stats → Why Us → ...
+- New order: About → **Stats** → Services → Products → Why Us → ...
+- Rationale: B2B buyers want proof before the offer; showing outcomes ($500K, $200K+, 500+ reports) before the service cards increases credibility and conversion intent
+
+**Process section added** (`id="process"`, between Services and Products)
+- 4-step horizontal stepper on desktop, vertical stack on mobile
+- Steps: (1) Discovery Call → (2) Audit & Roadmap → (3) Build & Deliver → (4) Measure & Iterate
+- Numbered circles with `border border-[#e74c3c]/30` and crimson step number
+- Connecting horizontal line (desktop only): `hidden md:block absolute top-5 left-1/2 right-0 border-t border-white/10`
+- Reduces buyer anxiety by making the engagement process concrete before product showcase
+
+**FAQ accordion added** (`id="faq"`, before Contact)
+- `FaqAccordion` component (inline in `page.tsx`): `useState<number | null>(null)` — no new npm packages
+- 8 Q&As covering: services offered, pricing/free consultation, Snowflake experience, n8n, products built, BI tools, results delivered, "who will I work with"
+- Items animate in via `FadeUp` with `delay={i * 0.04}` stagger
+- Toggle: `+` rotates 45° → `×` with crimson border when open; answer fades in below
+- FAQ content mirrors the JSON-LD FAQPage schema already in `layout.tsx` (UI now surfaces what crawlers already index)
+
+**Navigation cleanup**
+- `navLinks` trimmed: removed "Results" (no dedicated section) → `["About", "Services", "Products", "Contact"]`
+- `NAV_SECTIONS` (floating dot nav) updated: `results` → `process`, `stack` → `faq`
+- Dot labels updated to: hero, about, services, process, products, team, faq, contact
+
+---
+
 ## [1.9.0] — 2026-03-18 IST
 
 ### Claude Code Infrastructure Overhaul
@@ -477,10 +564,12 @@ All notable changes to the Infini Imaginator landing page.
 |----------|-------|--------|
 | Critical | Page is single `"use client"` monolith — no SSR, poor SEO | Open |
 | Critical | Three.js/Vanta via CDN script injection — no SRI, ~600KB | Open |
-| High | No testimonials/social proof section | Open |
-| High | No process/how-we-work section | Open |
+| High | No testimonials/social proof section | Open (no fabricated testimonials — deferred until real ones exist) |
+| — | No process/how-we-work section | Resolved v2.0.0 (4-step Process stepper) |
 | Medium | Imaginator Chat product hidden (needs rebuild) | Deferred |
 | Low | Type-scale utility classes not yet applied — existing code still uses inline Tailwind | Open |
+| — | WCAG AA contrast failures (crimson #c0392b on #080808 = 3.68:1) | Resolved v2.0.0 (#e74c3c = 5.24:1) |
+| — | FAQ section missing (JSON-LD schema existed but no UI) | Resolved v2.0.0 (FaqAccordion component) |
 | — | All booking CTAs are mailto — need Calendly/booking | Resolved v1.4.0 (Google Calendar) |
 | — | Missing OG image for social sharing | Resolved v1.7.1 (`opengraph-image.tsx`) |
 | — | Business email needed (not Gmail) | Resolved v1.5.0/v1.6.0 (`business@imaginator.in`) |
