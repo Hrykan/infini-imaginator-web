@@ -446,8 +446,9 @@ export default function Home() {
       ],
       link: "https://yuga.life",
       label: "PRODUCT 01",
-      hasImage: false,
-      embedUrl: "https://yuga.life",
+      hasImage: true,
+      image: "/yuga-preview.jpg",
+      imageAlt: "Screenshot of Yuga Odysseys scenario challenge interface",
     },
     {
       name: "Research Assistant",
@@ -878,28 +879,7 @@ export default function Home() {
 
                   {/* Visual */}
                   <div className={i % 2 === 1 ? "md:col-start-2" : ""}>
-                    {"embedUrl" in product && product.embedUrl ? (
-                      <a
-                        href={product.embedUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label={`Open ${product.name} in new tab`}
-                        className="relative block aspect-video overflow-hidden border border-[#f5f5f5]/[0.08] rounded-2xl group cursor-pointer"
-                      >
-                        <iframe
-                          src={product.embedUrl}
-                          title={`${product.name} live preview`}
-                          className="w-full h-full pointer-events-none"
-                          loading="lazy"
-                          sandbox="allow-scripts allow-same-origin"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#080808]/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                        <div className="absolute bottom-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center gap-1.5 bg-[#080808]/80 backdrop-blur-sm px-3 py-1.5 rounded-lg border border-white/10">
-                          <ExternalLink size={12} className="text-[#e74c3c]" />
-                          <span className="type-tag text-[#f5f5f5] text-[10px]">OPEN SITE</span>
-                        </div>
-                      </a>
-                    ) : product.hasImage && product.image ? (
+                    {product.hasImage && product.image ? (
                       <div className="relative aspect-video overflow-hidden border border-[#f5f5f5]/[0.08] group rounded-2xl">
                         <div className="absolute inset-0 bg-gradient-to-t from-[#080808]/60 to-transparent z-10" />
                         <Image
