@@ -424,7 +424,7 @@
 .type-cta {
   font-family: var(--font-space-mono), monospace;
   font-size: 0.875rem;       /* text-sm */
-  letter-spacing: 0.1em;
+  letter-spacing: 0.05em;
   font-weight: 600;
 }
 

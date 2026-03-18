@@ -515,7 +515,7 @@ export default function Home() {
               href={process.env.NEXT_PUBLIC_BOOKING_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-5 py-2.5 border border-[#c0392b] text-[#c0392b] text-sm font-semibold tracking-wider hover:bg-[#c0392b] hover:text-white transition-all duration-300 font-mono-custom"
+              className="inline-flex items-center gap-2 px-5 py-2.5 border border-[#c0392b] text-[#c0392b] hover:bg-[#c0392b] hover:text-white transition-all duration-300 type-cta"
             >
               BOOK A FREE CALL
               <ArrowRight size={14} />
@@ -569,7 +569,7 @@ export default function Home() {
                   href={process.env.NEXT_PUBLIC_BOOKING_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-2 inline-flex items-center gap-2 px-5 py-3 border border-[#c0392b] text-[#c0392b] text-sm font-semibold tracking-wider hover:bg-[#c0392b] hover:text-white transition-all duration-300 font-mono-custom w-fit"
+                  className="mt-2 inline-flex items-center gap-2 px-5 py-3 border border-[#c0392b] text-[#c0392b] hover:bg-[#c0392b] hover:text-white transition-all duration-300 type-cta w-fit"
                 >
                   BOOK A FREE CALL
                 </a>
@@ -609,7 +609,7 @@ export default function Home() {
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="font-display text-[clamp(2.5rem,6vw,5.5rem)] leading-[0.95] tracking-wide text-[#f5f5f5] mb-8"
+            className="type-hero text-[#f5f5f5] mb-8"
             style={{ perspective: "800px" }}
             aria-label={headline}
           >
@@ -629,7 +629,7 @@ export default function Home() {
 
           {/* Sub-headline — word by word */}
           <motion.p
-            className="max-w-2xl mx-auto text-lg md:text-xl text-[#999999] leading-relaxed mb-12"
+            className="max-w-2xl mx-auto type-body-lg text-[#999999] mb-12"
             initial="hidden"
             animate="visible"
             variants={{
@@ -668,7 +668,7 @@ export default function Home() {
               href={process.env.NEXT_PUBLIC_BOOKING_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="group inline-flex items-center gap-3 px-8 py-4 bg-[#c0392b] text-white font-semibold tracking-wider hover:bg-[#e74c3c] transition-all duration-300 text-sm font-mono-custom"
+              className="group inline-flex items-center gap-3 px-8 py-4 bg-[#c0392b] text-white hover:bg-[#e74c3c] transition-all duration-300 type-cta"
             >
               BOOK A FREE STRATEGY CALL
               <ArrowRight
@@ -678,7 +678,7 @@ export default function Home() {
             </a>
             <button
               onClick={() => scrollToSection("services")}
-              className="inline-flex items-center gap-3 px-8 py-4 border border-[#f5f5f5]/20 text-[#f5f5f5] font-semibold tracking-wider hover:border-[#c0392b] hover:text-[#c0392b] transition-all duration-300 text-sm font-mono-custom"
+              className="inline-flex items-center gap-3 px-8 py-4 border border-[#f5f5f5]/20 text-[#f5f5f5] hover:border-[#c0392b] hover:text-[#c0392b] transition-all duration-300 type-cta"
             >
               EXPLORE SERVICES
             </button>
@@ -718,7 +718,7 @@ export default function Home() {
             <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-10">
               <div>
                 <p className="section-label mb-3">About the Company</p>
-                <h2 className="font-display text-4xl md:text-5xl leading-none text-[#f5f5f5]">
+                <h2 className="type-section text-[#f5f5f5]">
                   BUILT BY AN <span className="text-[#c0392b]">ENGINEER</span> WHO LIVED THE PROBLEM
                 </h2>
               </div>
@@ -750,7 +750,7 @@ export default function Home() {
 
             {/* Story text */}
             <FadeUp delay={0.15}>
-              <div className="space-y-4 text-[#999999] leading-relaxed text-[15px]">
+              <div className="space-y-4 text-[#999999] type-body">
                 <p>
                   Infini Imaginator was founded by{" "}
                   <span className="text-[#f5f5f5] font-medium">Mukul Kulkarni</span>,
@@ -804,7 +804,7 @@ export default function Home() {
             <div className="mb-10 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
               <div>
                 <p className="section-label mb-4">What We Do</p>
-                <h2 className="font-display text-4xl md:text-5xl leading-none text-[#f5f5f5]">
+                <h2 className="type-section text-[#f5f5f5]">
                   WHAT WE <span className="text-[#c0392b]">BUILD</span>
                 </h2>
               </div>
@@ -847,7 +847,7 @@ export default function Home() {
           <FadeUp>
             <div className="mb-10">
               <p className="section-label mb-4">What We've Built</p>
-              <h2 className="font-display text-4xl md:text-5xl leading-none text-[#f5f5f5]">
+              <h2 className="type-section text-[#f5f5f5]">
                 SHIPPED <span className="text-[#c0392b]">&amp; LIVE</span>
               </h2>
             </div>
@@ -864,10 +864,10 @@ export default function Home() {
                   {/* Text */}
                   <div className={i % 2 === 1 ? "md:col-start-1" : ""}>
                     <p className="section-label mb-4">{product.label}</p>
-                    <h3 className="font-display text-3xl md:text-4xl text-[#f5f5f5] leading-none mb-2">
+                    <h3 className="type-card-heading text-[#f5f5f5] mb-2">
                       {product.name.toUpperCase()}
                     </h3>
-                    <p className="text-[#c0392b] font-mono-custom text-sm tracking-wider mb-3">
+                    <p className="text-[#c0392b] type-cta mb-3">
                       {product.tagline}
                     </p>
                     <p className="text-[#999999] leading-relaxed mb-4">
@@ -878,7 +878,7 @@ export default function Home() {
                       {product.features.map((feat) => (
                         <li
                           key={feat}
-                          className="flex items-start gap-3 text-sm text-[#999999]"
+                          className="flex items-start gap-3 type-body-sm text-[#999999]"
                         >
                           <span className="mt-1.5 w-1 h-1 rounded-full bg-[#c0392b] flex-shrink-0" />
                           {feat}
@@ -890,7 +890,7 @@ export default function Home() {
                       href={product.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group inline-flex items-center gap-3 px-6 py-3 border border-[#c0392b] text-[#c0392b] text-sm font-semibold tracking-wider hover:bg-[#c0392b] hover:text-white transition-all duration-300 font-mono-custom"
+                      className="group inline-flex items-center gap-3 px-6 py-3 border border-[#c0392b] text-[#c0392b] hover:bg-[#c0392b] hover:text-white transition-all duration-300 type-cta"
                     >
                       VISIT {product.name.toUpperCase()}
                       <ExternalLink
@@ -981,7 +981,7 @@ export default function Home() {
           <FadeUp>
             <div className="mb-10">
               <p className="section-label mb-4">Why Choose Us</p>
-              <h2 className="font-display text-4xl md:text-5xl leading-none text-[#f5f5f5] break-words">
+              <h2 className="type-section text-[#f5f5f5] break-words">
                 THE INFINI <br />
                 <span className="text-[#c0392b]">ADVANTAGE</span>
               </h2>
@@ -996,7 +996,7 @@ export default function Home() {
                     <span className="font-mono-custom text-xs text-[#c0392b]/50 tracking-widest flex-shrink-0">
                       {item.num}
                     </span>
-                    <h3 className="font-display text-xl md:text-2xl text-[#e74c3c] leading-tight">
+                    <h3 className="type-sub-heading text-[#e74c3c]">
                       {item.title.toUpperCase()}
                     </h3>
                   </div>
@@ -1016,7 +1016,7 @@ export default function Home() {
           <FadeUp>
             <div className="mb-10">
               <p className="section-label mb-4">Our Toolkit</p>
-              <h2 className="font-display text-4xl md:text-5xl leading-none text-[#f5f5f5]">
+              <h2 className="type-section text-[#f5f5f5]">
                 TECH <span className="text-[#c0392b]">STACK</span>
               </h2>
             </div>
@@ -1042,7 +1042,7 @@ export default function Home() {
           <FadeUp>
             <div className="mb-10">
               <p className="section-label mb-4">The People</p>
-              <h2 className="font-display text-4xl md:text-5xl leading-none text-[#f5f5f5]">
+              <h2 className="type-section text-[#f5f5f5]">
                 THE <span className="text-[#c0392b]">FOUNDER</span>
               </h2>
             </div>
@@ -1073,7 +1073,7 @@ export default function Home() {
                 <div className="p-6 md:p-8 flex flex-col justify-center relative z-10">
                   {/* Name + title */}
                   <div className="mb-4">
-                    <h3 className="font-display text-3xl md:text-4xl text-[#f5f5f5] leading-none mb-2">
+                    <h3 className="type-card-heading text-[#f5f5f5] mb-2">
                       MUKUL KULKARNI
                     </h3>
                     <p className="font-mono-custom text-xs text-[#c0392b] tracking-[0.25em] uppercase">
@@ -1083,13 +1083,13 @@ export default function Home() {
 
                   {/* Bio */}
                   <div className="border-l-2 border-[#c0392b] pl-4 mb-5 space-y-2.5">
-                    <p className="text-[#cccccc] text-sm leading-relaxed">
+                    <p className="text-[#cccccc] type-body-sm">
                       I started at <strong className="text-[#f5f5f5]">Accenture India</strong>, building 111 ETL pipelines across enterprise data landscapes. After moving to the US, I completed my <strong className="text-[#f5f5f5]">MS in Information Systems</strong> (Data &amp; BI focus) at Pace University.
                     </p>
-                    <p className="text-[#cccccc] text-sm leading-relaxed">
+                    <p className="text-[#cccccc] type-body-sm">
                       At <strong className="text-[#f5f5f5]">Embrace Home Loans</strong>, I managed 500+ SSRS BI reports and dashboards (50+ built from scratch), partnered with the VP of Operations on an initiative uncovering <strong className="text-[#f5f5f5]">$500K in tolerance cures</strong>, and designed 6 executive command centre dashboards on live TV screens, contributing to 25% faster loan processing.
                     </p>
-                    <p className="text-[#999999] text-sm leading-relaxed">
+                    <p className="text-[#999999] type-body-sm">
                       Today I run <strong className="text-[#c0392b]">Infini Imaginator</strong>, where enterprise depth meets AI-augmented execution. I use AI as a pair programmer to move fast, human judgment to decide wisely, and best practices to make it last. <span className="text-[#cccccc] italic">&ldquo;I don&apos;t consult with slide decks. I build alongside you.&rdquo;</span>
                     </p>
                   </div>
@@ -1128,7 +1128,7 @@ export default function Home() {
                     <a
                       href="mailto:business@imaginator.in"
                       aria-label="Email Mukul Kulkarni"
-                      className="inline-flex items-center gap-2 px-5 py-2.5 border border-[#c0392b] text-[#c0392b] text-sm font-semibold tracking-wider hover:bg-[#c0392b] hover:text-white transition-all duration-300 font-mono-custom"
+                      className="inline-flex items-center gap-2 px-5 py-2.5 border border-[#c0392b] text-[#c0392b] hover:bg-[#c0392b] hover:text-white transition-all duration-300 type-cta"
                     >
                       <Mail size={14} /> EMAIL
                     </a>
@@ -1137,7 +1137,7 @@ export default function Home() {
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label="Mukul Kulkarni on LinkedIn (opens in new tab)"
-                      className="inline-flex items-center gap-2 px-5 py-2.5 border border-white/20 text-[#999999] text-sm font-semibold tracking-wider hover:border-[#c0392b] hover:text-[#c0392b] transition-all duration-300 font-mono-custom"
+                      className="inline-flex items-center gap-2 px-5 py-2.5 border border-white/20 text-[#999999] hover:border-[#c0392b] hover:text-[#c0392b] transition-all duration-300 type-cta"
                     >
                       <Linkedin size={14} /> LINKEDIN
                     </a>
@@ -1222,7 +1222,7 @@ export default function Home() {
               href={process.env.NEXT_PUBLIC_BOOKING_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="group inline-flex items-center gap-4 px-10 py-5 bg-[#c0392b] text-white font-semibold tracking-wider hover:bg-[#e74c3c] transition-all duration-300 text-sm font-mono-custom"
+              className="group inline-flex items-center gap-4 px-10 py-5 bg-[#c0392b] text-white hover:bg-[#e74c3c] transition-all duration-300 type-cta"
             >
               BOOK A FREE 30-MIN CALL
               <ArrowRight
