@@ -4,6 +4,37 @@ All notable changes to the Infini Imaginator landing page.
 
 ---
 
+## [2.1.0] — 2026-03-20 IST
+
+### Product Card — Clickable Image
+
+**Yuga Odysseys screenshot is now a clickable link**
+- Wrapped `<Image>` in `<a href={product.link} target="_blank">` — clicking the screenshot opens `yuga.life` in a new tab
+- Hover scale animation preserved; applies to all products with `hasImage: true`
+
+**Live iframe embed attempted and reverted**
+- Replaced screenshot with `<iframe src="https://yuga.life">` + transparent overlay `<a>` for click-to-open
+- Root cause: `yuga.life` → `yugaodysseys.in` → `www.yugaodysseys.in` returns `X-Frame-Options: DENY` — browser blocks framing
+- Reverted to static screenshot; iframe code removed
+- Fix requires adding `Content-Security-Policy: frame-ancestors https://imaginator.in` on the yugaodysseys.in server/Cloudflare
+
+### Architecture — Decisions Made (Implementation Pending)
+
+Brainstorming session completed for two critical TODOs:
+
+**TODO 1 — SSR split (not yet implemented)**
+- Decision: full section-per-file split — `page.tsx` becomes a server component shell (~30 lines), each section gets its own file in `src/components/sections/`
+- Client islands: `Nav`, `Hero`, `Stats` (AnimatedCounter), `Faq` (FaqAccordion), `FloatingDotNav` — everything else server-rendered
+- `FadeUp` stays as a `"use client"` leaf component (React RSC pattern)
+
+**TODO 2 — Vanta CDN replacement (not yet implemented)**
+- Decision: custom canvas `ParticleNet` component (~120 lines, zero new npm packages)
+- Matches Vanta.NET visual: animated dots connected by lines, wraps at edges
+- Respects `prefers-reduced-motion`, accepts `color`/`pointCount`/`lineDistance` props
+- Eliminates CDN dependency, SRI risk, and pinned Three.js r134
+
+---
+
 ## [2.0.0] — 2026-03-18 IST
 
 ### Design Audit + Conversion Architecture (Phase 1–3)
@@ -562,11 +593,19 @@ This release applies a comprehensive design and conversion audit across the land
 
 | Priority | Issue | Status |
 |----------|-------|--------|
-| Critical | Page is single `"use client"` monolith — no SSR, poor SEO | Open |
-| Critical | Three.js/Vanta via CDN script injection — no SRI, ~600KB | Open |
-| High | No testimonials/social proof section | Open (no fabricated testimonials — deferred until real ones exist) |
+| Critical | Page is single `"use client"` monolith — no SSR, poor SEO | In design — full section-per-file split planned |
+| Critical | Three.js/Vanta via CDN script injection — no SRI, ~600KB | In design — custom canvas ParticleNet planned |
 | — | No process/how-we-work section | Resolved v2.0.0 (4-step Process stepper) |
-| Medium | Imaginator Chat product hidden (needs rebuild) | Deferred |
+| Blocked | Yuga Odysseys live iframe embed | `yugaodysseys.in` returns `X-Frame-Options: DENY` — fix on yugaodysseys.in side, then re-enable |
+
+### Parking Lot
+
+Items with no active timeline — revisit when conditions change:
+
+| Item | Notes |
+|---|---|
+| Testimonials / social proof | No real client testimonials yet — no fabricated content |
+| Imaginator Chat rebuild | Product hidden; rebuild is a separate project scope |
 | Low | Type-scale utility classes not yet applied — existing code still uses inline Tailwind | Open |
 | — | WCAG AA contrast failures (crimson #c0392b on #080808 = 3.68:1) | Resolved v2.0.0 (#e74c3c = 5.24:1) |
 | — | FAQ section missing (JSON-LD schema existed but no UI) | Resolved v2.0.0 (FaqAccordion component) |
